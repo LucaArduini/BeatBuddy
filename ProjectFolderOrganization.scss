@@ -1,0 +1,22 @@
+src/
+├── main/
+│   ├── java/
+│   │   ├── it.unipi.lsmd.BeatBuddy/
+│   │   │   ├── config/              // Configurazioni specifiche dell'applicazione
+│   │   │   ├── controllers/          // Controller per gestire le richieste HTTP
+│   │   │   │   ├── api/             // Controller REST per servizi API
+│   │   │   │   └── web/             // Controller MVC per il rendering di viste
+│   │   │   ├── dao/                 // Classi DAO per l'accesso ai dati
+│   │   │   ├── dto/                 // Classi DTO per il trasferimento di dati
+│   │   │   ├── exception/           // Classi per la gestione delle eccezioni
+│   │   │   ├── model/               // Entità e classi del modello di dominio
+│   │   │   ├── repository/          // Repository per l'interazione con il database
+│   │   │   ├── service/             // Classi di servizio per la logica di business
+│   │   │   └── Application.java     // Classe principale dell'applicazione Spring Boot
+│   └── resources/
+│       ├── static/                  // Risorse statiche come CSS, JS, immagini
+│       ├── templates/               // Template delle viste (Thymeleaf, JSP, ecc.)
+│       └── application.properties   // File di configurazione dell'applicazione
+└── test/                             // Test unitari e di integrazione
+    ├── java/
+    │   └── it.unipi.lsmd.BeatBuddy/
