@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class loginPage_Ctrl {
+public class ProfilePage_Ctrl {
 
-    @RequestMapping("/login")
-    public String loginPage(HttpSession session){
+    @RequestMapping("/profilePage")
+    public String profilePage(HttpSession session){
         if(!Utility.isLogged(session))
-            return "login";
+            return "redirect:/login";
         else
-            return "test/alreadyLogged";     //###
+            return "profilePage";
     }
 }

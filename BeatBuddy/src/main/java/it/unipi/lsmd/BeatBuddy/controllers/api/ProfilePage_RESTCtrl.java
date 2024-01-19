@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-public class profilePage_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(loginPage_RESTCtrl.class);
+public class ProfilePage_RESTCtrl {
+    private static final Logger logger = LoggerFactory.getLogger(LoginPage_RESTCtrl.class);
 
     @PostMapping("/api/logout")
     public @ResponseBody String logout(HttpSession session) {

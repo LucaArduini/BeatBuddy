@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class loginPage_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(loginPage_RESTCtrl.class);
+public class LoginPage_RESTCtrl {
+    private static final Logger logger = LoggerFactory.getLogger(LoginPage_RESTCtrl.class);
 
     @PostMapping("/api/login")
     public @ResponseBody String login(HttpSession session,
