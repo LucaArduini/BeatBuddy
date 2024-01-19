@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class IndexPage_Controller {
+public class indexPage_Ctrl {
 
     @RequestMapping("/")
     public String indexPage(){

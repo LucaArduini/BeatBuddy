@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class LoginPage_RESTController {
-    private static final Logger logger = LoggerFactory.getLogger(LoginPage_RESTController.class);
+public class loginPage_RESTCtrl {
+    private static final Logger logger = LoggerFactory.getLogger(loginPage_RESTCtrl.class);
 
     @PostMapping("/api/login")
     public @ResponseBody String login(HttpSession session,
@@ -18,6 +18,7 @@ public class LoginPage_RESTController {
         logger.info("Login attempt from user: " + username);
         //Gson gson = new Gson();
 
+        //###########################
         if(username.equals("admin") && password.equals("admin")){
             session.setAttribute("username", "admin");
             session.setAttribute("role", "admin");

@@ -1,0 +1,515 @@
+html, body {
+    font-family: "Poppins", sans-serif;
+    color: #282828;
+    margin: 0; 
+    height: 100%;
+}
+
+a {
+    color: #a412ff;
+    text-decoration: none;
+}
+  
+a:hover {
+    color: #cc7aff;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Poppins", sans-serif;
+}
+
+/*-------------------------------------------------------------
+# Main container
+--------------------------------------------------------------*/
+.main {
+    min-height: 100%;
+    background: linear-gradient(45deg, #07c9a9ba 0%, #a412ffe5 100%), url("../img/bg.jpg") center center no-repeat;
+    background-size: cover;
+}
+
+.main .tab-content {
+    padding-top: 7%;
+    padding-bottom: 7%;
+}
+
+.tab-pane>#most-popular-carousel {
+    border-radius: 10px;
+}
+
+/*#search-result {
+    background-color: #ffffff8d;
+    border-radius: 10px 10px 10px 10px;
+}*/
+
+.result-container {
+    transition: all 0.5s;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.result-container:hover {
+    border-radius: 10px;
+    background-color: #e8c6fc;
+    border: solid 2px #a412ff;
+    box-shadow: 0px 0px 20px 3px #2828286b;
+}
+
+#discover {
+    background: linear-gradient(45deg, #282828d1 0%, #282828d1 100%), url('../img/discover-bg.jpg') center center no-repeat;
+    transition: all 1s;
+}
+
+#discover .text-container {
+    text-decoration: none; /* Rimuove la sottolineatura del link */
+    color: white; /* Mantiene il colore del testo ereditato dal parent */
+    padding: 15%;
+    transition: all 1s;
+}
+
+#discover .text-container .fa-arrow-right {
+    margin-left: 10px; /* Aggiunge spazio a sinistra dell'icona */
+}
+
+#discover:hover {
+    border: solid 5px #057f6a;
+}
+
+#discover:hover .text-container {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Ombra nera per maggiore contrasto */
+}
+
+@keyframes arrowAnimation {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(5px);
+    }
+}
+
+#discover:hover .fa-arrow-right {
+    animation: arrowAnimation 0.5s ease-in-out forwards;
+}
+
+/* Stile Generale del Carosello */
+#most-popular-carousel {
+    overflow: hidden; /* Mantiene l'ombra e l'arrotondamento solo sulle immagini */
+}
+
+#most-popular-carousel .carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #282828cb; /* Scurisce le immagini */
+}
+
+#most-popular-carousel .carousel-item img {
+    width: 100%;
+    height: 400px; /* Nuova altezza per le immagini */
+    object-fit: cover;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    transition: transform 0.2s ease-in-out; /* Transizione morbida per le frecce */
+    transition: background-color 0.2s;
+}
+
+.carousel-control-prev:hover, .carousel-control-next:hover {
+    transform: scale(1.1); /* Effetto zoom leggero al passaggio del mouse */
+    background-color: #a412ff91;
+}
+
+/* Stile delle Didascalie */
+.carousel-caption {
+    border-radius: 5px;
+    padding: 10px;
+    transition: all 0.5s;
+    text-decoration: none;
+}
+
+.carousel-caption h5 {
+    color: white;
+    font-size: 1.5em; /* Dimensione del titolo */
+}
+
+.carousel-caption p {
+    color: #f8f9fa;
+    font-size: 1em; /* Dimensione del testo */
+}
+
+.carousel-caption .fa-arrow-right {
+    margin-left: 10px; /* Aggiunge spazio a sinistra dell'icona */
+}
+
+.carousel-caption:hover {
+    background-color: #a412ff7a;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Ombra nera per maggiore contrasto */
+}
+
+@keyframes arrowAnimation {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(5px);
+    }
+}
+
+.carousel-caption:hover .fa-arrow-right {
+    animation: arrowAnimation 0.5s ease-in-out forwards;
+}
+
+/*-------------------------------------------------------------
+# Login section
+--------------------------------------------------------------*/
+.main>#login {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    margin-top: 70px;
+    border: solid 2px #282828;
+    border-radius: 10px;
+    background-color: #ffffff42;
+}
+
+.main>#register {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: solid 2px #282828;
+    border-radius: 10px;
+    background-color: #ffffff42;
+}
+
+/*-------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+.header {
+    background-color: #282828;
+    padding: 20px;
+}
+
+#logo a{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#logo a:hover {
+    text-decoration: none;
+    color: #07c9a9;
+}
+
+#navbar li .nav-link {
+    color: #ffffff;
+}
+
+#navbar li .nav-link.active{
+    color: #07c9a9;
+}
+
+#navbar li .nav-link:hover {
+    color: #07c9a9;
+}
+
+/*-------------------------------------------------------------
+# Search box
+--------------------------------------------------------------*/
+#search-container {
+    padding: 10px;
+    border: 2pt solid #282828;
+    border-radius: 20px 20px 20px 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#search-container #search_input {
+    border-radius: 10px 0px 0px 10px;
+    border: none;
+}
+
+#category_input {
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 0px;
+    background-color: #cc7aff;
+    color: #282828;
+}
+
+/*--------------------------------------------------------------
+# Suggested
+--------------------------------------------------------------*/
+#friend_songs {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px 0px 0px 10px;
+    box-shadow: 0px 0px 15px 2px #28282847;
+}
+
+#common_songs {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 0px 10px 10px 0px;
+    box-shadow: 0px 0px 15px 2px #28282847;
+}
+
+.suggested-song {
+    gap: 10px;
+}
+
+.song-cover {
+    max-width: 20%;
+    height: 20%;
+    border-radius: 10px;
+}
+
+.song-details h1, .song-details p {
+    margin: 0;
+}
+
+.view_details_btn {
+    border-radius: 10px;
+}
+
+#suggested_user_container {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px 2px #28282847;
+}
+
+.suggested-user {
+    border-radius: 10px;
+}
+
+/*--------------------------------------------------------------
+# Most popular
+--------------------------------------------------------------*/
+.card {
+    transition: all 0.5s;
+}
+
+.card:hover {
+    background-color: #e8c6fc;
+    border: solid 3px #a412ff;
+}
+
+#hero {
+    padding: auto;
+}
+
+#user-control {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+#user-details {
+    display: flex;
+    gap: 2px;
+}
+
+#user-details>#name, #user-details>#surname {
+    flex-grow: 1;
+    background-color: #282828c2;
+    color: white;
+}
+
+#user-details>#birthday {
+    flex-grow: 1;
+}
+
+#user-details>#name, #user-details>#surname, #user-details>#follower, #user-details>#birthday {
+    border: solid 1px #282828;
+}
+
+#user-details>#follower {
+    flex-grow: 2;
+}
+
+#user-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#action-user {
+    display: flex;
+    flex-grow: 1;
+    gap: 2px;
+}
+
+#follow-btn, #unfollow-btn, #bann-btn {
+    flex-grow: 1;
+}
+
+#liked-albums {
+    color: white;
+    background-color: #282828c2;
+    border-radius: 10px;
+}
+
+#album_info {
+    border-radius: 10px;
+    background-color: #2828286e;
+    color: white;
+}
+
+.album-cover {
+    width: 25%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+#rating_review {
+    border-radius: 10px;
+}
+
+.album-review {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.195);
+}
+
+.album-details {
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    flex: 6;
+    gap: 30px;
+}
+
+#write_review {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.195);
+}
+
+.album-details>div {
+    gap: 30px;
+}
+
+#album_songs {
+    border-radius: 10px;
+    background-color: #2828286e;
+    color: white;
+}
+
+#like-button {
+    margin-top: auto; /* Posiziona il pulsante "Mi Piace" in basso all'interno del div */
+}
+
+/*--------------------------------------------------------------
+# Buttons
+--------------------------------------------------------------*/
+.btn.btn-primary {
+    border-color: #282828;
+    background-color: #282828;
+}
+
+.btn.btn-primary:hover {
+    border-color: #a412ff;
+    background-color: #a412ff;
+}
+
+.btn.btn-outline-secondary {
+    color: #282828;
+    border-color: #282828;
+}
+
+.btn.btn-outline-secondary:hover {
+    border-color: #cc7aff;
+    background-color: #cc7aff;
+}
+
+.btn.btn-success {
+    background-color: #07c9a9;
+    border-color: #07c9a9;
+    border-radius: 0px 10px 10px 0px;
+    color: #282828;
+}
+
+.btn.btn-success:hover {
+    background-color: #057f6a;
+    border-color: #057f6a;
+    color: #282828;
+}
+
+#most-popular-album {
+    padding: 40px;
+    border: none;
+    color: #ffffff;
+    font-size: xx-large;
+    transition: all 0.5s;
+    border: none;
+    margin: none;
+    font-weight: bolder;
+    background: linear-gradient(45deg, #282828cc 0%, #282828cc 100%), url("../img/best-album.jpg") center center no-repeat;
+}
+
+#most-popular-album:hover {
+    border: solid 3px #057f6a;
+    color: #282828;
+    background: linear-gradient(45deg, #07c9a9cc 0%, #07c9a9cc 100%), url("../img/best-album.jpg") center center no-repeat;
+}
+
+#most-popular-song {
+    padding: 40px;
+    border: none;
+    color: #ffffff;
+    font-size: xx-large;
+    transition: all 0.5s;
+    border: none;
+    margin: none;
+    background: linear-gradient(45deg, #282828cc 0%, #282828cc 100%), url("../img/best-album.jpg") center center no-repeat;
+}
+
+#most-popular-song:hover {
+    border: solid 3px #057f6a;
+    background: linear-gradient(45deg, #07c9a9cc 0%, #07c9a9cc 100%), url("../img/best-album.jpg") center center no-repeat;
+}
+
+#most-popular-artist {
+    padding: 40px;
+    border: none;
+    color: #ffffff;
+    font-size: xx-large;
+    transition: all 0.5s;
+    border: none;
+    margin: none;
+    background: linear-gradient(45deg, #282828cc 0%, #282828cc 100%), url("../img/best-album.jpg") center center no-repeat;
+}
+
+#most-popular-artist:hover {
+    border: solid 3px #057f6a;
+    background: linear-gradient(45deg, #07c9a9cc 0%, #07c9a9cc 100%), url("../img/best-album.jpg") center center no-repeat;
+}
+
+/*--------------------------------------------------------------
+# Back to top button
+--------------------------------------------------------------*/
+.back-to-top {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    z-index: 996;
+    background-color: #a412ffac;
+    width: 40px;
+    height: 30px;
+    border-radius: 200px;
+    transition: all 0.4s;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.back-to-top:hover {
+  background-color: #cc7aff;
+}
+
+.back-to-top .icon {
+    width: 50%;
+}
+
+.nav-item>a>#icon {
+    width: 20%;
+}

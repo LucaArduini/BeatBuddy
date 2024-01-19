@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+
+        <title>BeatBuddy</title>
+        <meta content="" name="description">
+        <meta content="" name="keywords">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+        <!-- Favicons -->
+        <link href="img/logo.png" rel="icon">
+        <link href="img/logo.png" rel="apple-touch-icon">
+        
+        <!-- Main CSS File -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <!-- AOS -->
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script src="js/searchBar.js" type="text/javascript"></script>
+
+        <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="main">
+            <header class="header sticky-top shadow">
+                
+            </header>
+            <div id="suggested_songs" class="container-fluid p-3">
+                <h1 class="display-3 p-3" style="text-align: center; font-weight: 500; text-shadow: 0px 0px 20px #28282870;">Suggested <span style="color: #a412ff; text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff, 0px 0px 20px #28282870;">songs</span></h1>
+                <div class="d-flex justify-content-center align-items-center container-fluid">
+                    <div id="friend_songs" class="d-flex flex-column m-1 col-6 p-5">
+                        <h2>Friends' liked songs</h2>
+                        <div id="friend_songs_container">
+                            <div id="suggested-song-0" class="suggested-song d-flex mt-3">
+                                <img class="song-cover shadow" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
+                                <div class="song-details d-flex flex-column ms-3">
+                                    <h1 style="font-weight: bold;" id="song-title">Titolo 1</h1>
+                                    <p class="mb-0">Club Dogo</p>
+                                    <p class="mb-0">Club Dogo</p>
+                                </div>
+                                <span class="view_details_btn align-self-center ms-5 text-bg-danger p-3">View details <i class="fa fa-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="common_songs" class="d-flex flex-column m-1 col-6 p-5">
+                        <h2>Users' liked songs</h2>
+                        <div id="common_songs_container">
+                            <div id="suggested-song-1" class="suggested-song d-flex mt-3">
+                                <img class="song-cover shadow" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
+                                <div class="song-details d-flex flex-column ms-3">
+                                    <h1 style="font-weight: bold;" id="song-title">Titolo 1</h1>
+                                    <p class="mb-0">Club Dogo</p>
+                                    <p class="mb-0">Club Dogo</p>
+                                </div>
+                                <span class="view_details_btn align-self-center ms-5 text-bg-danger p-3">View details <i class="fa fa-arrow-right ms-1"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="suggested_users" class="container-fluid p-3">
+                <h1 class="display-3 p-3" style="text-align: center; font-weight: 500; text-shadow: 0px 0px 20px #28282870;">Suggested <span style="color: #07c9a9; text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff, 0px 0px 20px #28282870;">users</span></h1>
+                <div id="suggested_user_container" class="d-flex p-3 m-1 justify-content-evenly">
+                    <div class="suggested-user d-flex flex-column justify-content-center text-bg-danger p-3" id="suggested-user-1">
+                        <img src="img/icons8-male-user-96.png">
+                        <h3>User1234</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AOS JavaScript -->
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            AOS.init();
+        </script>
+
+        <!-- Bootstrap JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </body>
+</html>
