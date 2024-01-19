@@ -11,7 +11,7 @@ $(document).ready(function(){
 function loadSearchBar(){
     $(".header").append(
         "<div class=\"container-fluid d-flex align-items-center justify-content-between\">" +
-        "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"homePage.html\">BeatBuddy</a></h1>" +
+        "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"homePage\">BeatBuddy</a></h1>" +
         "<section id=\"search-container\" class=\"g-col-3\">" +
         "<form class=\"d-flex\">" +
         "<input class=\"form-control\" type=\"text\" id=\"search_input\" placeholder=\"What are you looking for?\">" +
@@ -22,10 +22,10 @@ function loadSearchBar(){
         "<nav id=\"navbar\" class=\"navbar justify-content-center g-col-3\">" +
         "<ul class=\"nav nav-underline\">" +
         "<li class=\"nav-item\" role=\"presentation\">" +
-        "<a class=\"nav-link active\" href=\"homePage.html\">Home</a>" +
+        "<a class=\"nav-link active\" href=\"homePage\">Home</a>" +
         "</li>" +
         "<li class=\"nav-item\" role=\"presentation\">" +
-        "<a class=\"nav-link scrollto\" href=\"discoverPage.html\">Discover</a>" +
+        "<a class=\"nav-link scrollto\" href=\"discoverPage\">Discover</a>" +
         "</li>" +
         "<li id=\"user_controller\" class=\"nav-item\">" +
         "</li>" +
@@ -33,13 +33,13 @@ function loadSearchBar(){
         "</nav>" +
         "</div>"
     )
-    if(window.location.href.includes("profilePage.html")){
+    if(window.location.href.includes("profilePage")){
         $("#user_controller").append(
             "<button href=\"profilePage.html\" class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\">Logout</button>"
         )
     }else{
         $("#user_controller").append(
-            "<a href=\"profilePage.html\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"../static/img/icons8-male-user-96.png\">Profile page</a>"
+            "<a href=\"profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>"
         )
     }
     addListener()
