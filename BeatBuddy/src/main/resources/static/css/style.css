@@ -300,6 +300,12 @@ h1, h2, h3, h4, h5, h6 {
     padding: auto;
 }
 
+#user_main {
+    padding: auto;
+    background-color: rgba(255, 255, 255, 0.195);
+    min-height: 100%;
+}
+
 #user-control {
     display: flex;
     flex-direction: column;
@@ -393,6 +399,17 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 10px;
     background-color: #2828286e;
     color: white;
+}
+
+#like_container {
+    border-radius: 5px;
+    background-color: #2828286e;
+}
+
+.song-container {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.195);
+    color: #282828;
 }
 
 #like-button {
