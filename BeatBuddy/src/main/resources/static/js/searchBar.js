@@ -28,18 +28,22 @@ function loadSearchBar(){
         "<a class=\"nav-link scrollto\" href=\"discoverPage\">Discover</a>" +
         "</li>" +
         "<li id=\"user_controller\" class=\"nav-item\">" +
+        // "<button class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\" type=\"button\">Logout</button>" +
         "</li>" +
+        /*"<li class=\"nav-item\">" +
+        "<a href=\"/profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>" +
+        "</li>" +*/
         "</ul>" +
         "</nav>" +
         "</div>"
     )
     if(window.location.href.includes("profilePage")){
         $("#user_controller").append(
-            "<button href=\"profilePage\" class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\">Logout</button>"
+            "<button class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\" type=\"button\">Logout</button>"
         )
     }else{
         $("#user_controller").append(
-            "<a href=\"profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"../static/img/icons8-male-user-96.png\">Profile page</a>"
+            "<a href=\"profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>"
         )
     }
     addListener()

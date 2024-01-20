@@ -35,50 +35,50 @@
             <header class="header sticky-top shadow">
                 
             </header>
-            <section id="hero" class="d-flex flex-column container-fluid">
-                <div class="justify-content-center" data-aos="zoom-in" data-aos-delay="150">
-                    <div class="container-fluid p-3 d-flex">
-                        <div class="container-fluid d-flex flex-column col-6">
+            <section id="hero" class="d-flex flex-column align-items-center container-fluid p-3">
+                <div class="gap-1 d-flex container-fluid justify-content-center" data-aos="zoom-in" data-aos-delay="150">
+                    <div class="d-flex flex-column col-6">
+                        <div id="user_inf" class="d-flex flex-column mb-1 p-3">
                             <div class="d-flex align-items-center justify-content-between">
                                 <h1 class="display-3" style="font-weight: bold;" id="username">User1234</h1>
-                                <div style="text-align: center; border-radius: 5px;" id="follower" class="p-1"><i class="fa fa-users me-1"></i><span id="follower-number">2.000</span> follower</div>
+                                <div style="text-align: center; border-radius: 5px;" id="follower" class="p-1"><i class="fa fa-users me-1"></i><span id="follower_number">2.000</span> follower</div>
                             </div>
-                            <div id="user-control">
-                                <div id="user-details">
-                                    <div style="text-align: center; border-radius: 5px 0px 0px 5px;" id="name" class="p-1">Mario</div>
-                                    <div style="text-align: center; border-radius: 0px 5px 5px 0px;" id="surname" class="p-1">Rossi</div>
-                                    <div style="text-align: center; border-radius: 5px;" id="birthday" class="p-1"><i class="fa fa-calendar me-3"></i>19-05-2000</div>
-                                </div>
-                                <div id="user-buttons">
-                                    <div id="action-user">
-                                        <button id="follow-btn" class="logged btn btn-primary"><i class="fa fa-user-plus me-3"></i>Follow</button>
-                                        <button id="unfollow-btn" class="logged btn btn-outline-secondary"><i class="fa fa-user-minus me-3"></i>Unfollow</button>
-                                    </div>
-                                    <button id="bann-btn" class="admin btn btn-outline-danger"><i class="fa fa-ban me-3"></i>Ban</button>
-                                </div>
+                            <div id="user_anagr">
+                                <div style="text-align: center; border-radius: 5px 0px 0px 5px;" id="name" class="p-1">Mario</div>
+                                <div style="text-align: center; border-radius: 0px 5px 5px 0px;" id="surname" class="p-1">Rossi</div>
+                                <div style="text-align: center; border-radius: 5px;" id="birthday" class="p-1"><i class="fa fa-calendar me-3"></i>19-05-2000</div>
                             </div>
                         </div>
-                        <div id="liked-albums" class="container-fluid d-flex flex-column col-6 p-3">
-                            <h1 class="display-3" id="username">Liked albums</h1>
-                            <div id="albums-container" class="">
-                                <div id="album-1" class="d-flex align-items-center p-1 text-bg-danger">
-                                    <img id="album-cover" class="img-fluid w-25" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
-                                    <div class="d-flex flex-column w-50 text-bg-primary p-3">
-                                        <h1>Club Dogo</h1>
-                                        <p>Club Dogo</p>
-                                    </div>
-                                    <i class="fa fa-arrow-right d-flex justify-content-center w-25"></i>
+                        <div id="user_control" class="d-flex flex-column mb-1 p-3 row-gap-1">
+                            <div id="user-buttons">
+                                <div id="action-user">
+                                    <button id="follow-btn" class="logged btn btn-primary"><i class="fa fa-user-plus me-3"></i>Follow</button>
+                                    <button id="unfollow-btn" class="logged btn btn-outline-secondary"><i class="fa fa-user-minus me-3"></i>Unfollow</button>
                                 </div>
-                                <div id="album-1" class="d-flex">
-                                    <img id="album-cover" class="img-fluid w-25" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
-                                    <div class=""></div>
-                                    <h4>Club Dogo</h4>
-                                    <p>Club Dogo</p>
-                                </div>
+                                <button id="bann-btn" class="admin btn btn-outline-danger"><i class="fa fa-ban me-3"></i>Ban</button>
                             </div>
                         </div>
                     </div>
-                </div>  
+                    <div id="liked-albums" class="container-fluid d-flex flex-column col-6 p-3">
+                        <h1 class="display-3" id="">Liked albums</h1>
+                        <div id="albums-container" class="">
+                            <div id="album-1" class="d-flex align-items-center p-1 text-bg-danger">
+                                <img id="album-cover" class="img-fluid w-25" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
+                                <div class="d-flex flex-column w-50 text-bg-primary p-3">
+                                    <h1>Club Dogo</h1>
+                                    <p>Club Dogo</p>
+                                </div>
+                                <i class="fa fa-arrow-right d-flex justify-content-center w-25"></i>
+                            </div>
+                            <div id="album-2" class="d-flex">
+                                <img id="album-cover-1" class="img-fluid w-25" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
+                                <div class=""></div>
+                                <h4>Club Dogo</h4>
+                                <p>Club Dogo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section><!-- End Hero -->
         </div>
 

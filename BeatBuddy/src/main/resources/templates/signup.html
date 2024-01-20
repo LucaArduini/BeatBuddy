@@ -20,7 +20,6 @@
 
         <!-- Javascript for registration -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script language="javascript" src="js/signup.js" type="text/javascript"></script>
 
         <!-- AOS -->
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -33,13 +32,13 @@
             <!-- Header -->
             <header class="header sticky-top shadow">
                 <div class="container-fluid d-flex align-item-center justify-content-between">
-                    <h1 id="logo" class="col-6"><a href="index.html">BeatBuddy</a></h1>
+                    <h1 id="logo" class="col-6"><a href="/">BeatBuddy</a></h1>
 
                     <!-- Navigation bar -->
                     <nav id="navbar" class="navbar justify-content-center col-6">
                         <ul class="nav nav-underline">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" href="index.html">Home</a>
+                                <a class="nav-link" href="/">Home</a>
                             </li>
                         </ul>
                     </nav>
@@ -48,7 +47,7 @@
             </header>
             <!-- End header -->
 
-            <!-- Login -->
+            <!-- Registration -->
             <div id="register" class="w-50 container-fluid d-block align-items-center shadow" data-aos="fade-up">
                 <div class="main-container" data-aos="fade-up">
                     <h1 style="text-align: center;">Registration</h1>
@@ -56,30 +55,42 @@
                         <form class="container-fluid w-100">
                             <div class="container-fluid w-100" style="display: flex; flex-direction: column;">
                                 <div class="mb-3">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input id="username" class="form-control" placeholder="username" style="text-align: center;" required>
+                                    <label for="name_input" class="form-label">Name</label>
+                                    <input id="name_input" class="form-control" placeholder="Enter your name" style="text-align: center;" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="input-password" placeholder="password" style="text-align: center;" required>
+                                    <label for="surname_input" class="form-label">Surname</label>
+                                    <input id="surname_input" class="form-control" placeholder="Enter your surname" style="text-align: center;" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Repeat password</label>
-                                    <input type="password" class="form-control" id="repeat-password" placeholder="password" style="text-align: center;" required>
+                                    <label for="username_input" class="form-label">Username</label>
+                                    <input id="username_input" class="form-control" placeholder="Enter your username" style="text-align: center;" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="date" class="form-label">Birthday</label>
-                                    <input id="date" class="form-control" type="date">
+                                    <label for="password_input" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password_input" placeholder="Enter your password" style="text-align: center;" required>
                                 </div>
-                                <a id="signup-btn" class="btn btn-primary w-100 mb-3" style="text-align: center;" type="submit">Signup</a>
+                                <div class="mb-3">
+                                    <label for="repeat_password_input" class="form-label">Repeat password</label>
+                                    <input type="password" class="form-control" id="repeat_password_input" placeholder="Repeat your password" style="text-align: center;" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="birthday_input" class="form-label">Birthday</label>
+                                    <input id="birthday_input" class="form-control" type="date">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email_input" class="form-label">E-mail</label>
+                                    <input id="email_input" class="form-control" type="email" placeholder="Enter your email address">
+                                </div>
+                                <a id="signup_btn" class="btn btn-primary w-100 mb-3" style="text-align: center;" type="button">Signup</a>
                             <p class="mb-3">If you are already registered, please login to the application.</p>
-                            <a class="btn btn-outline-secondary w-100" href="login.html">Login</a>
+                            <a id="loginPage_btn" class="btn btn-outline-secondary w-100" href="/login">Login</a>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <!-- End login -->
+            <!-- End registration -->
         </div>
 
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
