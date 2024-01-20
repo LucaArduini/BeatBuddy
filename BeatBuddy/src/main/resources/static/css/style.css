@@ -300,38 +300,32 @@ h1, h2, h3, h4, h5, h6 {
     padding: auto;
 }
 
-#user_main {
-    padding: auto;
-    background-color: rgba(255, 255, 255, 0.195);
-    min-height: 100%;
+#user_inf {
+    border-radius: 10px;
+    background-color: #2828286e;
+    color: white;
 }
 
-#user-control {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-
-#user-details {
+#user_anagr {
     display: flex;
     gap: 2px;
 }
 
-#user-details>#name, #user-details>#surname {
+#user_anagr>#name, #user_anagr>#surname {
     flex-grow: 1;
     background-color: #282828c2;
     color: white;
 }
 
-#user-details>#birthday {
+#user_anagr>#birthday {
     flex-grow: 1;
 }
 
-#user-details>#name, #user-details>#surname, #user-details>#follower, #user-details>#birthday {
+#user_anagr>#name, #user_anagr>#surname, #user_anagr>#follower, #user_anagr>#birthday {
     border: solid 1px #282828;
 }
 
-#user-details>#follower {
+#user_anagr>#follower {
     flex-grow: 2;
 }
 

@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class UserPage_Ctrl {
+public class SignupPage_Ctrl {
 
-    @RequestMapping("/user")
+    @RequestMapping("/signup")
     public String discoverPage(){
-        return "user";
+        return "signup";
     }
 }
