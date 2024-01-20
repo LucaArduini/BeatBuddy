@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Song {
-    private String title;
-    private int duration;
+    private String name;
+    private int duration_ms;
     private int likes;
 }

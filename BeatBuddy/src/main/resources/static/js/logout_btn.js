@@ -4,7 +4,6 @@ $(document).ready(function () {
 
         $.ajax({
             url: "/api/logout",
-            dataType: 'json',
             method: "POST",
             contentType: 'application/json', // Aggiungi questa linea
 

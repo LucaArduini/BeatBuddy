@@ -25,17 +25,18 @@ $(document).ready(function () {
 
 		$.ajax({
 			// Il percorso /api/login è l'URL a cui viene inviata la richiesta.
-			url: "/api/login",
+			url: '/api/login',
 			// I dati inviati sono l'username e la password raccolti dai campi di input.
-			data: { username: tmp_usrn, password: tmp_pwd },
+			data: {
+                username: tmp_usrn,
+                password: tmp_pwd
+            },
 			// Specifica che il tipo di dati attesi in risposta è json.
-			dataType: 'json',
-			method: "POST",
+			method: 'POST',
 
 			// Una volta ricevuta la risposta dal server, questa funzione viene eseguita.
 			// La funzione success viene eseguita quando la richiesta ha successo.
 			success: function (response) {
-                alert("response: " + response); //###
                 const result = jQuery.parseJSON(response);
 
                 if (result["outcome_code"] == 0) {
