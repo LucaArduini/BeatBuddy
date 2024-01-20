@@ -35,6 +35,7 @@ $(document).ready(function () {
 			// Una volta ricevuta la risposta dal server, questa funzione viene eseguita.
 			// La funzione success viene eseguita quando la richiesta ha successo.
 			success: function (response) {
+                alert("response: " + response); //###
                 const result = jQuery.parseJSON(response);
 
                 if (result["outcome_code"] == 0) {
@@ -42,7 +43,7 @@ $(document).ready(function () {
                     // Reindirizza l'utente alla pagina index
                     window.location.href = "/homePage";
                 } else if (result["outcome_code"] == 1) {
-                    alert("Incorrect username");
+                    alert("Username not found in the database. Please make sure you have typed the username correctly.");
                     $("#username_input").val("");
                     $("#password_input").val("");
                 } else if (result["outcome_code"] == 2) {
@@ -55,6 +56,7 @@ $(document).ready(function () {
             },
             // La funzione error viene eseguita quando la richiesta fallisce.
             error: function (xhr, status, error) {
+                alert("ERRORE QUI 0");  //###
                 alert("Error: " + error);
             }
         });
