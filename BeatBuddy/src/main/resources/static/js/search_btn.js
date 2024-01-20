@@ -19,8 +19,7 @@ $(document).ready(function () {
                     return;
                 }
                 else if(category == "album") {
-                    //displayAlbums(arrayResults);
-                    ;
+                    displayAlbums(arrayResults);
                 }
                 else {
                     alert("Error: unknown category");
@@ -37,15 +36,19 @@ $(document).ready(function () {
 });
 
 function displayAlbums(albums) {
-    const container = $("#someContainer"); // Sostituisci con l'ID del tuo container HTML
+    const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
     container.empty(); // Pulisci il contenuto precedente
 
     albums.forEach(function(album) {
         // Crea un div per ogni AlbumDTO
-        let albumDiv = $("<div class='album'></div>");
-        albumDiv.append($("<h3></h3>").text(album.title));
-        albumDiv.append($("<img>").attr("src", album.coverURL));
-        albumDiv.append($("<p></p>").text("Artists: " + album.artists.join(", ")));
+        let albumDiv = $("<div id=\"album_info\" class=\"d-flex mb-1 align-items-center\"></div>");
+        albumDiv.append($("<img id=\"album_cover\" class=\"album-cover-sm\">").attr("src", album.coverURL));
+        let albumInf = $("<div id=\"album_details\" class=\"album-details-sm d-flex flex-column mt-1\"></div>");
+        albumDiv.append(albumInf);
+        albumInf.append($("<h3 id=\"album_title\" style=\"font-weight: bold;\"></h3>").text(album.title));
+        let div1 = $("<div class=\"d-flex\"></div>");
+        albumInf.append(div1);
+        div1.append($("<p style=\"font-size: medium;\" id=\"album_artists\"></p>").text("Artists: " + album.artists.join(", ")));
 
         // Aggiungi il div al container
         container.append(albumDiv);
