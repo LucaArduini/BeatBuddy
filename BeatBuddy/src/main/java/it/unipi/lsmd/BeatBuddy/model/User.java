@@ -22,7 +22,7 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private Date birthDate;
+    private String birthDate;
     private ReviewedAlbum[] reviewedAlbums;
 
     @Field("isAdmin")

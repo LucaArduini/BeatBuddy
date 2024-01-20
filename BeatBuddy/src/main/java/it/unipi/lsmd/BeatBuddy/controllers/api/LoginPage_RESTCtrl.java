@@ -30,13 +30,13 @@ public class LoginPage_RESTCtrl {
         Optional<User> optionalUser = user_Repo.getUserByUsername(username);
         User userData = optionalUser.orElse(null);
 
-        if(optionalUser.isEmpty())    //###
-            System.out.println("User not found");
-        else
-            System.out.println("User found");
-
-        if(userData != null)    //###
-            logger.info(userData.toString());
+//        if(optionalUser.isEmpty())    //###
+//            System.out.println("User not found");
+//        else
+//            System.out.println("User found");
+//
+//        if(userData != null)    //###
+//            logger.info(userData.toString());
 
         if(userData == null){
             return new Gson().toJson("{\"outcome_code\": 1}");  // User not found

@@ -13,6 +13,6 @@ public class HomePage_Ctrl {
         if(Utility.isLogged(session))
             return "homePage";
         else
-            return "redirect:/";
+            return "redirect:/login";
     }
 }

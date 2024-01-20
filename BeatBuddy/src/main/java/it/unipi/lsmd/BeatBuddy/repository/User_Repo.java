@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public class User_Repo {
     @Autowired
-    public User_RepoInterf user_RI;
+    private User_RepoInterf user_RI;
 
 //    @Autowired
 //    private MongoOperations mongoOperations;
