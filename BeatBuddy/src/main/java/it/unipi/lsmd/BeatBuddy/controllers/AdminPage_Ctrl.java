@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AdminPage_Ctrl {
 
-    @RequestMapping("/adminThings")
+    @RequestMapping("/adminPage")
     public String adminPage(HttpSession session) {
         if (Utility.isAdmin(session)) {
-            return "adminThings";
+            return "test/accessAllowed";
         } else {
             return "test/accessDenied";     //###
         }
