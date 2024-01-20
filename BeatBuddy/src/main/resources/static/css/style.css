@@ -355,6 +355,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 10px;
     background-color: #2828286e;
     color: white;
+    text-decoration: none;
 }
 
 .album-cover {
@@ -408,6 +409,46 @@ h1, h2, h3, h4, h5, h6 {
 
 #like-button {
     margin-top: auto; /* Posiziona il pulsante "Mi Piace" in basso all'interno del div */
+}
+
+.album-cover-sm, .artist-details-sm {
+    border-radius: 10px;
+    width: 15%;
+    height: 15%;
+    margin-left: 15px;
+}
+
+.album-details-sm, .artist-details-sm {
+    color: #282828;
+    align-content: center;
+    padding: 10px;
+    gap: 5px;
+}
+
+.song-cover-sm {
+    border-radius: 150px;
+    width: 15%;
+    height: 15%;
+    margin-left: 15px;
+}
+
+.song-details-sm {
+    color: #282828;
+    align-content: center;
+    padding: 10px;
+    gap: 5px;
+}
+
+#song_info, #artist_info {
+    border-radius: 10px;
+    background-color: #2828286e;
+    color: white;
+    text-decoration: none;
+}
+
+.modal-body>#song_info:hover, .modal-body>#artist_info:hover, .modal-body>#album_info:hover {
+    background-color: #cc7aff;
+    cursor: pointer;
 }
 
 /*--------------------------------------------------------------

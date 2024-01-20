@@ -3,6 +3,12 @@ function scrollToTop() {
   document.documentElement.scrollTop = 0;
 }
 
+$(document).ready(function (){
+    $('#album_info').click(function (e){
+        window.location.href = "/homePage";
+    })
+})
+
 window.onscroll = function() { scrollFunction() };
 
 function scrollFunction() {
