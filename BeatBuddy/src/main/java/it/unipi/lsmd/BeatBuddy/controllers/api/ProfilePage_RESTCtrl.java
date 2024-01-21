@@ -25,6 +25,6 @@ public class ProfilePage_RESTCtrl {
 
         session.invalidate(); // Invalida la sessione se l'utente è loggato
         logger.info("User logged out");
-        return new Gson().toJson("{\"outcome_code\": 0}");
+        return "{\"outcome_code\": 0}";
     }
 }
