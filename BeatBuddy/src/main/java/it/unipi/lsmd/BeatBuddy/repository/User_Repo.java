@@ -4,6 +4,7 @@ import it.unipi.lsmd.BeatBuddy.model.User;
 import it.unipi.lsmd.BeatBuddy.repository.MongoDB.User_RepoInterf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -22,6 +23,10 @@ public class User_Repo {
             System.out.println(user_RI.existsByUsername(username));
             return user_RI.findByUsername(username);
         } catch (DataAccessException dae) {
+            // Controlla se l'eccezione è relativa a una mancata connessione al database
+            if (dae instanceof DataAccessResourceFailureException) {
+                throw (DataAccessResourceFailureException) dae;
+            }
             dae.printStackTrace();
             return Optional.empty();
         }

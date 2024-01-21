@@ -51,7 +51,11 @@ $(document).ready(function () {
                 } else if (outcome["outcome_code"] == 2) {
                     alert("Incorrect password");
                     $("#username_input").val("");
-                } else {
+                }
+                else if (outcome["outcome_code"] == 3) {
+                    alert("Unable to connect to the database :-(\nPlease try again later.");
+                }
+                else {
                     alert("Error: unknown outcome_code");
                 }
             },
