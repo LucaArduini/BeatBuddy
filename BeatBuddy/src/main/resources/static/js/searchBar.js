@@ -3,7 +3,7 @@ $(document).ready(function(){
     loadSearchBar()
     for(a in categories) {
         $("#category_input").append(
-            new Option(categories[a], categories[a])
+            new Option(categories[a], categories[a].toLowerCase())
         )
     }
     setActiveLink();

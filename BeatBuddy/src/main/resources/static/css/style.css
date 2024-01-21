@@ -186,6 +186,16 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #ffffff42;
 }
 
+.main>#write_review {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: solid 2px #282828;
+    border-radius: 10px;
+    background-color: #ffffff42;
+}
+
 /*-------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -359,7 +369,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .album-cover {
-    width: 25%;
+    width: 20%;
     height: 100%;
     border-radius: 10px;
 }
@@ -370,6 +380,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .album-review {
     border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.438);
+}
+
+#latest_reviews {
+    border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.195);
 }
 
@@ -378,7 +393,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: row;
     flex: 6;
-    gap: 30px;
+    gap: 20px;
 }
 
 #write_review {
@@ -396,6 +411,11 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
 }
 
+#like_album_container {
+    border-radius: 5px;
+    background-color: #ffffff6e;
+}
+
 #like_container {
     border-radius: 5px;
     background-color: #2828286e;
@@ -403,7 +423,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .song-container {
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.195);
+    background-color: rgba(255, 255, 255, 0.438);
     color: #282828;
 }
 
@@ -413,8 +433,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .album-cover-sm, .artist-details-sm {
     border-radius: 10px;
-    width: 15%;
-    height: 15%;
+    width: 10%;
+    height: 10%;
     margin-left: 15px;
 }
 
@@ -426,7 +446,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .song-cover-sm {
-    border-radius: 150px;
+    border-radius: 10px;
     width: 15%;
     height: 15%;
     margin-left: 15px;
@@ -439,6 +459,13 @@ h1, h2, h3, h4, h5, h6 {
     gap: 5px;
 }
 
+.artist-img-sm {
+    border-radius: 10px;
+    width: 15%;
+    height: 15%;
+    margin-left: 15px;
+}
+
 #song_info, #artist_info {
     border-radius: 10px;
     background-color: #2828286e;
@@ -449,6 +476,19 @@ h1, h2, h3, h4, h5, h6 {
 .modal-body>#song_info:hover, .modal-body>#artist_info:hover, .modal-body>#album_info:hover {
     background-color: #cc7aff;
     cursor: pointer;
+}
+
+#average_rating_container {
+    background-color: #ffffa594;
+    border-radius: 5px;
+    color: #282828;
+}
+
+#album_artists_page, #release_date_page, #album_duration_page {
+    border-bottom: solid 1px white;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 /*--------------------------------------------------------------
@@ -493,7 +533,6 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
     font-size: xx-large;
     transition: all 0.5s;
-    border: none;
     margin: none;
     font-weight: bolder;
     background: linear-gradient(45deg, #282828cc 0%, #282828cc 100%), url("../img/best-album.jpg") center center no-repeat;
@@ -511,7 +550,6 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
     font-size: xx-large;
     transition: all 0.5s;
-    border: none;
     margin: none;
     background: linear-gradient(45deg, #282828cc 0%, #282828cc 100%), url("../img/best-album.jpg") center center no-repeat;
 }

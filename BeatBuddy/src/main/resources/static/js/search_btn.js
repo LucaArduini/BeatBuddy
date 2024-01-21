@@ -42,13 +42,18 @@ function displayAlbums(albums) {
     albums.forEach(function(album) {
         // Crea un div per ogni AlbumDTO
         let albumDiv = $("<div id=\"album_info\" class=\"d-flex mb-1 align-items-center\"></div>");
-        albumDiv.append($("<img id=\"album_cover\" class=\"album-cover-sm\">").attr("src", album.coverURL));
+        albumDiv.append($("<img id=\"album_cover\" class=\"album-cover-sm mt-1 mb-1\">").attr("src", album.coverURL));
         let albumInf = $("<div id=\"album_details\" class=\"album-details-sm d-flex flex-column mt-1\"></div>");
         albumDiv.append(albumInf);
-        albumInf.append($("<h3 id=\"album_title\" style=\"font-weight: bold;\"></h3>").text(album.title));
-        let div1 = $("<div class=\"d-flex\"></div>");
+        albumInf.append($("<h4 id=\"album_title\" style=\"font-weight: bold; margin-bottom: 0;\"></h4>").text(album.title));
+        let div1 = $("<div class=\"d-flex m-0\"></div>");
         albumInf.append(div1);
-        div1.append($("<p style=\"font-size: medium;\" id=\"album_artists\"></p>").text("Artists: " + album.artists.join(", ")));
+        div1.append($("<p style=\"font-size: medium;\" id=\"album_artists\"></p>").text(album.artists.join(", ")));
+
+        // Aggiungi un ascoltatore di eventi click al div dell'album
+        albumDiv.click(function() {
+            window.location.href = '/albumPage?albumId=' + album.id;
+        });
 
         // Aggiungi il div al container
         container.append(albumDiv);
