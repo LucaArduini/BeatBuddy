@@ -3,14 +3,12 @@ $(document).ready(function () {
         e.preventDefault();
 
         $.ajax({
-            url: "/api/logout",
-            method: "POST",
-            contentType: 'application/json', // Aggiungi questa linea
+            url: '/api/logout',
+            dataType : 'json',  // indico che la risposta deve essere deserializzata come JSON
+            method: 'POST',
 
-            success: function(response) {
-                var result = jQuery.parseJSON(response);
-
-                if(result["outcome_code"] == 0) {
+            success: function(outcome) {
+                if(outcome["outcome_code"] == 0) {
                     alert("OK BRO, you did it");    //###
                     window.location.href = "/";
                 }

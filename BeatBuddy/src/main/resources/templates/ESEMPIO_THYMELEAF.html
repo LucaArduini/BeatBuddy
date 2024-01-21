@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${albumDetails != null} ? ${albumDetails.title} : 'Album non trovato'">Dettagli Album</title>
+</head>
+<body>
+<div th:if="${albumFound}">
+    <h1 th:text="${albumDetails.title}">Titolo dell'Album</h1>
+    <img th:src="${albumDetails.coverURL}" alt="Copertina Album" />
+    <h3>Artisti:</h3>
+    <p th:text="${#strings.arrayJoin(albumDetails.artists, ', ')}">Nomi degli Artisti</p>
+    <h4>Anno:</h4>
+    <p th:text="${albumDetails.year}">Anno di Pubblicazione</p>
+    <h4>Valutazione Media:</h4>
+    <p th:text="${albumDetails.averageRating}">Valutazione</p>
+    <h4>Canzoni:</h4>
+    <ul>
+        <li th:each="song : ${albumDetails.songs}" th:text="${song.name}">Nome Canzone</li>
+    </ul>
+    <h4>Ultimi Commenti:</h4>
+    <ul>
+        <li th:each="review : ${albumDetails.lastReviews}" th:text="${review.username + ' - ' + review.text}">Commento</li>
+    </ul>
+</div>
+<div th:unless="${albumFound}">
+    <p>Album non trovato o dettagli non disponibili.</p>
+</div>
+</body>
+</html>

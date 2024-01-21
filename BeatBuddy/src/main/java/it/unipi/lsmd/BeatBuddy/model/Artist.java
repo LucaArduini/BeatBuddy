@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "artists")
 public class Artist {
     @Id
-    @Field("_id")
     private String id;
     private String name;
+    @Field("image")
     private String profilePicUrl;
     private AlbumLite[] albums;
 }
@@ -21,6 +21,6 @@ public class Artist {
 @Data
 @AllArgsConstructor
 class AlbumLite {
-    private String albumTitle;
-    private String coverUrl;
+    private String title;
+    private String coverURL;
 }

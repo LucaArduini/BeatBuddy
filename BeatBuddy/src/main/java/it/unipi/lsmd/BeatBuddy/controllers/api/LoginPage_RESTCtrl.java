@@ -28,7 +28,7 @@ public class LoginPage_RESTCtrl {
         logger.info("Login attempt from user: " + username);
 
         Optional<User> optionalUser = user_Repo.getUserByUsername(username);
-        User userData = optionalUser.orElse(null);
+        //User userData = optionalUser.orElse(null);
 
 //        if(optionalUser.isEmpty())    //###
 //            System.out.println("User not found");
@@ -38,22 +38,22 @@ public class LoginPage_RESTCtrl {
 //        if(userData != null)    //###
 //            logger.info(userData.toString());
 
-        if(userData == null){
-            return new Gson().toJson("{\"outcome_code\": 1}");  // User not found
+        if(optionalUser.isEmpty()){
+            return "{\"outcome_code\": 1}";     // User not found
         }
 
         String hashedPassword = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
 
-        if(userData.getPassword().equals(hashedPassword)){
+        if(optionalUser.get().getPassword().equals(hashedPassword)){
             session.setAttribute("username", username);
-            session.setAttribute("role", userData.isAdmin() ? "admin" : "regUser");
+            session.setAttribute("role", optionalUser.get().isAdmin() ? "admin" : "regUser");
 
-            return new Gson().toJson("{\"outcome_code\": 0}");  // Login successful
+            return "{\"outcome_code\": 0}";     // Login successful
         }
         else {
-            return new Gson().toJson("{\"outcome_code\": 2}");  // Wrong password
+            return "{\"outcome_code\": 2}";     // Wrong password
         }
     }
 }
