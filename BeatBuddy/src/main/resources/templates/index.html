@@ -26,7 +26,7 @@
 
         <!-- Main JavaScript -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script src="js/main.js" type="text/javascript"></script>
+        <!--<script src="js/main.js" type="text/javascript"></script>-->
         <script src="js/search_btn.js" type="text/javascript"></script>
 
         <!-- Bootstrap -->
@@ -90,7 +90,7 @@
                                 <option value="song">Song</option>
                                 <option value="artist">Artist</option>
                             </select>
-                            <button id="search_btn" class="btn btn-success" type="button">Search</button>
+                            <button id="search_btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#search_results" type="button">Search</button>
                         </form>
                     </div>
                     <!-- End search -->
@@ -152,24 +152,7 @@
                         <button id="close_btn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div id="modal_body" class="modal-body d-flex flex-column">
-                      <div id="album_info" class="d-flex mb-1 align-items-center">
-                          <img id="album_cover" class="album-cover-sm" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
-                          <div id="album_details" class="album-details-sm d-flex flex-column mt-1">
-                              <h1 id="album_title" style="font-weight: bold;">Club Dogo</h1>
-                              <div class="d-flex">
-                                  <p style="font-size: x-large;" id="album_artists">Club Dogo</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div id="song_info" class="d-flex mb-1 align-items-center">
-                          <img id="song_cover" class="d-flex song-cover-sm" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
-                          <div id="song_details" class="song-details-sm d-flex flex-column mt-1">
-                              <h1 id="song_title" style="font-weight: bold;">Club Dogo</h1>
-                              <div class="d-flex">
-                                  <p style="font-size: x-large;" id="song_artists">Club Dogo</p>
-                              </div>
-                          </div>
-                      </div>
+
                   </div>
                 </div>
           </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -16,7 +16,7 @@
     <link href="img/logo.png" rel="apple-touch-icon">
 
     <!-- JavaScript for login -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="js/searchBar.js"></script>
     <script src="js/search_btn.js"></script>
     <!-- Main CSS File -->
@@ -38,7 +38,7 @@
 
     <!-- Login -->
     <div id="write_review" class="w-50 container-fluid d-block align-items-center shadow" data-aos="fade-up">
-        <h1 style="text-align: center;">Write a review</h1>
+        <h1 th:text="Write a review for ${albumDetails.title}" style="text-align: center;"></h1>
         <div class="container-fluid" data-aos="zoom-in" data-aos-delay="100" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <form class="container-fluid w-100">
                 <div class="container-fluid w-100" style="display: flex; flex-direction: column;">

@@ -5,7 +5,6 @@ import it.unipi.lsmd.BeatBuddy.repository.User_Repo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @RestController
-public class LoginPage_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(LoginPage_RESTCtrl.class);
+public class Login_RESTCtrl {
+    private static final Logger logger = LoggerFactory.getLogger(Login_RESTCtrl.class);
 
     @Autowired
     User_Repo user_Repo;
