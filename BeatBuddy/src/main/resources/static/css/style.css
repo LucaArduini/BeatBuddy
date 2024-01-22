@@ -379,6 +379,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .album-review {
+    border: solid 2px #282828;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.438);
 }
@@ -431,24 +432,30 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: auto; /* Posiziona il pulsante "Mi Piace" in basso all'interno del div */
 }
 
-.album-cover-sm, .artist-details-sm {
+.album-cover-sm {
     border-radius: 10px;
     width: 10%;
     height: 10%;
     margin-left: 15px;
 }
 
-.album-details-sm, .artist-details-sm {
+.album-details-sm {
     color: #282828;
     align-content: center;
     padding: 10px;
     gap: 5px;
 }
 
+#artist_name {
+    color: #282828;
+    align-content: center;
+    padding: 10px;
+}
+
 .song-cover-sm {
     border-radius: 10px;
-    width: 15%;
-    height: 15%;
+    width: 10%;
+    height: 10%;
     margin-left: 15px;
 }
 
@@ -461,8 +468,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .artist-img-sm {
     border-radius: 10px;
-    width: 15%;
-    height: 15%;
+    width: 10%;
+    height: 10%;
     margin-left: 15px;
 }
 
@@ -476,6 +483,10 @@ h1, h2, h3, h4, h5, h6 {
 .modal-body>#song_info:hover, .modal-body>#artist_info:hover, .modal-body>#album_info:hover {
     background-color: #cc7aff;
     cursor: pointer;
+}
+.modal-header {
+    background-color: #282828;
+    color: white;
 }
 
 #average_rating_container {
@@ -502,6 +513,13 @@ h1, h2, h3, h4, h5, h6 {
 .btn.btn-primary:hover {
     border-color: #a412ff;
     background-color: #a412ff;
+}
+
+.btn.btn-primary:disabled {
+    background-color: #373737; /* Cambia il colore di sfondo */
+    color: #888888; /* Cambia il colore del testo */
+    cursor: not-allowed; /* Cambia il cursore del mouse */
+    border-color: #373737;
 }
 
 .btn.btn-outline-secondary {

@@ -2,6 +2,8 @@ package it.unipi.lsmd.BeatBuddy.controllers;
 
 import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.repository.Album_Repo;
+import it.unipi.lsmd.BeatBuddy.utilities.Utility;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,14 @@ public class AlbumDetailsPage_Ctrl {
     Album_Repo album_Repo;
 
     @GetMapping("/albumDetails")
-    public String albumDetails(Model model,
+    public String albumDetails(HttpSession session, Model model,
                                @RequestParam(name = "albumId") String albumId) {
 
         Optional<Album> optionalAlbum = album_Repo.getAlbumById(albumId);
+        //Album albumData = optionalAlbum.orElse(null);
 
         model.addAttribute("albumFound", (optionalAlbum.isEmpty()) ? false : true);
+        model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
         if(!optionalAlbum.isEmpty())
             model.addAttribute("albumDetails", optionalAlbum.get());

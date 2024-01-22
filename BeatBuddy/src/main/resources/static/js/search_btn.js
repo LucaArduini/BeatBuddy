@@ -3,6 +3,7 @@ $(document).ready(function () {
     $("#search_btn").click(function (e) {
         e.preventDefault();
         search();
+        $('#search_results').modal('show');
     });
 
     // Ascoltatore per il tasto "Invio" nel campo di input
@@ -11,6 +12,7 @@ $(document).ready(function () {
             e.preventDefault();
             e.stopPropagation();
             search();
+            $('#search_results').modal('show');
         }
     });
 
@@ -29,14 +31,18 @@ $(document).ready(function () {
             success: function (arrayResults) {
 
                 if(arrayResults.length == 0) {
-                    alert("No results found");
-                    return;
+                    const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
+                    container.empty(); // Pulisci il contenuto precedente
+                    container.append($("<p>No results found</p>"));
                 }
                 else if(category == "album") {
                     displayAlbums(arrayResults);
                 }
-                else {
-                    alert("Error: unknown category");
+                else if(category == "song") {
+                    displaySongs(arrayResults);
+                }
+                else if(category == "artist") {
+                    displayArtists(arrayResults);
                 }
 
                 console.log(arrayResults);
@@ -66,10 +72,53 @@ function displayAlbums(albums) {
 
         // Aggiungi un ascoltatore di eventi click al div dell'album
         albumDiv.click(function() {
-            window.location.href = '/albumPage?albumId=' + album.id;
+            window.location.href = '/albumDetails?albumId=' + album.id;
         });
 
         // Aggiungi il div al container
         container.append(albumDiv);
+    });
+}
+function displaySongs(songs) {
+    const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
+    container.empty(); // Pulisci il contenuto precedente
+
+    songs.forEach(function(song) {
+        // Crea un div per ogni AlbumDTO
+        let songDiv = $("<div id=\"song_info\" class=\"d-flex mb-1 align-items-center\"></div>");
+        songDiv.append($("<img id=\"song_cover\" class=\"song-cover-sm mt-1 mb-1\">").attr("src", song.coverURL));
+        let songInf = $("<div id=\"song_details\" class=\"song-details-sm d-flex flex-column mt-1\"></div>");
+        songDiv.append(songInf);
+        songInf.append($("<h4 id=\"song_title\" style=\"font-weight: bold; margin-bottom: 0;\"></h4>").text(song.name));
+        let div1 = $("<div class=\"d-flex m-0\"></div>");
+        songInf.append(div1);
+        div1.append($("<p style=\"font-size: medium;\" id=\"song_artists\"></p>").text(song.artists.join(", ")));
+
+        // Aggiungi un ascoltatore di eventi click al div dell'album
+        songDiv.click(function() {
+            window.location.href = '/albumDetails?albumId=' + song.albumId;
+        });
+
+        // Aggiungi il div al container
+        container.append(songDiv);
+    });
+}
+function displayArtists(artists) {
+    const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
+    container.empty(); // Pulisci il contenuto precedente
+
+    artists.forEach(function(artist) {
+        // Crea un div per ogni AlbumDTO
+        let artDiv = $("<div id=\"artist_info\" class=\"d-flex mb-1 align-items-center\"></div>");
+        artDiv.append($("<img id=\"artist_img\" class=\"artist-img-sm mt-1 mb-1\">").attr("src", artist.profilePicUrl));
+        artDiv.append($("<h3 id=\"artist_name\" style=\"font-weight: bold; margin-bottom: 0;\"></h3>").text(artist.name));
+
+        // Aggiungi un ascoltatore di eventi click al div dell'album
+        artDiv.click(function() {
+            window.location.href = '/albumPage?albumId=' + artist.name;
+        });
+
+        // Aggiungi il div al container
+        container.append(artDiv);
     });
 }
