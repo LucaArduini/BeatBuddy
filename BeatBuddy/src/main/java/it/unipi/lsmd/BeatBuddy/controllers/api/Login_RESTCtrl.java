@@ -15,8 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @RestController
-public class LoginPage_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(LoginPage_RESTCtrl.class);
+public class Login_RESTCtrl {
+    private static final Logger logger = LoggerFactory.getLogger(Login_RESTCtrl.class);
 
     @Autowired
     User_Repo user_Repo;

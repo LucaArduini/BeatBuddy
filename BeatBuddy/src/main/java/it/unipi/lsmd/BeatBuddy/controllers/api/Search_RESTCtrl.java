@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class Search_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(LoginPage_RESTCtrl.class);
+    private static final Logger logger = LoggerFactory.getLogger(Login_RESTCtrl.class);
 
     @Autowired
     Album_Repo album_Repo;
