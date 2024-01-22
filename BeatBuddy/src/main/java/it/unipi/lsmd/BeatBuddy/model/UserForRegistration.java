@@ -15,17 +15,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "users")
-public class User {
+public class UserForRegistration {
     @Id
     private String id;
     private String name;
     private String surname;
     private String username;
-    private String email;
     private String password;
     private String birthDate;
+    private String email;
     private ReviewedAlbum[] reviewedAlbums;
 
-    @Field("isAdmin")
-    private boolean admin;
+    // a differenza di User, non ha il campo isAdmin
 }

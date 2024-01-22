@@ -42,6 +42,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<!-- Questa dipendenza indica a Spring Boot di utilizzare TomCat come server web embedded -->
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
