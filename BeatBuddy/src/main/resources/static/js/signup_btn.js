@@ -24,6 +24,12 @@ $(document).ready(function () {
             return;
         }
 
+        // Controllo se la email è valida
+        if (!isValidEmail(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
         // Dati da inviare al server
         const formData = {
             name: name,
@@ -72,3 +78,9 @@ $(document).ready(function () {
         });
     });
 });
+
+// Funzione per verificare il formato dell'email
+function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+}
