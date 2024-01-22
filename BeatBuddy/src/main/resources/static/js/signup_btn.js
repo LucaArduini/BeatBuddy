@@ -1,0 +1,74 @@
+$(document).ready(function () {
+    $('#signup_btn').click(function (e) {
+        e.preventDefault();
+
+        // Raccolgo i dati del form
+        const name = $('#name_input').val();
+        const surname = $('#surname_input').val();
+        const username = $('#username_input').val();
+        const password = $('#password_input').val();
+        const repeatPassword = $('#repeat_password_input').val();
+        const birthday = $('#birthday_input').val();
+        const email = $('#email_input').val();
+
+        // Controllo se tutti i campi sono stati riempiti
+        if (!name || !surname || !username || !password ||
+            !repeatPassword || !birthday || !email) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        // Controllo se le password coincidono
+        if (password !== repeatPassword) {
+            alert("Passwords do not match. Please re-enter them.");
+            return;
+        }
+
+        // Dati da inviare al server
+        const formData = {
+            name: name,
+            surname: surname,
+            username: username,
+            password: password,
+            birthday: birthday,
+            email: email
+        };
+
+        // Procedo con la chiamata AJAX
+        $.ajax({
+            url: '/api/signup',
+            data: formData,
+            dataType: 'json',
+            method: 'POST',
+
+            success: function(response) {
+                switch(response.outcome_code) {
+                    case 0:
+                        alert("Registration successful!\nYou can now proceed with the login.");
+                        window.location.href = "/login";
+                        break;
+                    case 1:
+                        alert("Username already in use. Please choose another username.");
+                        break;
+                    case 2:
+                        alert("Email already in use. Please use a different email.");
+                        break;
+                    case 3:
+                        alert("Database connection error.");
+                        break;
+                    case 4:
+                        alert("An error occurred during registration.");
+                        break;
+                    case 5:
+                        alert("System error. Please try again later.");
+                        break;
+                    default:
+                        alert("Unknown error.");
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("ERROR: " + error);
+            }
+        });
+    });
+});

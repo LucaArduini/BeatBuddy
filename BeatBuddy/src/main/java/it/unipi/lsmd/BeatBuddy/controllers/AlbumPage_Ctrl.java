@@ -24,13 +24,12 @@ public class AlbumPage_Ctrl {
                                @RequestParam(name = "albumId") String albumId) {
 
         Optional<Album> optionalAlbum = album_Repo.getAlbumById(albumId);
-        //Album albumData = optionalAlbum.orElse(null);
 
         model.addAttribute("albumFound", (optionalAlbum.isEmpty()) ? false : true);
 
         if(!optionalAlbum.isEmpty())
             model.addAttribute("albumDetails", optionalAlbum.get());
 
-        return "albumPage"; // Il nome della vista (ad esempio, una pagina Thymeleaf chiamata albumPage.html)
+        return "album"; // Il nome della vista (ad esempio, una pagina Thymeleaf chiamata albumPage.html)
     }
 }

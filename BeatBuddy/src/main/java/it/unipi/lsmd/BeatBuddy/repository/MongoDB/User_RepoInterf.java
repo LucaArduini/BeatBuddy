@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface User_RepoInterf extends MongoRepository<User, String> {
     Optional<User> findByUsername(String username);
     boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
 
     @Query("{ $or: [ { 'email': ?0 }, { 'username': ?1 } ] }")
     Optional<User> findByEmailOrUsername(String email, String username);
