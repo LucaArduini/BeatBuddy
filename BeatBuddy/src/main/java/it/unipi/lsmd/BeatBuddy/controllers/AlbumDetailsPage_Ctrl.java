@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
-public class AlbumPage_Ctrl {
-    private static final Logger logger = LoggerFactory.getLogger(AlbumPage_Ctrl.class);
+public class AlbumDetailsPage_Ctrl {
+    private static final Logger logger = LoggerFactory.getLogger(AlbumDetailsPage_Ctrl.class);
 
     @Autowired
     Album_Repo album_Repo;
