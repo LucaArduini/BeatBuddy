@@ -22,7 +22,8 @@ public class AlbumDetailsPage_Ctrl {
     Album_Repo album_Repo;
 
     @GetMapping("/albumDetails")
-    public String albumDetails(HttpSession session, Model model,
+    public String albumDetails(HttpSession session,
+                               Model model,
                                @RequestParam(name = "albumId") String albumId) {
 
         Optional<Album> optionalAlbum = album_Repo.getAlbumById(albumId);
