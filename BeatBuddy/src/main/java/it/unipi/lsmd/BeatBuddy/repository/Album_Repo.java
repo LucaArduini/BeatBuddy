@@ -46,6 +46,20 @@ public class Album_Repo {
         }
     }
 
+    public Optional<Album> getAlbumIdByTitleAndArtists(String title, List<String> artists) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("title").is(title).and("artists").all(artists));
+        query.fields().include("id");
+
+        try {
+            Album album = mongoTemplate.findOne(query, Album.class);
+            return album != null ? album_RI.findById(album.getId()) : Optional.empty();
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
     public List<AlbumDTO> find5AlbumDTO(String term){
         Pageable topFive = PageRequest.of(0, 5);
         return album_RI.findFirst5ByTitleContaining(term, topFive);

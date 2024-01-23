@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -40,7 +41,26 @@ public class AlbumDetailsPage_Ctrl {
         }
 
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
+      
+        return "albumDetails";
+    }
 
+    @GetMapping("/albumDetailsFromArtist")
+    public String albumDetailsFromArtist(HttpSession session,
+                               Model model,
+                               @RequestParam(name = "albumTitle") String albumTitle,
+                               @RequestParam(name = "albumArtist") List<String> albumArtist) {
+        Optional<Album> optionalAlbum = album_Repo.getAlbumIdByTitleAndArtists(albumTitle, albumArtist);
+
+        model.addAttribute("albumFound", (optionalAlbum.isEmpty()) ? false : true);
+        model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
+
+        if(!optionalAlbum.isEmpty())
+            model.addAttribute("albumDetails", optionalAlbum.get());
+        
+      //    QUI DEVO TROVARRMI L'ID DELL'ALBUM, E FARE UN REDIRECT AD ALBUM PAGE
+      // CHE FA LA GET SU QUELL'ID
+      
         return "albumDetails";
     }
 }
