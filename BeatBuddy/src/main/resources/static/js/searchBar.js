@@ -9,8 +9,8 @@ $(document).ready(function(){
     setActiveLink();
 })
 function loadSearchBar(){
-    let val = $("#is_logged").val();
-    console.log(val);
+    let value = $("#is_logged").val();
+    console.log(value);
     $(".header").append(
         "<div class=\"container-fluid d-flex align-items-center justify-content-between\">" +
         "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"homePage\">BeatBuddy</a></h1>" +
@@ -24,7 +24,7 @@ function loadSearchBar(){
         "<nav id=\"navbar\" class=\"navbar justify-content-center g-col-3\">" +
         "<ul class=\"nav nav-underline\">" +
         "<li class=\"nav-item\" role=\"presentation\">" +
-        "<a class=\"nav-link active\" href=\"homePage\">Home</a>" +
+        "<a class=\"nav-link active\" href=\"/homePage\">Home</a>" +
         "</li>" +
         "<li id=\"discover_controller\" class=\"nav-item\" role=\"presentation\">" +
         //"<a class=\"nav-link scrollto\" href=\"discoverPage\">Discover</a>" +
@@ -39,7 +39,7 @@ function loadSearchBar(){
         "</nav>" +
         "</div>"
     )
-    if(!val){
+    if(value == 'true'){
         console.log("CIao")
         $("#discover_controller").append(
             "<a class=\"nav-link scrollto\" href=\"discoverPage\">Discover</a>"

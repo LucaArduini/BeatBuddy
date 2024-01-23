@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -32,6 +32,7 @@
     </head>
     <body>
         <div class="main">
+            <input type="hidden" id="is_logged" th:value="${logged}"/>
             <header class="header sticky-top shadow">
                 
             </header>
