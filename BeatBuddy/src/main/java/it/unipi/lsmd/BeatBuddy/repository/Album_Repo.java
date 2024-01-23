@@ -2,7 +2,6 @@ package it.unipi.lsmd.BeatBuddy.repository;
 
 import it.unipi.lsmd.BeatBuddy.DTO.AlbumDTO;
 import it.unipi.lsmd.BeatBuddy.DTO.SongDTO;
-import it.unipi.lsmd.BeatBuddy.DTO.converters.AlbumToAlbumDTOConverter;
 import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Album_RepoInterf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,14 @@ public class Album_Repo {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Autowired
-    private AlbumToAlbumDTOConverter converter;
+    public boolean existsById(String id){
+        try {
+            return album_RI.existsById(id);
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return false;
+        }
+    }
 
     public Optional<Album> getAlbumById(String id){
         try {

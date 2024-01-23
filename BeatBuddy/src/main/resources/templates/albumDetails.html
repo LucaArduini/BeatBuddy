@@ -14,7 +14,7 @@
         <!-- Favicons -->
         <link href="img/logo.png" rel="icon">
         <link href="img/logo.png" rel="apple-touch-icon">
-        
+
         <!-- Main CSS File -->
         <link href="css/style.css" rel="stylesheet">
 
@@ -32,10 +32,10 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
     <body>
-        <div th:if="${albumFound}" class="main">
+        <div class="main">
             <input type="hidden" id="is_logged" th:value="${logged}"/>
             <header class="header sticky-top shadow">
-                
+
             </header>
             <section id="hero" class="d-flex flex-column align-items-center container-fluid p-3">
                 <div class="gap-1 d-flex flex-column container-fluid justify-content-center" data-aos="zoom-in" data-aos-delay="150">
@@ -46,7 +46,7 @@
                             <div class="d-flex mt-0 mb-0 gap-3 align-items-center">
                                 <p style="font-size: medium;" id="album_artists_page" th:text="${#strings.arrayJoin(albumDetails.artists, ', ')}"></p>
                                 <p style="font-size: medium;" id="release_date_page" th:text="${albumDetails.year}"></p>
-                                <p style="font-size: medium;" id="album_duration_page">34:54</p>
+                                <p style="font-size: medium;" id="album_duration_page" th:text="${albumTotalDuration}"></p>
                             </div>
                             <div class="d-flex gap-3">
                                 <div id="like_album_container" class="d-flex w-25 align-items-center">
@@ -101,9 +101,8 @@
                                     </div>
                                 </div>
                                 <div class="d-flex gap-1">
-                                    <button id="view_all_review_btn" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged}">View all the reviews</button>
-                                    <button th:if="${not logged}" id="write_review_btn_dis" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged}">Write a review</button>
-                                    <button th:if="${logged}" id="write_review_btn" class="btn btn-primary mt-1 col-6">Write a review</button>
+                                    <button id="viewAllReviews_btn" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged}">View all the reviews</button>
+                                    <button id="writeReview_btn" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged}">Write a review</button>
                                 </div>
                             </div>
                         </div>
@@ -112,9 +111,41 @@
             </section><!-- End Hero -->
         </div>
 
-        <div th:unless="${albumFound}">
-            <p>Album non trovato o dettagli non disponibili.</p>
-        </div>
+        <!-- JavaScript per la gestione dei pulsanti -->
+        <script th:inline="javascript">
+            // Recupera l'albumId dalla variabile albumDetails.id
+            let albumId = /*[[${albumDetails.id}]]*/ null;
+            let logged = /*[[${logged}]]*/ false;
+
+            if (albumId == null) {
+                alert("albumId is null");
+            }
+            else {
+                /* Imposto la funzionalità onClick per il btn View All Reviews */
+                let viewAllReviewBtn = document.getElementById("viewAllReviews_btn");
+                if (viewAllReviewBtn != null) {
+                    viewAllReviewBtn.addEventListener("click", function() {
+                        // Esegui la richiesta GET quando il pulsante viene cliccato
+                        window.location.href = '/viewAllReviews?albumId=' + albumId;
+                    });
+                }
+                else
+                    alert("viewAllReviewBtn not found");
+
+                /* Imposto la funzionalità onClick per il btn Write a Review */
+                let writeReviewBtn = document.getElementById("writeReview_btn");
+                if(logged === false)
+                    ;   // Non fare nulla
+                else if (writeReviewBtn !== null) {
+                    writeReviewBtn.addEventListener("click", function() {
+                        // Esegui la richiesta GET quando il pulsante viene cliccato
+                        window.location.href = '/writeReview?albumId=' + albumId;
+                    });
+                }
+                else
+                    alert("writeReviewBtn not found");
+            }
+        </script>
 
         <!-- AOS JavaScript -->
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

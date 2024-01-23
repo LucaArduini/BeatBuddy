@@ -28,15 +28,21 @@ public class AlbumDetailsPage_Ctrl {
                                @RequestParam(name = "albumId") String albumId) {
 
         Optional<Album> optionalAlbum = album_Repo.getAlbumById(albumId);
-        //Album albumData = optionalAlbum.orElse(null);
 
-        model.addAttribute("albumFound", (optionalAlbum.isEmpty()) ? false : true);
+        if(optionalAlbum.isEmpty())
+            return "albumNotFound";
+        else {
+            Album tmp_album = optionalAlbum.get();
+            //calcolo le durate delle canzoni in min e sec
+            tmp_album.calculateDurations_MinSec();
+
+            model.addAttribute("albumDetails", tmp_album);
+            model.addAttribute("albumTotalDuration", tmp_album.calculateTotalDuration());
+        }
+
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
-
-        if(!optionalAlbum.isEmpty())
-            model.addAttribute("albumDetails", optionalAlbum.get());
-
-        return "albumDetails"; // Il nome della vista (ad esempio, una pagina Thymeleaf chiamata albumPage.html)
+      
+        return "albumDetails";
     }
 
     @GetMapping("/albumDetailsFromArtist")
@@ -51,7 +57,10 @@ public class AlbumDetailsPage_Ctrl {
 
         if(!optionalAlbum.isEmpty())
             model.addAttribute("albumDetails", optionalAlbum.get());
-
+        
+      //    QUI DEVO TROVARRMI L'ID DELL'ALBUM, E FARE UN REDIRECT AD ALBUM PAGE
+      // CHE FA LA GET SU QUELL'ID
+      
         return "albumDetails";
     }
 }
