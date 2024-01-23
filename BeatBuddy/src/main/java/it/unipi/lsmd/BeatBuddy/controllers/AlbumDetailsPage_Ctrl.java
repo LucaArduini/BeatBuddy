@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -22,7 +23,8 @@ public class AlbumDetailsPage_Ctrl {
     Album_Repo album_Repo;
 
     @GetMapping("/albumDetails")
-    public String albumDetails(HttpSession session, Model model,
+    public String albumDetails(HttpSession session,
+                               Model model,
                                @RequestParam(name = "albumId") String albumId) {
 
         Optional<Album> optionalAlbum = album_Repo.getAlbumById(albumId);
@@ -34,6 +36,22 @@ public class AlbumDetailsPage_Ctrl {
         if(!optionalAlbum.isEmpty())
             model.addAttribute("albumDetails", optionalAlbum.get());
 
-        return "album"; // Il nome della vista (ad esempio, una pagina Thymeleaf chiamata albumPage.html)
+        return "albumDetails"; // Il nome della vista (ad esempio, una pagina Thymeleaf chiamata albumPage.html)
+    }
+
+    @GetMapping("/albumDetailsFromArtist")
+    public String albumDetailsFromArtist(HttpSession session,
+                               Model model,
+                               @RequestParam(name = "albumTitle") String albumTitle,
+                               @RequestParam(name = "albumArtist") List<String> albumArtist) {
+        Optional<Album> optionalAlbum = album_Repo.getAlbumIdByTitleAndArtists(albumTitle, albumArtist);
+
+        model.addAttribute("albumFound", (optionalAlbum.isEmpty()) ? false : true);
+        model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
+
+        if(!optionalAlbum.isEmpty())
+            model.addAttribute("albumDetails", optionalAlbum.get());
+
+        return "albumDetails";
     }
 }

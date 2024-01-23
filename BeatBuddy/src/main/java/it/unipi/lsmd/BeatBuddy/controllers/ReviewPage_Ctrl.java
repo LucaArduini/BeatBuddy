@@ -15,7 +15,7 @@ public class ReviewPage_Ctrl {
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
         if(Utility.isLogged(session))
-            return "review";
+            return "albumReviews";
         else
             return "redirect:/";
     }

@@ -39,14 +39,14 @@
             </header>
             <section id="hero" class="d-flex flex-column align-items-center container-fluid p-3">
                 <div class="gap-1 d-flex flex-column container-fluid justify-content-center" data-aos="zoom-in" data-aos-delay="150">
-                    <div id="album_info" class="d-flex mb-1 col-md-12">
+                    <div id="album_info" class="d-flex mb-1 align-items-center col-md-12">
                         <img id="album_cover" class="album-cover" th:src="${albumDetails.coverURL}" alt="Copertina Album"/>
                         <div id="album_details" class="album-details d-flex flex-column">
                             <h1 id="album_title" class="display-5 mb-0" style="font-weight: bold;" th:text="${albumDetails.title}"></h1>
                             <div class="d-flex mt-0 mb-0 gap-3 align-items-center">
                                 <p style="font-size: medium;" id="album_artists_page" th:text="${#strings.arrayJoin(albumDetails.artists, ', ')}"></p>
                                 <p style="font-size: medium;" id="release_date_page" th:text="${albumDetails.year}"></p>
-                                <p style="font-size: medium;" id="album_duration_page"><i class="fas fa-clock me-1"></i>34:54</p>
+                                <p style="font-size: medium;" id="album_duration_page">34:54</p>
                             </div>
                             <div class="d-flex gap-3">
                                 <div id="like_album_container" class="d-flex w-25 align-items-center">
@@ -83,17 +83,7 @@
                                         <i class="fas fa-heart me-1"></i>Like
                                     </button>
                                 </div>
-                            </div>                            <!--<div class="song-container d-flex justify-content-between align-items-center p-1">
-                                <div class="d-flex flex-column ps-1 pt-1">
-                                    <p style="font-size: large; font-weight: bold;" id="song_title" class="mt-1 mb-0">Madre metropoli (Les caves de l'amour)</p>
-                                    <p style="font-size: medium;" id="song_duration" class="mt-1"><i class="fas fa-clock me-1"></i>3:05</p>
-                                </div>
-                                <div id="like_container" class="d-flex align-items-center">
-                                    <button id="like_song_btn" class="btn btn-primary" type="button">
-                                        <i class="fas fa-heart me-1"></i>Like
-                                    </button>
-                                </div>
-                            </div>-->
+                            </div>
                         </div>
                         <div class="d-flex flex-column col-md-6">
                             <div id="album_reviews" class="d-flex flex-column">
@@ -118,74 +108,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                    <!--<div class="container-fluid justify-content-center" data-aos="zoom-in" data-aos-delay="150">
-                        <div class="container-fluid justify-content-center" data-aos="zoom-in" data-aos-delay="150">
-                            <div class="row d-flex">
-                                <div class="col-md-8 album-details">
-                                    <img id="album-cover" class="shadow" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
-                                    <div id="album-details" class="d-flex flex-column">
-                                        <h1 class="display-1" style="font-weight: bold;" id="album-title">Club Dogo</h1>
-                                        <div class="d-flex">
-                                            <p style="font-size: x-large;" id="album-artists">Club Dogo</p>
-                                            <p style="font-size: x-large;" id="release-date">2024</p>
-                                            <p style="font-size: x-large;" id="album-duration"><i class="fas fa-clock"></i>34 min 54 sec</p>
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <div class="col-md-4 album-songs">
-                                    <div class="container-fluid d-flex flex-column">
-                                        <h3 id="song-title">C'era una volta in Italia</h3>
-                                        <h3 id="song-duration">3:05</h3>
-                                    </div>
-                                    <div class="container-fluid like-button">
-                                        <button id="like-btn" class="btn btn-primary">
-                                            <i class="fas fa-heart"></i> Mi Piace
-                                        </button>
-                                        <div class="m-1" id="number-of-likes">5.000</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-
-                    <!--<div id="album-reviews" class="container-fluid d-flex flex-column">
-                        <div id="latest-reviews" class="container-fluid d-flex flex-column">
-                            <div class="container-fluid d-flex">
-                                <h4 id="user-review">PincoPallo</h4>
-                                <h4 id="rating-review">
-                                    <i class="fas fa-star"></i>
-                                    <span>3</span>
-                                </h4>
-                            </div>
-                            <div id="text-review">
-                                Bellissimo album, le palle stanno sopra il cazzo.
-                            </div>
-                        </div>
-                        <button id="view-all-review-btn" class="btn btn-outline-secondary">View all the reviews</button>
-                        <div id="write-review">
-                            <h3>Write a review</h3>
-                            <form>
-                                <div class="form-group">
-                                    <label for="rating">Rating</label>
-                                    <select class="form-control" id="rating">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="reviewText">Body of the review</label>
-                                    <textarea class="form-control" id="reviewText" rows="5"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Send</button>
-                            </form>
-                        </div>
-                    </div>-->
-                </div>
               </div>
             </section><!-- End Hero -->
         </div>
