@@ -43,12 +43,12 @@
                         <img id="album_cover" class="album-cover" th:src="${albumDetails.coverURL}" alt="Copertina Album"/>
                         <div id="album_details" class="album-details d-flex flex-column">
                             <h1 id="album_title" class="display-5 mb-0" style="font-weight: bold;" th:text="${albumDetails.title}"></h1>
-                            <div class="d-flex mt-0 mb-0 gap-3">
+                            <div class="d-flex mt-0 mb-0 gap-3 align-items-center">
                                 <p style="font-size: medium;" id="album_artists_page" th:text="${#strings.arrayJoin(albumDetails.artists, ', ')}"></p>
                                 <p style="font-size: medium;" id="release_date_page" th:text="${albumDetails.year}"></p>
                                 <p style="font-size: medium;" id="album_duration_page"><i class="fas fa-clock me-1"></i>34:54</p>
                             </div>
-                            <div class="d-flex">
+                            <div class="d-flex gap-3">
                                 <div id="like_album_container" class="d-flex w-25 align-items-center">
                                     <button id="like_album_btn" class="btn btn-danger ms-1" type="button" th:disabled="${not logged}">
                                         <i class="fas fa-heart me-1"></i>Like
