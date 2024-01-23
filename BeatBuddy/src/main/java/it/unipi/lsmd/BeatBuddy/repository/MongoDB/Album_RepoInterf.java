@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Album_RepoInterf extends MongoRepository<Album, String> {
+    boolean existsById(String id);
     boolean existsByTitle(String title);
     Optional<Album> findById(String id);
 

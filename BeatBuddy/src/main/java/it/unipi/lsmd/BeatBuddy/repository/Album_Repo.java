@@ -27,6 +27,15 @@ public class Album_Repo {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    public boolean existsById(String id){
+        try {
+            return album_RI.existsById(id);
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return false;
+        }
+    }
+
     public Optional<Album> getAlbumById(String id){
         try {
             System.out.println(album_RI.findById(id));

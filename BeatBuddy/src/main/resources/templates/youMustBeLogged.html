@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pagina Dummy</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                background-color: #f0f0f0;
+                padding: 40px;
+            }
+
+            h1 {
+                color: #333;
+            }
+
+            p {
+                font-size: 18px;
+                color: #555;
+                margin-bottom: 20px;
+            }
+
+            #loginButton {
+                background-color: #007BFF;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+            }
+
+            #loginButton:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Action not available if you are not logged in</h1>
+        <p>To continue, please proceed to login.</p>
+        <button id="loginButton" onclick="redirectToLogin()">Login</button>
+
+        <script>
+            function redirectToLogin() {
+                // Redirige alla pagina di login
+                window.location.href = '/login.html'; // Sostituisci con l'URL effettivo della pagina di login
+            }
+        </script>
+    </body>
+</html>
