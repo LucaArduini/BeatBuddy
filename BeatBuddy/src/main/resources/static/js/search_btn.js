@@ -115,7 +115,7 @@ function displayArtists(artists) {
 
         // Aggiungi un ascoltatore di eventi click al div dell'album
         artDiv.click(function() {
-            window.location.href = '/albumPage?albumId=' + artist.name;
+            window.location.href = '/artistDetails?artistId=' + artist.id;
         });
 
         // Aggiungi il div al container

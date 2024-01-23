@@ -1,7 +1,7 @@
 package it.unipi.lsmd.BeatBuddy.controllers;
 
-import it.unipi.lsmd.BeatBuddy.model.Album;
-import it.unipi.lsmd.BeatBuddy.repository.Album_Repo;
+import it.unipi.lsmd.BeatBuddy.model.Artist;
+import it.unipi.lsmd.BeatBuddy.repository.Artist_Repo;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -15,26 +15,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
-public class AlbumDetailsPage_Ctrl {
+public class ArtistDetailsPage_Ctrl {
     private static final Logger logger = LoggerFactory.getLogger(ArtistDetailsPage_Ctrl.class);
 
     @Autowired
-    Album_Repo album_Repo;
+    Artist_Repo artist_Repo;
 
-    @GetMapping("/albumDetails")
-    public String albumDetails(HttpSession session,
-                               Model model,
-                               @RequestParam(name = "albumId") String albumId) {
+    @GetMapping("/artistDetails")
+    public String artistDetails(HttpSession session, Model model,
+                               @RequestParam(name = "artistId") String artistId) {
 
-        Optional<Album> optionalAlbum = album_Repo.getAlbumById(albumId);
+        Optional<Artist> optionalArtist = artist_Repo.getArtistById(artistId);
         //Album albumData = optionalAlbum.orElse(null);
 
-        model.addAttribute("albumFound", (optionalAlbum.isEmpty()) ? false : true);
+        model.addAttribute("artistFound", (optionalArtist.isEmpty()) ? false : true);
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
-        if(!optionalAlbum.isEmpty())
-            model.addAttribute("albumDetails", optionalAlbum.get());
+        if(!optionalArtist.isEmpty())
+            model.addAttribute("artistDetails", optionalArtist.get());
 
-        return "album"; // Il nome della vista (ad esempio, una pagina Thymeleaf chiamata albumPage.html)
+        return "artist"; // Il nome della vista (ad esempio, una pagina Thymeleaf chiamata albumPage.html)
     }
 }

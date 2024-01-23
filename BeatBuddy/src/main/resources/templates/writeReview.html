@@ -30,6 +30,7 @@
 </head>
 <body>
 <div class="main">
+    <input type="hidden" id="is_logged" th:value="${logged}"/>
     <!-- Header -->
     <header class="header sticky-top shadow">
 
@@ -38,7 +39,7 @@
 
     <!-- Login -->
     <div id="write_review" class="w-50 container-fluid d-block align-items-center shadow" data-aos="fade-up">
-        <h1 th:text="Write a review for ${albumDetails.title}" style="text-align: center;"></h1>
+        <h1 style="text-align: center;">Write a review</h1>
         <div class="container-fluid" data-aos="zoom-in" data-aos-delay="100" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <form class="container-fluid w-100">
                 <div class="container-fluid w-100" style="display: flex; flex-direction: column;">
