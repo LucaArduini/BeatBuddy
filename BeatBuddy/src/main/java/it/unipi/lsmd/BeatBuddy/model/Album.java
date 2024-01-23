@@ -25,6 +25,35 @@ public class Album {
     private String year;
     @Field("last_reviews")
     private LastReview[] lastReviews;
+
+
+
+    public void calculateDurations_MinSec() {
+        for (Song song : this.songs)
+            song.setDuration_minSec(song.convertToMinSec(song.getDuration_ms()));
+    }
+
+    // Getter per il campo 'songs' che calcola 'duration_minSec' per ciascuna canzone
+    public Song[] getSongs() {
+        if (songs != null) {
+            for (Song song : songs) {
+                song.setDuration_minSec(song.convertToMinSec(song.getDuration_ms()));
+            }
+        }
+        return songs;
+    }
+
+    public String calculateTotalDuration() {
+        int totalDuration = 0;
+        for (Song song : this.songs)
+            totalDuration += song.getDuration_ms();
+
+        //create the string in the format "X min Y sec"
+        long seconds = totalDuration / 1000;
+        long minutes = seconds / 60;
+        seconds %= 60;
+        return minutes + " min " + String.format("%02d", seconds) + " sec";
+    }
 }
 
 @Data
