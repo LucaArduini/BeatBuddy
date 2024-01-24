@@ -8,12 +8,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @AllArgsConstructor
-@Document(collection = "users")
+@Document(collection = "reviews")
 public class Review {
     @Id
-    @Field("_id")
     private String id;
-    // ####
-    // DA FARE POI PERCHè MI SERVE DI VEDERE I NOMI DEI CAMPI
-    // NELLA COLLECTION
+    private int rating;
+    private String text;
+    private String albumID;
+    private String username;
+    private String date;
 }

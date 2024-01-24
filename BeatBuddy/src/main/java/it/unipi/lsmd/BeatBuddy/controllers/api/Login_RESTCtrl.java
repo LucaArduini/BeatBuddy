@@ -23,8 +23,8 @@ public class Login_RESTCtrl {
 
     @PostMapping("/api/login")
     public @ResponseBody String login(HttpSession session,
-                                      @RequestParam(value = "username") String username,
-                                      @RequestParam(value = "password") String password) {
+                                      @RequestParam("username") String username,
+                                      @RequestParam("password") String password) {
         logger.info("Login attempt from user: " + username);
 
         try {

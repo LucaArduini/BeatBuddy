@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>No Reviews Available</title>
+    <!-- Inserisci qui eventuali file CSS o JS necessari -->
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>No Reviews Yet</h1>
+    <p>We're sorry, but there are no reviews available for this album yet.</p>
+    <!-- Pulsante di reindirizzamento alla pagina dei dettagli dell'album -->
+    <a th:href="@{/albumDetails(albumId=${albumId})}">
+        <button type="button">Return to the Album Details Page</button>
+    </a>
+</div>
+</body>
+</html>

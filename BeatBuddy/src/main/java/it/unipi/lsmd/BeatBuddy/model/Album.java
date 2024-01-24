@@ -7,8 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +22,7 @@ public class Album {
     private float averageRating;
     private String year;
     @Field("last_reviews")
-    private LastReview[] lastReviews;
+    private ReviewLite[] lastReviews;
 
 
 
@@ -48,17 +46,23 @@ public class Album {
         for (Song song : this.songs)
             totalDuration += song.getDuration_ms();
 
-        //create the string in the format "X min Y sec"
-        long seconds = totalDuration / 1000;
-        long minutes = seconds / 60;
-        seconds %= 60;
-        return minutes + " min " + String.format("%02d", seconds) + " sec";
+        //create the string in the format "z hr X min Y sec", if z=0 then it is omitted
+        int hours = totalDuration / 3600000;
+        int minutes = (totalDuration % 3600000) / 60000;
+        int seconds = ((totalDuration % 3600000) % 60000) / 1000;
+
+        String totalDuration_minSec = "";
+        if (hours != 0)
+            totalDuration_minSec += hours + " hr ";
+        totalDuration_minSec += minutes + " min " + seconds + " sec";
+
+        return totalDuration_minSec;
     }
 }
 
 @Data
 @AllArgsConstructor
-class LastReview {
+class ReviewLite {
     private String username;
     private int rating;
     private String text;

@@ -19,8 +19,8 @@ public class Search_RESTCtrl {
     Artist_Repo artist_Repo;
 
     @GetMapping("/api/search")
-    public @ResponseBody String search(@RequestParam(value = "term") String term,
-                                       @RequestParam(value = "category") String category){
+    public @ResponseBody String search(@RequestParam("term") String term,
+                                       @RequestParam("category") String category){
         logger.info("Search attempt: " + term + " in " + category);
 
         if(category.equals("album")){
