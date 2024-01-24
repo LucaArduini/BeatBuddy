@@ -74,7 +74,7 @@
                                         <p style="font-size: large; font-weight: bold;" class="mt-1 mb-0" th:text="${song.name}"></p>
                                         <p style="font-size: medium;" class="mt-1">
                                             <i class="fas fa-clock me-1"></i>
-                                            <span th:text="${song.duration_ms}"></span>
+                                            <span th:text="${song.duration_minSec}"></span>
                                         </p>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex gap-1">
-                                    <button id="viewAllReviews_btn" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged}">View all the reviews</button>
+                                    <button id="viewAllReviews_btn" class="btn btn-primary mt-1 col-6" type="button">View all the reviews</button>
                                     <button id="writeReview_btn" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged}">Write a review</button>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@ public class WriteReviewPage_Ctrl {
     Album_Repo album_Repo;
 
     @GetMapping("/writeReview")
-    public String homePage(HttpSession session,
+    public String writeReview(HttpSession session,
                            Model model,
                            @RequestParam(name = "albumId") String albumId) {
 
@@ -32,6 +32,6 @@ public class WriteReviewPage_Ctrl {
         if(Utility.isLogged(session))
             return "writeReview";
         else
-            return "redirect:/youMustBeLogged";
+            return "youMustBeLogged";
     }
 }

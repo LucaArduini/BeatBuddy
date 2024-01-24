@@ -29,6 +29,6 @@ public class ViewAllReviews_Ctrl {
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
         //QUESTO NON DEVE ESSERE UN CONTROLLER, MA UN @RESTCONTROLLER
-        return "test/viewAllReviews";
+        return "albumReviews";
     }
 }
