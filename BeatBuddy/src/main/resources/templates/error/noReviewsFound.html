@@ -8,6 +8,7 @@
 <body>
 <div style="text-align: center;">
     <h1>No Reviews Yet</h1>
+    <p th:text="${found}"></p>
     <p>We're sorry, but there are no reviews available for this album yet.</p>
     <!-- Pulsante di reindirizzamento alla pagina dei dettagli dell'album -->
     <a th:href="@{/albumDetails(albumId=${albumId})}">

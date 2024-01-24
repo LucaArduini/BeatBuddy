@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class albumReviews_Ctrl {
+public class AlbumReviews_Ctrl {
 
     @Autowired
     Album_Repo album_Repo;
@@ -36,6 +36,7 @@ public class albumReviews_Ctrl {
             }
             else {
                 model.addAttribute("albumId", albumId);
+                model.addAttribute("found", reviewsFound);
                 return "error/noReviewsFound";
             }
         }
