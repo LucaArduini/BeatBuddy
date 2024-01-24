@@ -36,7 +36,6 @@ public class AlbumReviews_Ctrl {
             }
             else {
                 model.addAttribute("albumId", albumId);
-                model.addAttribute("found", reviewsFound);
                 return "error/noReviewsFound";
             }
         }
