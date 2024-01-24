@@ -26,7 +26,8 @@ public class WriteReviewPage_Ctrl {
         else
             return "error/albumNotFound";
 
-        model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
+        model.addAttribute("logged", Utility.isLogged(session));
+        model.addAttribute("isAdmin", Utility.isAdmin(session));
 
         if(Utility.isLogged(session))
             return "writeReview";

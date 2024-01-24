@@ -29,5 +29,4 @@ public class Utility {
         else
             return "guest"; //###
     }
-
 }

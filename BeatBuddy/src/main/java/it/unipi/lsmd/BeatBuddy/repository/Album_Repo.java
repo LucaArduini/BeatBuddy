@@ -93,4 +93,18 @@ public class Album_Repo {
                 .limit(5) // Limita effettivamente i risultati delle canzoni a 5
                 .collect(Collectors.toList());
     }
+
+//    public int insertReviewIntoAlbum(String albumID, String username, int rating, String text){
+//        Album targetAlbum = getAlbumById(albumID).orElse(null);
+//        if (targetAlbum == null) {
+//            return 1; // Album non trovato
+//        }
+//
+//        ReviewLite tmp_reviewLite = new ReviewLite(username, rating);
+//
+//
+//
+//
+//        System.out.println("Review inserita con successo in username: " + username);
+//    }
 }

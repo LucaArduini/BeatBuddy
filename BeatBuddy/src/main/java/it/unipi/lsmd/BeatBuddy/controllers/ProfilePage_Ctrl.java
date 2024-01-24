@@ -16,6 +16,8 @@ public class ProfilePage_Ctrl {
 
         if(!Utility.isLogged(session))
             return "redirect:/login";
+        else if(Utility.isAdmin(session))
+            return "redirect:/adminPage";
         else
             return "profilePage";
     }

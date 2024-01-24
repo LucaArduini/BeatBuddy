@@ -58,6 +58,14 @@ public class Album {
 
         return totalDuration_minSec;
     }
+
+    public String getArtistsString() {
+        String artistsString = "";
+        for (String artist : artists) {
+            artistsString += artist + ", ";
+        }
+        return artistsString.substring(0, artistsString.length() - 2);
+    }
 }
 
 @Data
