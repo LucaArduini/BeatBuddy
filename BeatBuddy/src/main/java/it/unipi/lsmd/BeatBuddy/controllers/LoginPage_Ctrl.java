@@ -13,6 +13,6 @@ public class LoginPage_Ctrl {
         if(!Utility.isLogged(session))
             return "login";
         else
-            return "test/alreadyLogged";     //###
+            return "error/alreadyLogged";
     }
 }

@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class ViewAllReviews_Ctrl {
+public class albumReviews_Ctrl {
 
     @Autowired
     Album_Repo album_Repo;
     @Autowired
     Review_Repo review_Repo;
 
-    @GetMapping("/viewAllReviews")
-    public String viewAllReviews(HttpSession session,
+    @GetMapping("/albumReviews")
+    public String albumReviews(HttpSession session,
                                  Model model,
                                  @RequestParam("albumId") String albumId) {
 
@@ -40,7 +40,7 @@ public class ViewAllReviews_Ctrl {
             }
         }
         else{
-            return "albumNotFound";
+            return "error/albumNotFound";
         }
 
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
