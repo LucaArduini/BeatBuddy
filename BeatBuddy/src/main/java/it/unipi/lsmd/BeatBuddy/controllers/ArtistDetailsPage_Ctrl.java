@@ -23,17 +23,22 @@ public class ArtistDetailsPage_Ctrl {
 
     @GetMapping("/artistDetails")
     public String artistDetails(HttpSession session, Model model,
-                               @RequestParam("artistId") String artistId) {
+                               @RequestParam(required = false) String artistId) {
+        Optional<Artist> optionalArtist;
 
-        Optional<Artist> optionalArtist = artist_Repo.getArtistById(artistId);
-        //Album albumData = optionalAlbum.orElse(null);
+        if(artistId != null){
+            optionalArtist = artist_Repo.getArtistById(artistId);
+        }else{
+            return "error/artistNotFound";
+        }
 
         model.addAttribute("artistFound", (optionalArtist.isEmpty()) ? false : true);
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
-        if(!optionalArtist.isEmpty())
+        if(!optionalArtist.isEmpty()) {
             model.addAttribute("artistDetails", optionalArtist.get());
-
-        return "artist"; // Il nome della vista (ad esempio, una pagina Thymeleaf chiamata albumPage.html)
+            return "artist";
+        }else
+            return "error/artistNotFound";
     }
 }
