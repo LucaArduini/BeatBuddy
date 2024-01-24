@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 public interface Review_MongoInterf extends MongoRepository<Review, String> {
     // Ricorda che in Review abbiamo il tipo di dato ObjectId per albumID
     // quindi ricorda di convertire l'albumID in ObjectId prima di passarlo
-    boolean existsByAlbumIDAndUsername(ObjectId albumID, String username);
-    Page<Review> findByAlbumID(ObjectId albumID, Pageable pageable);
+    boolean existsByAlbumIDAndUsername(ObjectId albumObjectID, String username);
+    Review findByAlbumIDAndUsername(ObjectId albumObjectID, String username);
+    Page<Review> findByAlbumID(ObjectId albumObjectID, Pageable pageable);
+
 }

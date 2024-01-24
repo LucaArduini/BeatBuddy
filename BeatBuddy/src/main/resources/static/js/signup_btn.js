@@ -60,13 +60,16 @@ $(document).ready(function () {
                         alert("Email already in use. Please use a different email.");
                         break;
                     case 3:
-                        alert("Database connection error.");
+                        alert("Error in MongoDB connection.");
                         break;
                     case 4:
-                        alert("An error occurred during registration.");
+                        alert("Error in Neo4j connection.");
                         break;
                     case 5:
-                        alert("System error. Please try again later.");
+                        alert("Error during user registration in MongoDB.");
+                        break;
+                    case 6:
+                        alert("Error during user registration in Neo4j.");
                         break;
                     default:
                         alert("Unknown error.");

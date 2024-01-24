@@ -26,83 +26,122 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-<div class="main">
-    <input type="hidden" id="is_logged" th:value="${logged}"/>
-    <!-- Header -->
-    <header class="header sticky-top shadow">
+    <div class="main">
+        <input type="hidden" id="is_logged" th:value="${logged}"/>
+        <!-- Header -->
+        <header class="header sticky-top shadow">
 
-    </header>
-    <!-- End header -->
-    <div id="write_review" class="w-50 container-fluid d-block align-items-center shadow" data-aos="fade-up">
-        <h1 style="text-align: center;">Write a review</h1>
-        <div class="container-fluid" data-aos="zoom-in" data-aos-delay="100" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <form class="container-fluid w-100">
-                <div class="container-fluid w-100" style="display: flex; flex-direction: column;">
-                    <div class="mb-3">
-                        <label for="rating_input">Rating</label>
-                        <select class="form-control" id="rating_input">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
+        </header>
+        <!-- End header -->
+        <div id="write_review" class="w-50 container-fluid d-block align-items-center shadow" data-aos="fade-up">
+            <h1 style="text-align: center;">Write a review</h1>
+            <div class="container-fluid" data-aos="zoom-in" data-aos-delay="100" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <form class="container-fluid w-100">
+                    <div class="container-fluid w-100" style="display: flex; flex-direction: column;">
+                        <div class="mb-3">
+                            <label for="rating_input">Rating</label>
+                            <select class="form-control" id="rating_input">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="text_review_input">Write your review</label>
+                            <textarea class="form-control" id="text_review_input" rows="5"></textarea>
+                        </div>
+                        <button id="sendReview_btn" type="button" class="btn btn-primary">Send review</button>
                     </div>
-                    <div class="mb-3">
-                        <label for="text_review_input">Write your review</label>
-                        <textarea class="form-control" id="text_review_input" rows="5"></textarea>
-                    </div>
-                    <button id="sendReview_btn" type="button" class="btn btn-primary">Send review</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init();
-</script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 
-<!-- Bootstrap JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-<script th:inline="javascript">
-    /* Imposta la variabile Thymeleaf `logged` in modo appropriato nel tuo codice HTML */
-    let logged = /*[[${logged}]]*/ false; // Assumiamo un valore booleano
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $('#sendReview_btn').click(function (e) {
+                e.preventDefault();
 
-    /* Imposta la funzionalità onClick per il pulsante "Send review" solo se l'utente è loggato */
-    window.onload = function() {
-        let albumId = /*[[${albumId}]]*/ null;
+                // Raccogli i dati del form
+                const rating = $('#rating_input').val();
+                const text = $('#text_review_input').val();
+                const albumID = /*[[${albumId}]]*/ null;            // Valore inserito da Thymeleaf
+                const username = /*[[${session.username}]]*/ null;  // Valore inserito dalla HttpSession
+                const isAdmin = /*[[${session.isAdmin}]]*/ false;   // Valore inserito dalla HttpSession
 
-        if (albumId == null) {
-            alert("Album not found or details not available.");
-            return;
-        }
-
-        let sendReviewBtn = document.getElementById("sendReview_btn");
-        if (sendReviewBtn != null) {
-            sendReviewBtn.addEventListener("click", function() {
-                if (logged) {
-                    // Recupera i valori dalla form
-                    let rating = document.getElementById("rating_input").value;
-                    let textReview = document.getElementById("text_review_input").value;
-
-                    // Esegui la richiesta POST o GET al tuo endpoint per inviare la recensione
-                    // Sostituisci 'YOUR_ENDPOINT_URL' con l'URL corretto del tuo endpoint
-                    // Assicurati di includere i dati della form come parametri o corpo della richiesta
-                    let url = 'YOUR_ENDPOINT_URL' + '?albumId=' + albumId + '&rating=' + rating + '&textReview=' + textReview;
-
-                    // Esegui la richiesta GET (o POST) quando il pulsante viene cliccato
-                    window.location.href = url;
-                } else {
-                    alert("You must be logged in to submit a review.");
+                // Controllo se tutti i campi sono stati riempiti
+                if (!rating || !text) {
+                    alert("Please fill in all fields.");
+                    return;
                 }
+                if(!username) {
+                    alert("You must be logged in to write a review.");
+                    return;
+                }
+                if(isAdmin) {
+                    alert("Admins cannot write reviews.");
+                    return;
+                }
+                if(!albumID) {
+                    alert("An error occurred while loading the page.");
+                    return;
+                }
+
+                // Prepara i dati da inviare
+                const formData = {
+                    rating: rating,
+                    text: text,
+                    albumID: albumID,
+                    username: username
+                };
+
+                // Invia la richiesta al server
+                $.ajax({
+                    url: '/api/writeReview',
+                    data: formData,
+                    dataType: 'json',
+                    method: 'POST',
+
+                    success: function(response) {
+                        handleOutcome(response.outcome_code);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("ERROR: " + error);
+                    }
+                });
             });
-        } else {
-            alert("sendReviewBtn not found");
+        });
+
+        function handleOutcome(outcomeCode) {
+            switch(outcomeCode) {
+                case 0:
+                    alert('Review written successfully');
+                    window.location.href = '/albumDetails?albumId=' + /*[[${albumId}]]*/ null;
+                    break;
+                case 1:
+                    alert('You have already written a review for this album');
+                    break;
+                case 2:
+                    alert('Error while writing the review');
+                    break;
+                case 3:
+                    alert('Error while connecting to the database');
+                    break;
+                default:
+                    alert('An unexpected error occurred');
+                    break;
+            }
         }
-    }
-</script>
+    </script>
 </body>
 </html>

@@ -79,7 +79,8 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center" id="like_container">
-                                    <button class="btn btn-primary" type="button" id="like_song_btn" th:disabled="${not logged}">
+                                    <button class="btn btn-primary like-song-btn" type="button" th:disabled="${not logged}"
+                                            th:data-songtitle="${song.name}" th:data-songcoverurl="${albumDetails.coverURL}">
                                         <i class="fas fa-heart me-1"></i>Like
                                     </button>
                                 </div>
@@ -113,38 +114,103 @@
 
         <!-- JavaScript per la gestione dei pulsanti -->
         <script th:inline="javascript">
-            // Recupera l'albumId dalla variabile albumDetails.id
-            let albumId = /*[[${albumDetails.id}]]*/ null;
-            let logged = /*[[${logged}]]*/ false;
+            $(document).ready(function () {
+                // Recupera l'albumId dalla variabile albumDetails.id
+                let albumId = /*[[${albumDetails.id}]]*/ null;
+                let logged = /*[[${logged}]]*/ false;
+                let username = /*[[${session.username}]]*/ null;
 
-            if (albumId == null) {
-                alert("albumId is null");
-            }
-            else {
-                /* Imposto la funzionalità onClick per il btn View All Reviews */
-                let viewAllReviewBtn = document.getElementById("albumReviews_btn");
-                if (viewAllReviewBtn != null) {
-                    viewAllReviewBtn.addEventListener("click", function() {
-                        // Esegui la richiesta GET quando il pulsante viene cliccato
-                        window.location.href = '/albumReviews?albumId=' + albumId;
-                    });
+                if (albumId == null) {
+                    alert("albumId is null");
                 }
-                else
-                    alert("viewAllReviewBtn not found");
+                else {
+                    /* Imposto la funzionalità onClick per il btn View All Reviews */
+                    let viewAllReviewBtn = document.getElementById("albumReviews_btn");
+                    if (viewAllReviewBtn != null) {
+                        viewAllReviewBtn.addEventListener("click", function () {
+                            // Esegui la richiesta GET quando il pulsante viene cliccato
+                            window.location.href = '/albumReviews?albumId=' + albumId;
+                        });
+                    } else
+                        alert("viewAllReviewBtn not found");
 
-                /* Imposto la funzionalità onClick per il btn Write a Review */
-                let writeReviewBtn = document.getElementById("writeReview_btn");
-                if(logged === false)
-                    ;   // Non fare nulla
-                else if (writeReviewBtn !== null) {
-                    writeReviewBtn.addEventListener("click", function() {
-                        // Esegui la richiesta GET quando il pulsante viene cliccato
-                        window.location.href = '/writeReview?albumId=' + albumId;
-                    });
+                    /* Imposto la funzionalità onClick per il btn Write a Review */
+                    let writeReviewBtn = document.getElementById("writeReview_btn");
+                    if (logged === false)
+                        ;   // Non fare nulla
+                    else if (writeReviewBtn !== null) {
+                        writeReviewBtn.addEventListener("click", function () {
+                            // Esegui la richiesta GET quando il pulsante viene cliccato
+                            window.location.href = '/writeReview?albumId=' + albumId;
+                        });
+                    } else
+                        alert("writeReviewBtn not found");
+
+                    // Controlla se il nome utente è disponibile
+                    if (logged === true && username != null) {
+
+                        // Imposto la funzionalità onClick ai pulsanti "Like" degli album
+                        const likeAlbumBtn = document.getElementById("like_album_btn");
+                        likeAlbumBtn.addEventListener("click", function () {
+                            alert("like_album_btn clicked");
+                            let albumCoverUrl = /*[[${albumDetails.coverURL}]]*/ null;
+
+                            console.log("like_album_btn clicked\nalbumCoverUrl: " + albumCoverUrl + "\nusername: " + username);
+                            $.ajax({
+                                url: '/api/addLikesAbum',
+                                dataType: 'json',
+                                type: 'POST',
+                                data: {
+                                    username: username,
+                                    coverURL: albumCoverUrl
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    if (response.outcome_code == 0)
+                                        alert("You correctly liked this album");
+                                    else if (response.outcome_code == 1)
+                                        alert("Like addition unsuccessful");
+                                    else
+                                        alert("Error occurred while adding like to album");
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(error);
+                                }
+                            });
+                        });
+
+                        // Imposto la funzionalità onClick ai pulsanti "Like" delle canzoni
+                        $('.like-song-btn').click(function () {
+                            var songTitle = $(this).data('songtitle');
+                            var songCoverUrl = $(this).data('songcoverurl');
+
+                            console.log("Like song button clicked\nSong Title: " + songTitle + "\nCover URL: " + songCoverUrl);
+                            $.ajax({
+                                url: '/api/addLikesSong',
+                                dataType: 'json',
+                                type: 'POST',
+                                data: {
+                                    username: username,
+                                    title: songTitle,
+                                    coverURL: songCoverUrl
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    if(response.outcome_code == 0)
+                                        alert("You correctly liked the song '" + songTitle + "'");
+                                    else if(response.outcome_code == 1)
+                                        alert("Like addition unsuccessful");
+                                    else
+                                        alert("Error occurred while adding like to song");
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log("Error: " + error);
+                                }
+                            });
+                        });
+                    }
                 }
-                else
-                    alert("writeReviewBtn not found");
-            }
+            });
         </script>
 
         <!-- AOS JavaScript -->
