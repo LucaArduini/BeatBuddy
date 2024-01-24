@@ -37,6 +37,32 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 
+#followed_users_btn:hover {
+    background-color: #057f6a;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 20px 3px #2828286b;
+}
+
+#show_follower_btn:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#liked_albums_btn:hover {
+    background-color: #057f6a;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 20px 3px #2828286b;
+}
+
+#liked_songs_btn:hover {
+    background-color: #057f6a;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 20px 3px #2828286b;
+}
+
 #user-details div {
     background-color: rgba(40, 40, 40, 0.45);
     border: 1px solid #282828; /* Colore e spessore del bordo desiderati */
@@ -387,10 +413,6 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-grow: 1;
     gap: 2px;
-}
-
-#follow-btn, #unfollow-btn, #bann-btn {
-    flex-grow: 1;
 }
 
 #liked-albums {

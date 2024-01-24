@@ -53,6 +53,9 @@
                             <textarea class="form-control" id="text_review_input" rows="5"></textarea>
                         </div>
                         <button id="sendReview_btn" type="button" class="btn btn-primary">Send review</button>
+                        <a th:href="@{/albumDetails(albumId=${albumId})}" class="btn btn-outline-secondary mt-1">
+                            Return to the album page
+                        </a>
                     </div>
                 </form>
             </div>

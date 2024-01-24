@@ -39,16 +39,16 @@
         </header>
         <section id="hero" class="d-flex flex-column align-items-center container-fluid p-3">
             <div id="all_reviews" class="gap-1 d-flex flex-column container-fluid justify-content-center" data-aos="zoom-in" data-aos-delay="150">
-                <div class="album-review d-flex flex-column p-3">
+                <div th:each="review : ${reviews}" class="album-review d-flex flex-column p-3">
                     <div class="d-flex align-items-center gap-3">
-                        <h4 id="user_review">User: Ciao</h4>
+                        <h4 id="user_review"><span style="color: #a412ff;">User: </span><span th:text="${review.username}"></span></h4>
                         <h5 id="rating_review" class="text-bg-dark p-1 ps-3 pe-3">
                             <i class="fas fa-star me-1"></i>
-                            <span>5</span>
+                            <span th:text="${review.rating}"></span>
                         </h5>
-                        <h6 id="timestamp" style="font-style: italic;">24-12-2000 12:14:44</h6>
+                        <h6 id="timestamp" style="font-style: italic;" th:text="${review.printableDate}"></h6>
                     </div>
-                    <div id="text_review">Ciao a tutti</div>
+                    <div id="text_review" th:text="${review.text}">Ciao a tutti</div>
                 </div>
             </div>
         </section><!-- End Hero -->
