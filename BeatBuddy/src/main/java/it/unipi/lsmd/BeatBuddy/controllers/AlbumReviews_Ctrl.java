@@ -27,7 +27,6 @@ public class AlbumReviews_Ctrl {
                                  @RequestParam("albumId") String albumId) {
 
         boolean albumFound = album_Repo.existsById(albumId);
-        System.out.println("albumFound: " + albumFound);
         if(albumFound){
             List<Review> reviews = review_Repo.getReviewsByAlbumID(albumId);
             boolean reviewsFound = (reviews != null && !reviews.isEmpty());
