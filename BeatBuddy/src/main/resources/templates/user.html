@@ -65,11 +65,11 @@
                         </div>
                     </div>
                     <div id="user-review" style="background-color: rgba(40, 40, 40, 0.45); color: white; border-radius: 10px; padding: 10px; margin-top: 5px;">
-                        <h1><span th:text="${userDetails.username}"></span> last reviews</h1>
+                        <h1><span style="color: #282828; font-weight: bold;" th:text="${userDetails.username}"></span> last reviews</h1>
                         <div th:each="review : ${userDetails.reviewedAlbums}" class="d-flex gap-1 p-1 align-items-center mb-1" style="background-color: rgba(250, 250, 250, 0.45); color: #282828; border-radius: 10px">
                             <img class="album-cover shadow" th:src="${review.coverUrl}" style="max-width: 100px;">
                             <div class="d-flex flex-column">
-                                <h5 style="font-weight: bold; margin-bottom: 0;" id="album-title" th:text="${review.album}"></h5>
+                                <h5 style="font-weight: bold; margin-bottom: 0;" id="album-title" th:text="${review.albumTitle}"></h5>
                                 <p style="font-size: large; margin-bottom: 0;" id="album-artists" th:text="${review.artist}"></p>
                                 <div id="rating-review">
                                     <i class="fa fa-star"></i>

@@ -31,12 +31,14 @@ public class UserPage_Ctrl {
         }
 
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
-        model.addAttribute("role", session.getAttribute("role"));
 
-        if(!optionalUser.isEmpty()){
-            model.addAttribute("userDetails", optionalUser.get());
-            return "user";
+        if(Utility.isLogged(session)){
+            if(!optionalUser.isEmpty()){
+                model.addAttribute("userDetails", optionalUser.get());
+                return "user";
+            }else
+                return "error/userNotFound";
         }else
-            return "error/userNotFound";
+            return "error/youMustBeLogged";
     }
 }
