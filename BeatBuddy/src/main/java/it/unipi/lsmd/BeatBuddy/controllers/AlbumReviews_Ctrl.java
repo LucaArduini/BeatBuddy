@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class albumReviews_Ctrl {
+public class AlbumReviews_Ctrl {
 
     @Autowired
     Album_Repo album_Repo;
@@ -27,6 +27,7 @@ public class albumReviews_Ctrl {
                                  @RequestParam("albumId") String albumId) {
 
         boolean albumFound = album_Repo.existsById(albumId);
+        System.out.println("albumFound: " + albumFound);
         if(albumFound){
             List<Review> reviews = review_Repo.getReviewsByAlbumID(albumId);
             boolean reviewsFound = (reviews != null && !reviews.isEmpty());
