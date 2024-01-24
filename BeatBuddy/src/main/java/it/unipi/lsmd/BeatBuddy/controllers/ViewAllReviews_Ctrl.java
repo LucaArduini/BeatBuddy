@@ -45,6 +45,6 @@ public class ViewAllReviews_Ctrl {
 
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
-        return "test/viewAllReviews";   //### LORE modifica questa riga
+        return "albumReviews";
     }
 }

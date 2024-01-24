@@ -22,6 +22,27 @@ h1, h2, h3, h4, h5, h6 {
 /*-------------------------------------------------------------
 # Main container
 --------------------------------------------------------------*/
+.container-white {
+    background-color: #ffffff42;
+    border-radius: 10px;
+}
+
+/* Dimensione massima dell'immagine */
+#album-cover {
+    width: 15%;
+}
+
+/* Pulsante View all your reviews */
+#view_all_review_btn {
+    width: 100%;
+}
+
+#user-details div {
+    background-color: rgba(40, 40, 40, 0.45);
+    border: 1px solid #282828; /* Colore e spessore del bordo desiderati */
+    padding: 5px; /* Spazio interno per separare il contenuto dal bordo */
+}
+
 .main {
     min-height: 100%;
     background: linear-gradient(45deg, #07c9a9ba 0%, #a412ffe5 100%), url("../img/bg.jpg") center center no-repeat;

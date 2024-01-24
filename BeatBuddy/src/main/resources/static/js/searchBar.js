@@ -23,7 +23,7 @@ function loadSearchBar(){
         "</section>" +
         "<nav id=\"navbar\" class=\"navbar justify-content-center g-col-3\">" +
         "<ul class=\"nav nav-underline\">" +
-        "<li class=\"nav-item\" role=\"presentation\">" +
+        "<li id=\"home_controller\" class=\"nav-item\" role=\"presentation\">" +
         "<a class=\"nav-link active\" href=\"/homePage\">Home</a>" +
         "</li>" +
         "<li id=\"discover_controller\" class=\"nav-item\" role=\"presentation\">" +
@@ -40,7 +40,6 @@ function loadSearchBar(){
         "</div>"
     )
     if(value == 'true'){
-        console.log("CIao")
         $("#discover_controller").append(
             "<a class=\"nav-link scrollto\" href=\"/discoverPage\">Discover</a>"
         )
