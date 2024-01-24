@@ -11,12 +11,15 @@ public class HomePage_Ctrl {
 
     @RequestMapping("/homePage")
     public String homePage(HttpSession session,
-                           Model model){
+                           Model model) {
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
-        if(Utility.isLogged(session))
-            return "homePage";
-        else
+        if (Utility.isLogged(session)) {
+            /*if (Utility.isAdmin(session))
+                return "test/accessAllowed";
+            else*/
+                return "homePage";
+        } else
             return "redirect:/";
     }
 }

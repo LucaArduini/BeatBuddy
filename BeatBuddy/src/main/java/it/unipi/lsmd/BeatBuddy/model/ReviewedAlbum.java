@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewedAlbum {
-    private String alumTitle;
+    private String album;
     private String coverUrl;
     private String artist;
     private int rating;

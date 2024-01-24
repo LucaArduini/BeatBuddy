@@ -44,6 +44,9 @@ $(document).ready(function () {
                 else if(category == "artist") {
                     displayArtists(arrayResults);
                 }
+                else if(category == "user") {
+                    displayUser(arrayResults);
+                }
 
                 console.log(arrayResults);
 
@@ -120,5 +123,26 @@ function displayArtists(artists) {
 
         // Aggiungi il div al container
         container.append(artDiv);
+    });
+}
+function displayUser(users){
+    const container = $(".modal-body");
+    container.empty();
+
+    users.forEach(function (user){
+        let usDiv = $("<div id=\"user_info\" class=\"d-flex mb-1 align-items-center\"></div>");
+        usDiv.append($("<i class=\"fa fa-user-circle fa-3x me-3\"></i>"))
+        let usInf = $("<div class=\"d-flex flex-column\"></div>");
+        usDiv.append(usInf);
+        usInf.append($("<h3 id=\"user_name\" style=\"font-weight: bold; margin-bottom: 0;\"></h3>").text(user.username));
+        usInf.append($("<p id=\"user_full_name\"></p>").text(user.name + " " + user.surname));
+
+        // Aggiungi un ascoltatore di eventi click al div dell'album
+        usDiv.click(function() {
+            window.location.href = '/user?username=' + user.username;
+        });
+
+        // Aggiungi il div al container
+        container.append(usDiv);
     });
 }

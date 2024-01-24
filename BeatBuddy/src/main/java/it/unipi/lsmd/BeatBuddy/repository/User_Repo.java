@@ -1,8 +1,10 @@
 package it.unipi.lsmd.BeatBuddy.repository;
 
 import com.google.common.hash.Hashing;
+
 import java.nio.charset.StandardCharsets;
 
+import it.unipi.lsmd.BeatBuddy.DTO.UserDTO;
 import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
 import it.unipi.lsmd.BeatBuddy.model.User;
 import it.unipi.lsmd.BeatBuddy.model.UserForRegistration;
@@ -12,8 +14,11 @@ import it.unipi.lsmd.BeatBuddy.repository.Neo4j.User_Neo4jInterf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -39,6 +44,11 @@ public class User_Repo {
             dae.printStackTrace();
             return Optional.empty();
         }
+    }
+
+    public List<UserDTO> find5UserDTO(String term){
+        Pageable topFive = PageRequest.of(0, 5);
+        return user_RI_MongoDB.findFirst5ByUsernameContaining(term, topFive);
     }
 
     public int insertUser(String name, String surname, String username, String password, String birthDate, String email) {

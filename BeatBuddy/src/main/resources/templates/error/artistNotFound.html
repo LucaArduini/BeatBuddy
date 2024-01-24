@@ -32,11 +32,9 @@
 <body>
 <div class="main d-flex align-items-center justify-content-center">
     <div class="d-flex flex-column row-gap-3 align-items-center">
-        <h1 class="display-2 gap-3">NO REVIEWS AVAILABLE</h1>
-        <h3>There are no reviews for this album.</h3>
-        <a th:href="@{/albumDetails(albumId=${albumId})}">
-            <button class="btn btn-primary">Return to the album page</button>
-        </a>
+        <h1 class="display-2 gap-3"><i class="fa fa-exclamation-triangle me-3"></i>ARTIST NOT FOUND<i class="fa fa-exclamation-triangle ms-3"></i></h1>
+        <h3>Please try again with other parameters.</h3>
+        <button onclick="window.location.href='/homePage'" class="btn btn-primary">Home</button>
     </div>
 </div>
 
