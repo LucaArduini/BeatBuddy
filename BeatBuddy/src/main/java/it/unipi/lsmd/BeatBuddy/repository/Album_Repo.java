@@ -3,7 +3,7 @@ package it.unipi.lsmd.BeatBuddy.repository;
 import it.unipi.lsmd.BeatBuddy.DTO.AlbumDTO;
 import it.unipi.lsmd.BeatBuddy.DTO.SongDTO;
 import it.unipi.lsmd.BeatBuddy.model.Album;
-import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Album_RepoInterf;
+import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Album_MongoInterf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class Album_Repo {
 
     @Autowired
-    private Album_RepoInterf album_RI;
+    private Album_MongoInterf album_RI;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -38,7 +38,6 @@ public class Album_Repo {
 
     public Optional<Album> getAlbumById(String id){
         try {
-            System.out.println(album_RI.findById(id));
             return album_RI.findById(id);
         } catch (DataAccessException dae) {
             dae.printStackTrace();
@@ -46,19 +45,28 @@ public class Album_Repo {
         }
     }
 
-    public Optional<Album> getAlbumIdByTitleAndArtists(String title, List<String> artists) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("title").is(title).and("artists").all(artists));
-        query.fields().include("id");
-
+    public List<Album> getAlbumsByTitleAndArtist(String title, String artist){
         try {
-            Album album = mongoTemplate.findOne(query, Album.class);
-            return album != null ? album_RI.findById(album.getId()) : Optional.empty();
+            return album_RI.findAlbumsByTitleAndArtist(title, artist);
         } catch (DataAccessException dae) {
             dae.printStackTrace();
-            return Optional.empty();
+            return null;
         }
     }
+
+//    public Optional<Album> getAlbumIdByTitleAndArtists(String title, List<String> artists) {
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("title").is(title).and("artists").all(artists));
+//        query.fields().include("id");
+//
+//        try {
+//            Album album = mongoTemplate.findOne(query, Album.class);
+//            return album != null ? album_RI.findById(album.getId()) : Optional.empty();
+//        } catch (DataAccessException dae) {
+//            dae.printStackTrace();
+//            return Optional.empty();
+//        }
+//    }
 
     public List<AlbumDTO> find5AlbumDTO(String term){
         Pageable topFive = PageRequest.of(0, 5);

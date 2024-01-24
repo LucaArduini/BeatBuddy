@@ -13,7 +13,7 @@ function loadSearchBar(){
     console.log(value);
     $(".header").append(
         "<div class=\"container-fluid d-flex align-items-center justify-content-between\">" +
-        "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"homePage\">BeatBuddy</a></h1>" +
+        "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"/homePage\">BeatBuddy</a></h1>" +
         "<section id=\"search-container\" class=\"g-col-3\">" +
         "<form class=\"d-flex\">" +
         "<input class=\"form-control\" type=\"text\" id=\"search_input\" placeholder=\"What are you looking for?\">" +
@@ -27,7 +27,7 @@ function loadSearchBar(){
         "<a class=\"nav-link active\" href=\"/homePage\">Home</a>" +
         "</li>" +
         "<li id=\"discover_controller\" class=\"nav-item\" role=\"presentation\">" +
-        //"<a class=\"nav-link scrollto\" href=\"discoverPage\">Discover</a>" +
+        //"<a class=\"nav-link scrollto\" href=\"/discoverPage\">Discover</a>" +
         "</li>" +
         "<li id=\"user_controller\" class=\"nav-item\">" +
         // "<button class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\" type=\"button\">Logout</button>" +
@@ -41,7 +41,7 @@ function loadSearchBar(){
     )
     if(value == 'true'){
         $("#discover_controller").append(
-            "<a class=\"nav-link scrollto\" href=\"discoverPage\">Discover</a>"
+            "<a class=\"nav-link scrollto\" href=\"/discoverPage\">Discover</a>"
         )
         if(window.location.href.includes("profilePage")){
             $("#user_controller").append(
@@ -49,7 +49,7 @@ function loadSearchBar(){
             )
         }else {
             $("#user_controller").append(
-                "<a href=\"profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>"
+                "<a href=\"/profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>"
             )
         }
     }

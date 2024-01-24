@@ -2,7 +2,7 @@ package it.unipi.lsmd.BeatBuddy.repository;
 
 import it.unipi.lsmd.BeatBuddy.DTO.ArtistDTO;
 import it.unipi.lsmd.BeatBuddy.model.Artist;
-import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Artist_RepoInterf;
+import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Artist_MongoInterf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class Artist_Repo {
 
     @Autowired
-    private Artist_RepoInterf artist_RI;
+    private Artist_MongoInterf artist_RI;
 
     @Autowired
     private MongoTemplate mongoTemplate;

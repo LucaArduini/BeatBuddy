@@ -19,7 +19,7 @@ public class WriteReviewPage_Ctrl {
     @GetMapping("/writeReview")
     public String writeReview(HttpSession session,
                            Model model,
-                           @RequestParam(name = "albumId") String albumId) {
+                           @RequestParam("albumId") String albumId) {
 
         boolean albumFound = album_Repo.existsById(albumId);
         if(albumFound)

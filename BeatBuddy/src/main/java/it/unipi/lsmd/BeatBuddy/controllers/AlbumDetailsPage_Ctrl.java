@@ -23,11 +23,36 @@ public class AlbumDetailsPage_Ctrl {
     Album_Repo album_Repo;
 
     @GetMapping("/albumDetails")
-    public String albumDetails(HttpSession session,
-                               Model model,
-                               @RequestParam(name = "albumId") String albumId) {
+    public String albumDetails(HttpSession session, Model model,
+                               @RequestParam(required = false) String albumId,
+                               @RequestParam(required = false) String artist,
+                               @RequestParam(required = false) String title) {
+        Optional<Album> optionalAlbum;
 
-        Optional<Album> optionalAlbum = album_Repo.getAlbumById(albumId);
+        if (albumId != null) {
+            // Logica per gestire la richiesta basata su albumId
+            optionalAlbum = album_Repo.getAlbumById(albumId);
+        }
+        else if (artist != null && title != null) {
+            // Logica per gestire la richiesta basata su artist e title
+            List<Album> list = album_Repo.getAlbumsByTitleAndArtist(title, artist);
+
+            if(list.size() == 1)
+                optionalAlbum = Optional.of(list.get(0));
+            else if(list.size() > 1) {
+                // Se ci sono più album con lo stesso titolo e artista, prendo il primo
+                optionalAlbum = Optional.of(list.get(0));
+                logger.warn("Multiple albums found with the same title and artist");
+            }
+            else{
+                // Se la lista è vuota
+                optionalAlbum = Optional.empty();
+            }
+        }
+        else {
+            // Caso in cui nessuno dei parametri è fornito
+            return "albumNotFound";
+        }
 
         if(optionalAlbum.isEmpty())
             return "albumNotFound";
@@ -41,25 +66,6 @@ public class AlbumDetailsPage_Ctrl {
         }
 
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
-      
-        return "albumDetails";
-    }
-
-    @GetMapping("/albumDetailsFromArtist")
-    public String albumDetailsFromArtist(HttpSession session,
-                               Model model,
-                               @RequestParam(name = "albumTitle") String albumTitle,
-                               @RequestParam(name = "albumArtist") List<String> albumArtist) {
-        Optional<Album> optionalAlbum = album_Repo.getAlbumIdByTitleAndArtists(albumTitle, albumArtist);
-
-        model.addAttribute("albumFound", (optionalAlbum.isEmpty()) ? false : true);
-        model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
-
-        if(!optionalAlbum.isEmpty())
-            model.addAttribute("albumDetails", optionalAlbum.get());
-        
-      //    QUI DEVO TROVARRMI L'ID DELL'ALBUM, E FARE UN REDIRECT AD ALBUM PAGE
-      // CHE FA LA GET SU QUELL'ID
       
         return "albumDetails";
     }

@@ -6,8 +6,9 @@ import java.nio.charset.StandardCharsets;
 import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
 import it.unipi.lsmd.BeatBuddy.model.User;
 import it.unipi.lsmd.BeatBuddy.model.UserForRegistration;
-import it.unipi.lsmd.BeatBuddy.repository.MongoDB.UserForRegistration_RepoInterf;
-import it.unipi.lsmd.BeatBuddy.repository.MongoDB.User_RepoInterf;
+import it.unipi.lsmd.BeatBuddy.repository.MongoDB.UserForRegistration_MongoInterf;
+import it.unipi.lsmd.BeatBuddy.repository.MongoDB.User_MongoInterf;
+import it.unipi.lsmd.BeatBuddy.repository.Neo4j.User_Neo4jInterf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -18,18 +19,18 @@ import java.util.Optional;
 @Repository
 public class User_Repo {
     @Autowired
-    private User_RepoInterf user_RI;
+    private User_MongoInterf user_RI_MongoDB;
     @Autowired
-    private UserForRegistration_RepoInterf userForRegistration_RI;
+    private UserForRegistration_MongoInterf userForRegistration_RI;
+    @Autowired
+    private User_Neo4jInterf user_RI_Neo4j;
 
-//    @Autowired
-//    private MongoOperations mongoOperations;
-
+//------------------------- FUNZIONI PER MongoDB -------------------------
     public Optional<User> getUserByUsername(String username) {
         try {
             System.out.println("sono qui, cerco l'utente: " + username);
-            System.out.println(user_RI.existsByUsername(username));
-            return user_RI.findByUsername(username);
+            System.out.println(user_RI_MongoDB.existsByUsername(username));
+            return user_RI_MongoDB.findByUsername(username);
         } catch (DataAccessException dae) {
             // Controllo se l'eccezione è relativa a una mancata connessione al database
             if (dae instanceof DataAccessResourceFailureException) {
@@ -42,10 +43,10 @@ public class User_Repo {
 
     public int insertUser(String name, String surname, String username, String password, String birthDate, String email) {
         try {
-            if (user_RI.existsByUsername(username)) {
+            if (user_RI_MongoDB.existsByUsername(username)) {
                 return 1; // Username già esistente
             }
-            if (user_RI.existsByEmail(email)) {
+            if (user_RI_MongoDB.existsByEmail(email)) {
                 return 2; // Email già esistente
             }
 
@@ -83,7 +84,7 @@ public class User_Repo {
     }
 
     public int checkUserDataExistence(String email, String username) {
-        Optional<User> userOpt = user_RI.findByEmailOrUsername(email, username);
+        Optional<User> userOpt = user_RI_MongoDB.findByEmailOrUsername(email, username);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (email.equals(user.getEmail())) {
@@ -95,5 +96,65 @@ public class User_Repo {
         return 0;
     }
 
+//------------------------- FUNZIONI PER Neo4j -------------------------
+    public boolean addFollow(String user1, String user2) {
+        try {
+            user_RI_Neo4j.addFollow(user1, user2);
+            return true;
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removeFollow(String user1, String user2) {
+        try {
+            user_RI_Neo4j.removeFollow(user1, user2);
+            return true;
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean addLikes_A(String username, String coverURL) {
+        try {
+            user_RI_Neo4j.addLikes_A(username, coverURL);
+            return true;
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removeLikes_A(String username, String coverURL) {
+        try {
+            user_RI_Neo4j.removeLikes_A(username, coverURL);
+            return true;
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean addLikes_S(String username, String title, String albumName, String artists) {
+        try {
+            user_RI_Neo4j.addLikes_S(username, title, albumName, artists);
+            return true;
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean removeLikes_S(String username, String title, String albumName, String artists) {
+        try {
+            user_RI_Neo4j.removeLikes_S(username, title, albumName, artists);
+            return true;
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+            return false;
+        }
+    }
 
 }

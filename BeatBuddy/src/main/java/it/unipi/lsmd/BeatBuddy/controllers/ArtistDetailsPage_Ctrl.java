@@ -23,7 +23,7 @@ public class ArtistDetailsPage_Ctrl {
 
     @GetMapping("/artistDetails")
     public String artistDetails(HttpSession session, Model model,
-                               @RequestParam(name = "artistId") String artistId) {
+                               @RequestParam("artistId") String artistId) {
 
         Optional<Artist> optionalArtist = artist_Repo.getArtistById(artistId);
         //Album albumData = optionalAlbum.orElse(null);
