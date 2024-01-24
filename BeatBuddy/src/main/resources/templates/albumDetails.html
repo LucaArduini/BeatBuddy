@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex gap-1">
-                                    <button id="viewAllReviews_btn" class="btn btn-primary mt-1 col-6" type="button">View all the reviews</button>
+                                    <button id="albumReviews_btn" class="btn btn-primary mt-1 col-6" type="button">View all the reviews</button>
                                     <button id="writeReview_btn" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged}">Write a review</button>
                                 </div>
                             </div>
@@ -122,11 +122,11 @@
             }
             else {
                 /* Imposto la funzionalità onClick per il btn View All Reviews */
-                let viewAllReviewBtn = document.getElementById("viewAllReviews_btn");
+                let viewAllReviewBtn = document.getElementById("albumReviews_btn");
                 if (viewAllReviewBtn != null) {
                     viewAllReviewBtn.addEventListener("click", function() {
                         // Esegui la richiesta GET quando il pulsante viene cliccato
-                        window.location.href = '/viewAllReviews?albumId=' + albumId;
+                        window.location.href = '/albumReviews?albumId=' + albumId;
                     });
                 }
                 else

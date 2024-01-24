@@ -51,11 +51,11 @@ public class AlbumDetailsPage_Ctrl {
         }
         else {
             // Caso in cui nessuno dei parametri è fornito
-            return "albumNotFound";
+            return "error/albumNotFound";
         }
 
         if(optionalAlbum.isEmpty())
-            return "albumNotFound";
+            return "error/albumNotFound";
         else {
             Album tmp_album = optionalAlbum.get();
             //calcolo le durate delle canzoni in min e sec

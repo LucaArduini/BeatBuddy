@@ -4,7 +4,7 @@ $(document).ready(function () {
 
         // Procedo con la chiamata AJAX
         $.ajax({
-            url: '/api/viewAllReviews',
+            url: '/api/albumReviews',
             data: DATO_da_inviare,
             dataType: 'json',
             method: 'POST',

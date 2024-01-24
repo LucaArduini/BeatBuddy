@@ -13,7 +13,7 @@ public class AdminPage_Ctrl {
         if (Utility.isAdmin(session)) {
             return "test/accessAllowed";
         } else {
-            return "test/accessDenied";     //###
+            return "error/accessDenied";
         }
     }
 }
