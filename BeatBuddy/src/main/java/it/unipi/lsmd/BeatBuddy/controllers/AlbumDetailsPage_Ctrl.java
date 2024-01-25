@@ -1,7 +1,7 @@
 package it.unipi.lsmd.BeatBuddy.controllers;
 
 import it.unipi.lsmd.BeatBuddy.model.Album;
-import it.unipi.lsmd.BeatBuddy.repository.Album_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -12,15 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Optional;
-
 @Controller
 public class AlbumDetailsPage_Ctrl {
     private static final Logger logger = LoggerFactory.getLogger(ArtistDetailsPage_Ctrl.class);
 
     @Autowired
-    Album_Repo album_Repo;
+    Album_Repo_MongoDB album_RepoMongoDB;
 
     @GetMapping("/albumDetails")
     public String albumDetails(HttpSession session,
@@ -32,11 +29,11 @@ public class AlbumDetailsPage_Ctrl {
 
         if (albumId != null) {
             // Logica per gestire la richiesta basata su albumId
-            album = album_Repo.getAlbumById(albumId);
+            album = album_RepoMongoDB.getAlbumById(albumId);
         }
         else if (artist != null && title != null) {
             // Logica per gestire la richiesta basata su artist e title
-            album = album_Repo.getAlbumByTitleAndArtist(title, artist);
+            album = album_RepoMongoDB.getAlbumByTitleAndArtist(title, artist);
         }
         else {
             // Caso in cui nessuno dei parametri è fornito

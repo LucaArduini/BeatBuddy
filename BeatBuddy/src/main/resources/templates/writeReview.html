@@ -132,16 +132,46 @@
                     window.location.href = '/albumDetails?albumId=' + /*[[${albumId}]]*/ null;
                     break;
                 case 1:
-                    alert('You have already written a review for this album');
+                    //alert("User not logged in.");
+                    window.location.href = '/youMustBeLogged';
                     break;
                 case 2:
-                    alert('Error while writing the review');
+                    alert("Usernames don't match.");
                     break;
                 case 3:
-                    alert('Error while connecting to the database');
+                    //alert("Album doesn't exist.");
+                    window.location.href = '/albumNotFound';
+                    break;
+                case 4:
+                    alert("Rating out of range.");
+                    break;
+                case 5:
+                    alert("User has already written a review for this album.");
+                    break;
+                case 6:
+                    alert("Error while writing the review into the collection reviews.");
+                    break;
+                case 7:
+                    alert("Error while writing the review into the collection users.");
+                    break;
+                case 8:
+                    //alert("Album not found.");
+                    window.location.href = '/albumNotFound';
+                    break;
+                case 9:
+                    alert("Violation of uniqueness constraint.");
+                    break;
+                case 10:
+                    alert("Violation of data integrity.");
+                    break;
+                case 11:
+                    alert("Other exceptions related to data access.");
+                    break;
+                case 12:
+                    alert("Error while connecting to the database.");
                     break;
                 default:
-                    alert('An unexpected error occurred');
+                    alert("Unexpected outcome.");
                     break;
             }
         }

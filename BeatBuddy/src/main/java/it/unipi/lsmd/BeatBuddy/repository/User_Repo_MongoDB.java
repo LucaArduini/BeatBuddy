@@ -15,7 +15,15 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
+import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +35,8 @@ public class User_Repo_MongoDB {
     private User_MongoInterf user_RI_MongoDB;
     @Autowired
     private UserForRegistration_MongoInterf userForRegistration_RI;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public User getUserByUsername(String username) {
         try {
@@ -87,49 +97,21 @@ public class User_Repo_MongoDB {
         }
     }
 
-//    public int insertReviewIntoUser(String albumID, int rating, String username) {
-//        Album targetAlbum = album_Repo.getAlbumById(albumID).orElse(null);
-//        if (targetAlbum == null) {
-//            return 1; // Album non trovato
-//        }
-//
-//        ReviewedAlbum tmp_reviewedAlbum = new ReviewedAlbum(targetAlbum.getTitle(), targetAlbum.getCoverURL(), targetAlbum.getArtistsString(), rating);
-//
-//        try {
-//            int outcome = addReviewedAlbum(username, tmp_reviewedAlbum);
-//            if (outcome != 0) {
-//                return 3; // Errore durante l'inserimento della review
-//            }
-//            return 0; // Inserimento riuscito
-//
-//        } catch (DataAccessException dae) {
-//            if (dae instanceof DataAccessResourceFailureException) {
-//                // Gestione specifica per errori di connessione al database
-//                dae.printStackTrace();
-//                return 2;
-//            } else {
-//                // Gestione generica per altri errori di database
-//                dae.printStackTrace();
-//                return 3;
-//            }
-//        }
-//    }
+    public boolean insertReviewIntoUser(String username, ReviewedAlbum reviewedAlbum) {
+        try {
+            addReviewedAlbumAtStart(username, reviewedAlbum);
+            return true;
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return false;
+        }
+    }
 
-//    public int addReviewedAlbum(String username, ReviewedAlbum tmp_reviewedAlbum){
-//        try {
-//            user_RI_MongoDB.addReviewedAlbum(username, tmp_reviewedAlbum);
-//            System.out.println("Review inserita con successo in username: " + username);
-//            return 0; // Inserimento riuscito
-//        } catch (DataAccessException dae) {
-//            if (dae instanceof DataAccessResourceFailureException) {
-//                // Gestione specifica per errori di connessione al database
-//                dae.printStackTrace();
-//                return 2;
-//            } else {
-//                // Gestione generica per altri errori di database
-//                dae.printStackTrace();
-//                return 3;
-//            }
-//        }
-//    }
+    public void addReviewedAlbumAtStart(String username, ReviewedAlbum reviewedAlbum) {
+        Query query = new Query(Criteria.where("username").is(username));
+        Update update = new Update().push("reviewedAlbums").atPosition(0).each(reviewedAlbum);
+        mongoTemplate.updateFirst(query, update, User.class);
+    }
 }

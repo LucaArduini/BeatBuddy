@@ -10,10 +10,13 @@ public class AdminPage_Ctrl {
 
     @RequestMapping("/adminPage")
     public String adminPage(HttpSession session) {
-        if (Utility.isAdmin(session)) {
-            return "test/accessAllowed";
-        } else {
-            return "error/accessDenied";
-        }
+//        if (!Utility.isLogged(session))
+//            return "error/youMustBeLogged";
+//        else if (Utility.isAdmin(session))
+
+            session.setAttribute("role", "admin");
+            return "test/BOTTONI_ADMIN";
+//        else
+//            return "error/accessDenied";
     }
 }
