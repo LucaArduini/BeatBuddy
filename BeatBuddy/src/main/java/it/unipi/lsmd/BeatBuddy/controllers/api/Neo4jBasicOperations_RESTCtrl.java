@@ -1,6 +1,6 @@
 package it.unipi.lsmd.BeatBuddy.controllers.api;
 
-import it.unipi.lsmd.BeatBuddy.repository.User_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.User_Repo_Neo4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class Neo4jBasicOperations_RESTCtrl {
 
     @Autowired
-    User_Repo user_Repo;
+    User_Repo_Neo4j user_RepoNeo4j;
 
     @PostMapping("/api/addFollow")
     public @ResponseBody String addFollow(
             @RequestParam("user1") String user1,
             @RequestParam("user2") String user2) {
 
-        if(user_Repo.addFollow(user1, user2))
+        if(user_RepoNeo4j.addFollow(user1, user2))
             return "{\"outcome_code\": 0}";
         else
             return "{\"outcome_code\": 1}";
@@ -29,7 +29,7 @@ public class Neo4jBasicOperations_RESTCtrl {
             @RequestParam("user1") String user1,
             @RequestParam("user2") String user2) {
 
-        if(user_Repo.removeFollow(user1, user2))
+        if(user_RepoNeo4j.removeFollow(user1, user2))
             return "{\"outcome_code\": 0}";
         else
             return "{\"outcome_code\": 1}";
@@ -40,7 +40,7 @@ public class Neo4jBasicOperations_RESTCtrl {
             @RequestParam("username") String username,
             @RequestParam("coverURL") String coverURL) {
 
-        if(user_Repo.addLikes_A(username, coverURL))
+        if(user_RepoNeo4j.addLikes_A(username, coverURL))
             return "{\"outcome_code\": 0}";
         else
             return "{\"outcome_code\": 1}";
@@ -52,7 +52,7 @@ public class Neo4jBasicOperations_RESTCtrl {
             @RequestParam("title") String title,
             @RequestParam("coverURL") String coverURL) {
 
-        if(user_Repo.addLikes_S(username, title, coverURL))
+        if(user_RepoNeo4j.addLikes_S(username, title, coverURL))
             return "{\"outcome_code\": 0}";
         else
             return "{\"outcome_code\": 1}";
@@ -63,7 +63,7 @@ public class Neo4jBasicOperations_RESTCtrl {
             @RequestParam("username") String username,
             @RequestParam("coverURL") String coverURL) {
 
-        if(user_Repo.removeLikes_A(username, coverURL))
+        if(user_RepoNeo4j.removeLikes_A(username, coverURL))
             return "{\"outcome_code\": 0}";
         else
             return "{\"outcome_code\": 1}";
@@ -75,7 +75,7 @@ public class Neo4jBasicOperations_RESTCtrl {
             @RequestParam("title") String title,
             @RequestParam("coverURL") String coverURL) {
 
-        if(user_Repo.removeLikes_S(username, title, coverURL))
+        if(user_RepoNeo4j.removeLikes_S(username, title, coverURL))
             return "{\"outcome_code\": 0}";
         else
             return "{\"outcome_code\": 1}";

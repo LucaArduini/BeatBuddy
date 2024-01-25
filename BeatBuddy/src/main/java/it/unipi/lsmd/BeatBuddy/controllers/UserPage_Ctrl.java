@@ -3,7 +3,7 @@ package it.unipi.lsmd.BeatBuddy.controllers;
 import it.unipi.lsmd.BeatBuddy.model.Review;
 import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
 import it.unipi.lsmd.BeatBuddy.model.User;
-import it.unipi.lsmd.BeatBuddy.repository.User_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,16 +20,18 @@ import java.util.stream.Collectors;
 public class UserPage_Ctrl {
 
     @Autowired
-    User_Repo user_Repo;
+    User_Repo_MongoDB user_RepoMongoDB;
 
     @RequestMapping("/user")
     public String discoverPage(HttpSession session,
                                Model model,
-                               @RequestParam(required = false) String username){
-        Optional<User> optionalUser;
+                               @RequestParam("username") String username){
+        User user;
 
         if(username != null){
-            optionalUser = user_Repo.getUserByUsername(username);
+            user = user_RepoMongoDB.getUserByUsername(username);
+            if(user == null)
+                return "error/userNotFound";
         }else{
             return "error/userNotFound";
         }

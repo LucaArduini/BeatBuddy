@@ -19,6 +19,7 @@ public class ProfilePage_Ctrl {
     @RequestMapping("/profilePage")
     public String profilePage(HttpSession session,
                               Model model){
+
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
         if(!Utility.isLogged(session))

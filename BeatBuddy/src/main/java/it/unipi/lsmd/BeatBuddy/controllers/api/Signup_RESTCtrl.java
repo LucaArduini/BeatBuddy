@@ -1,6 +1,7 @@
 package it.unipi.lsmd.BeatBuddy.controllers.api;
 
-import it.unipi.lsmd.BeatBuddy.repository.User_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
+import it.unipi.lsmd.BeatBuddy.repository.User_Repo_Neo4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ public class Signup_RESTCtrl {
     private static final Logger logger = LoggerFactory.getLogger(Login_RESTCtrl.class);
 
     @Autowired
-    User_Repo user_Repo;
+    User_Repo_MongoDB user_RepoMongoDB;
+    @Autowired
+    User_Repo_Neo4j user_RepoNeo4j;
 
     @PostMapping("/api/signup")
     public @ResponseBody String signup(
@@ -28,13 +31,13 @@ public class Signup_RESTCtrl {
         logger.info("Signup attempt from user: " + username);
 
         try {
-            int outcomeM = user_Repo.insertUserMongoDB(name, surname, username, password, birthday, email);
+            int outcomeM = user_RepoMongoDB.insertUser(name, surname, username, password, birthday, email);
             // Se l'inserimento in MongoDB non riesce, non procedere con Neo4j
             if (outcomeM != 0) {
                 return constructOutcomeResponse(outcomeM);
             }
 
-            int outcomeN = user_Repo.insertUserNeo4j(username);
+            int outcomeN = user_RepoNeo4j.insertUser(username);
             // Se l'inserimento in MongoDB ha avuto successo ma quello in Neo4j no
             if (outcomeN != 0) {
                 return "{\"outcome_code\": 6}"; // Inserimento in Neo4j fallito
