@@ -63,13 +63,16 @@ $(document).ready(function () {
                         alert("Error in MongoDB connection.");
                         break;
                     case 4:
-                        alert("Error in Neo4j connection.");
+                        alert("Other error in MongoDB.");
                         break;
                     case 5:
                         alert("Error during user registration in MongoDB.");
                         break;
                     case 6:
                         alert("Error during user registration in Neo4j.");
+                        break;
+                    case 7:
+                        alert("Error in Neo4j connection.");
                         break;
                     default:
                         alert("Unknown error.");

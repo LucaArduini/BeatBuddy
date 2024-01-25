@@ -3,7 +3,7 @@ package it.unipi.lsmd.BeatBuddy.controllers.api;
 import com.google.gson.Gson;
 import it.unipi.lsmd.BeatBuddy.repository.Album_Repo;
 import it.unipi.lsmd.BeatBuddy.repository.Artist_Repo;
-import it.unipi.lsmd.BeatBuddy.repository.User_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class Search_RESTCtrl {
     Artist_Repo artist_Repo;
 
     @Autowired
-    User_Repo user_Repo;
+    User_Repo_MongoDB user_RepoMongoDB;
 
     @GetMapping("/api/search")
     public @ResponseBody String search(@RequestParam("term") String term,
@@ -28,20 +28,20 @@ public class Search_RESTCtrl {
         logger.info("Search attempt: " + term + " in " + category);
 
         if(category.equals("album")){
-            System.out.println(new Gson().toJson(album_Repo.find5AlbumDTO(term)));
-            return new Gson().toJson(album_Repo.find5AlbumDTO(term));
+            System.out.println(new Gson().toJson(album_Repo.find5AlbumsDTO(term)));
+            return new Gson().toJson(album_Repo.find5AlbumsDTO(term));
         }
         else if(category.equals("artist")){
-            System.out.println(new Gson().toJson(artist_Repo.find5ArtistDTO(term)));
-            return new Gson().toJson(artist_Repo.find5ArtistDTO(term));
+            System.out.println(new Gson().toJson(artist_Repo.find5ArtistsDTO(term)));
+            return new Gson().toJson(artist_Repo.find5ArtistsDTO(term));
         }
         else if(category.equals("song")){
-            System.out.println(new Gson().toJson(album_Repo.find5SongDTO(term)));
-            return new Gson().toJson(album_Repo.find5SongDTO(term));
+            System.out.println(new Gson().toJson(album_Repo.find5SongsDTO(term)));
+            return new Gson().toJson(album_Repo.find5SongsDTO(term));
         }
         else if(category.equals("user")){
-            System.out.println(new Gson().toJson(user_Repo.find5UserDTO(term)));
-            return new Gson().toJson(user_Repo.find5UserDTO(term));
+            System.out.println(new Gson().toJson(user_RepoMongoDB.find5UserDTO(term)));
+            return new Gson().toJson(user_RepoMongoDB.find5UserDTO(term));
         }
         else
             return "Invalid category";

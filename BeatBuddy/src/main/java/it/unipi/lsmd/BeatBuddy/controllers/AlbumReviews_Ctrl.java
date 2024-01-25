@@ -36,7 +36,6 @@ public class AlbumReviews_Ctrl {
                     review.setPrintableDate();
                 }
                 model.addAttribute("reviews", reviews);
-                System.out.println("reviews: " + reviews);
             }
             else {
                 model.addAttribute("albumId", albumId);
