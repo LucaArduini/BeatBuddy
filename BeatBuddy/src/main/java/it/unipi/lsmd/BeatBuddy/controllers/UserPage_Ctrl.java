@@ -36,6 +36,8 @@ public class UserPage_Ctrl {
                 if(Utility.isLogged(session)){
                     model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
                     model.addAttribute("userDetails", user);
+                    model.addAttribute("admin", (Utility.isAdmin(session)) ? true : false);
+
                     return "user";
                 }else
                     return "error/youMustBeLogged";

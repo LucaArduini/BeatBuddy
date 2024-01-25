@@ -13,6 +13,6 @@ public class IndexPage_Ctrl {
         if(Utility.isLogged(session))
             return "redirect:/homePage";
         else
-            return "index";
+            return "index_NEW";
     }
 }

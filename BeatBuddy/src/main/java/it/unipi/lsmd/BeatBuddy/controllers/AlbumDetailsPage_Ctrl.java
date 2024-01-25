@@ -54,6 +54,7 @@ public class AlbumDetailsPage_Ctrl {
         }
 
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
+        model.addAttribute("admin", (Utility.isAdmin(session)) ? true : false);
       
         return "albumDetails";
     }
