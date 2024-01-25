@@ -32,11 +32,6 @@ h1, h2, h3, h4, h5, h6 {
     width: 15%;
 }
 
-/* Pulsante View all your reviews */
-#view_all_review_btn {
-    width: 100%;
-}
-
 #followed_users_btn:hover {
     background-color: #057f6a;
     border-radius: 10px;
@@ -556,10 +551,20 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-.modal-body>#song_info:hover, .modal-body>#artist_info:hover, .modal-body>#album_info:hover {
+.modal-body>#song_info:hover, .modal-body>#artist_info:hover, .modal-body>#album_info:hover, .modal-body>#user_info:hover {
     background-color: #cc7aff;
     cursor: pointer;
 }
+
+.modal-body>#user_info {
+    border-radius: 10px;
+    background-color: #2828286e;
+    color: #282828;
+    text-decoration: none;
+    padding: 5px;
+    align-content: center;
+}
+
 .modal-header {
     background-color: #282828;
     color: white;

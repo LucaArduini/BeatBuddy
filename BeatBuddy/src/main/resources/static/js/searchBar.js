@@ -1,5 +1,9 @@
 $(document).ready(function(){
-    categories = ['Song', 'Album', 'Artist', 'User']
+    let value = $("#is_logged").val()
+    if(value == 'true')
+        categories = ['Song', 'Album', 'Artist', 'User']
+    else
+        categories = ['Song', 'Album', 'Artist']
     loadSearchBar()
     for(a in categories) {
         $("#category_input").append(
@@ -10,7 +14,6 @@ $(document).ready(function(){
 })
 function loadSearchBar(){
     let value = $("#is_logged").val();
-    console.log(value);
     $(".header").append(
         "<div class=\"container-fluid d-flex align-items-center justify-content-between\">" +
         "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"/homePage\">BeatBuddy</a></h1>" +

@@ -44,13 +44,13 @@
             <div class="container-fluid p-3 d-flex gap-1">
                 <div class="container-fluid col-6 p-3 container-white">
                     <div class="d-flex align-items-center justify-content-between">
-                        <h1 class="display-3" style="font-weight: bold;" id="username" th:text="${session.username}"></h1>
+                        <h1 class="display-3" style="font-weight: bold;" id="username" th:text="${userDetails.username}"></h1>
                     </div>
                     <div id="user-control">
                         <div id="user-details" class="d-flex" style="color: white;">
-                            <div style="text-align: center; border-radius: 5px 0px 0px 5px;" id="name" class="p-1 col-4">Mario</div>
-                            <div style="text-align: center; border-radius: 0px 0px 0px 0px;" id="surname" class="p-1 col-4">Rossi</div>
-                            <div style="text-align: center; border-radius: 0px 5px 5px 0px;" id="birthday" class="p-1 col-4"><i class="fa fa-calendar me-3"></i>19-05-2000</div>
+                            <div style="text-align: center; border-radius: 5px 0px 0px 5px;" id="name" class="p-1 col-4" th:text="${userDetails.name}"></div>
+                            <div style="text-align: center; border-radius: 0px 0px 0px 0px;" id="surname" class="p-1 col-4" th:text="${userDetails.surname}"></div>
+                            <div style="text-align: center; border-radius: 0px 5px 5px 0px;" id="birthday" class="p-1 col-4"><i class="fa fa-calendar me-3"></i><span th:text="${userDetails.birthDate}"></span></div>
                         </div>
                     </div>
                     <div style="background-color: rgba(40, 40, 40, 0.45); color: white; border-radius: 10px; padding: 10px; margin-top: 5px;">
@@ -63,20 +63,19 @@
 
                         </div>
                     </div>
-                    <div id="user-review" style="background-color: rgba(40, 40, 40, 0.45); color: white; border-radius: 10px; padding: 10px; margin-top: 5px;">
-                        <h1>Your last reviews</h1>
-                        <div class="d-flex gap-1 p-1 align-items-center" style="background-color: rgba(250, 250, 250, 0.45); color: #282828; border-radius: 10px">
-                            <img class="album-cover shadow" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg" style="max-width: 100px;">
+                    <div id="user-review" class="overflow-y-auto" style="background-color: rgba(40, 40, 40, 0.45); color: white; border-radius: 10px; padding: 10px; margin-top: 5px; height: 300px;">
+                        <h1>Your reviews</h1>
+                        <div th:each="review : ${userDetails.reviewedAlbums}" class="d-flex gap-1 p-1 align-items-center" style="background-color: rgba(250, 250, 250, 0.45); color: #282828; border-radius: 10px">
+                            <img class="album-cover shadow" th:src="${review.coverUrl}" style="max-width: 100px;">
                             <div class="d-flex flex-column">
-                                <h5 style="font-weight: bold; margin-bottom: 0;" id="album-title">Calm Music For Stress Relief: Soothing Music For Relaxation, Spa, Massage, Yoga, Meditation, Sleep, Anxiety, Focus, Concentration, Healing, Wellness and Mindfulness</h5>
-                                <p style="font-size: large; margin-bottom: 0;" id="album-artists">Club Dogo</p>
+                                <h5 style="font-weight: bold; margin-bottom: 0;" id="album-title" th:text="${review.albumTitle}"></h5>
+                                <p style="font-size: large; margin-bottom: 0;" id="album-artists" th:text="${review.artist}"></p>
                                 <div id="rating-review">
                                     <i class="fa fa-star"></i>
-                                    <span>3</span>
+                                    <span th:text="${review.rating}"></span>
                                 </div>
                             </div>
                         </div>
-                        <button id="view_all_review_btn" class="btn btn-primary w-100 mt-3" type="button">View all your reviews</button>
                     </div>
                 </div>
                 <div id="liked" class="container-fluid d-flex flex-column col-6 p-3 container-white">
