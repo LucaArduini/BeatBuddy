@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class User_Repo_Neo4j {
-    
+
     @Autowired
     private User_Neo4jInterf user_RI_Neo4j;
 
