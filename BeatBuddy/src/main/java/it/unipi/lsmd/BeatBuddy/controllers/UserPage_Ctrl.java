@@ -32,22 +32,16 @@ public class UserPage_Ctrl {
             user = user_RepoMongoDB.getUserByUsername(username);
             if(user == null)
                 return "error/userNotFound";
+            else{
+                if(Utility.isLogged(session)){
+                    model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
+                    model.addAttribute("userDetails", user);
+                    return "user";
+                }else
+                    return "error/youMustBeLogged";
+            }
         }else{
             return "error/userNotFound";
         }
-
-        model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
-
-        if(Utility.isLogged(session)){
-            if(!optionalUser.isEmpty()){
-                model.addAttribute("userDetails", optionalUser.get());
-                /*List<ReviewedAlbum> allReviews = List.of(optionalUser.get().getReviewedAlbums());
-                List<ReviewedAlbum> firstFiveReviews = allReviews.subList(0, 5);
-                model.addAttribute("reviewedAlbums", firstFiveReviews);*/
-                return "user";
-            }else
-                return "error/userNotFound";
-        }else
-            return "error/youMustBeLogged";
     }
 }

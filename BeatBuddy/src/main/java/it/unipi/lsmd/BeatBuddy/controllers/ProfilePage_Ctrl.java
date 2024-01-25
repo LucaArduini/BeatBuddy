@@ -1,6 +1,6 @@
 package it.unipi.lsmd.BeatBuddy.controllers;
 
-import it.unipi.lsmd.BeatBuddy.repository.User_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ProfilePage_Ctrl {
 
     @Autowired
-    User_Repo user_Repo;
+    User_Repo_MongoDB user_Repo;
 
     @RequestMapping("/profilePage")
     public String profilePage(HttpSession session,
@@ -27,8 +27,8 @@ public class ProfilePage_Ctrl {
         else if(Utility.isAdmin(session))
             return "redirect:/adminPage";
         else{
-            Optional<User> optionalUser = user_Repo.getUserByUsername(Utility.getUsername(session));
-            model.addAttribute("userDetails", optionalUser.get());
+            User optionalUser = user_Repo.getUserByUsername(Utility.getUsername(session));
+            model.addAttribute("userDetails", optionalUser);
             return "profilePage";
         }
     }
