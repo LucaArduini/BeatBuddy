@@ -1,6 +1,5 @@
 package it.unipi.lsmd.BeatBuddy.controllers.api;
 
-import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.repository.User_Repo_Neo4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
