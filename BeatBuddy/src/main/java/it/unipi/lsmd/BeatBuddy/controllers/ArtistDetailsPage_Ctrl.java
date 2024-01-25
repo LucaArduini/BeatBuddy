@@ -22,23 +22,22 @@ public class ArtistDetailsPage_Ctrl {
     Artist_Repo artist_Repo;
 
     @GetMapping("/artistDetails")
-    public String artistDetails(HttpSession session, Model model,
-                               @RequestParam(required = false) String artistId) {
-        Optional<Artist> optionalArtist;
+    public String artistDetails(HttpSession session,
+                                Model model,
+                               @RequestParam("artistId") String artistId) {
+        Artist artist;
 
         if(artistId != null){
-            optionalArtist = artist_Repo.getArtistById(artistId);
+            artist = artist_Repo.getArtistById(artistId);
+            if(artist == null)
+                return "error/artistNotFound";
         }else{
             return "error/artistNotFound";
         }
 
-        model.addAttribute("artistFound", (optionalArtist.isEmpty()) ? false : true);
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
+        model.addAttribute("artistDetails", artist);
 
-        if(!optionalArtist.isEmpty()) {
-            model.addAttribute("artistDetails", optionalArtist.get());
-            return "artist";
-        }else
-            return "error/artistNotFound";
+        return "artist";
     }
 }

@@ -20,6 +20,11 @@ public class WriteReviewPage_Ctrl {
                            Model model,
                            @RequestParam("albumId") String albumId) {
 
+        if(!Utility.isLogged(session))
+            return "error/youMustBeLogged";
+        if(Utility.isAdmin(session))
+            return "error/accessDenied";
+
         boolean albumFound = album_Repo.existsById(albumId);
         if(albumFound)
             model.addAttribute("albumId", albumId);

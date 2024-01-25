@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -31,10 +31,17 @@
 </head>
 <body>
 <div class="main d-flex align-items-center justify-content-center">
-    <div class="d-flex flex-column row-gap-3 align-items-center">
+    <!-- div per gli admin -->
+    <div th:if="${session.role == 'admin'}" class="d-flex flex-column row-gap-3 align-items-center">
+        <h1 class="display-2 gap-3"><i class="fa fa-exclamation-triangle me-3"></i>YOU'RE AN ADMIN<i class="fa fa-exclamation-triangle ms-3"></i></h1>
+        <h3>Admins are not allowed this functionality.</h3>
+        <button onclick="window.location.href='/adminPage'" class="btn btn-primary">Return to admin page</button>
+    </div>
+    <!-- div per gli user -->
+    <div th:unless="${session.role == 'admin'}" class="d-flex flex-column row-gap-3 align-items-center">
         <h1 class="display-2 gap-3"><i class="fa fa-exclamation-triangle me-3"></i>YOU'RE NOT AN ADMIN<i class="fa fa-exclamation-triangle ms-3"></i></h1>
         <h3>You must be an admin to access this page.</h3>
-        <button onclick="window.location.href='/login'" class="btn btn-primary">Return to home page</button>
+        <button onclick="window.location.href='/homePage'" class="btn btn-primary">Return to home page</button>
     </div>
 </div>
 

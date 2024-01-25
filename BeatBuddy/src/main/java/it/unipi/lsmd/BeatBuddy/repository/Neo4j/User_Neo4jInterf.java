@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.repository.query.Query;
 
 public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
 
-    @Query("CREATE (u:User {username: $username})")
+    @Query("MERGE (u:User {username: $username})")
     void createUser(String username);
 
     // cancella l'utente e tutte le relazioni associate ad esso
@@ -31,7 +31,7 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
     void removeLikes_A(String username, String coverURL);
 
     @Query("MATCH (u:User {username: $username}), (s:Song {songName: $songName, coverUrl: $coverUrl}) " +
-            "MERGE (u)-[l:LIKES_S {timestamp: datetime()}]->(s) ")
+            "MERGE (u)-[l:LIKES_S {timestamp: datetime()}]->(s)")
     void addLikes_S(String username, String songName, String coverUrl);
 
     @Query("MATCH (u:User {username: $username})-[r:LIKES_S]->(s:Song {songName: $songName, coverUrl: $coverUrl}) " +

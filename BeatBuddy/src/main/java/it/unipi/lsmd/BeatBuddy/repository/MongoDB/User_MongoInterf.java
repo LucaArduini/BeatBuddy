@@ -15,11 +15,10 @@ public interface User_MongoInterf extends MongoRepository<User, String> {
     Optional<User> findByUsername(String username);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
-    //boolean addReviewedAlbum(String username, ReviewedAlbum tmp_reviewedAlbum);
-
-    @Query(value = "{ 'username': {$regex:  ?0, $options: 'i'} }", fields = "{ 'id': 1, 'username': 1, 'name': 1, 'surname': 1}")
-    List<UserDTO> findFirst5ByUsernameContaining(String term, Pageable pageable);
 
     @Query("{ $or: [ { 'email': ?0 }, { 'username': ?1 } ] }")
     Optional<User> findByEmailOrUsername(String email, String username);
+
+    @Query(value = "{ 'username': {$regex: ?0, $options: 'i'} }", fields = "{ 'id': 1, 'username': 1, 'name': 1, 'surname': 1}")
+    List<UserDTO> findLimitedUsersByUsernameContaining(String term, Pageable pageable);
 }

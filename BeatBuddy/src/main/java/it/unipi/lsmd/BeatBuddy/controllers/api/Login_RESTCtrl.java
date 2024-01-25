@@ -1,7 +1,7 @@
 package it.unipi.lsmd.BeatBuddy.controllers.api;
 
 import it.unipi.lsmd.BeatBuddy.model.User;
-import it.unipi.lsmd.BeatBuddy.repository.User_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class Login_RESTCtrl {
     private static final Logger logger = LoggerFactory.getLogger(Login_RESTCtrl.class);
 
     @Autowired
-    User_Repo user_Repo;
+    User_Repo_MongoDB user_RepoMongoDB;
 
     @PostMapping("/api/login")
     public @ResponseBody String login(HttpSession session,
@@ -28,10 +28,9 @@ public class Login_RESTCtrl {
         logger.info("Login attempt from user: " + username);
 
         try {
-            Optional<User> optionalUser = user_Repo.getUserByUsername(username);
-            //User userData = optionalUser.orElse(null);
+            User user = user_RepoMongoDB.getUserByUsername(username);
 
-            if(optionalUser.isEmpty()){
+            if(user == null){
                 return "{\"outcome_code\": 1}";     // User not found
             }
 
@@ -39,9 +38,10 @@ public class Login_RESTCtrl {
                     .hashString(password, StandardCharsets.UTF_8)
                     .toString();
 
-            if(optionalUser.get().getPassword().equals(hashedPassword)){
+            if(user.getPassword().equals(hashedPassword)){
+                //session.setAttribute("logged", true);
                 session.setAttribute("username", username);
-                session.setAttribute("role", optionalUser.get().isAdmin() ? "admin" : "regUser");
+                session.setAttribute("role", user.isAdmin() ? "admin" : "regUser");
                 return "{\"outcome_code\": 0}";     // Login successful
             }
             else {

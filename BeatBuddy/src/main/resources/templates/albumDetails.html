@@ -50,7 +50,7 @@
                             </div>
                             <div class="d-flex gap-3">
                                 <div id="like_album_container" class="d-flex w-25 align-items-center">
-                                    <button id="like_album_btn" class="btn btn-danger ms-1" type="button" th:disabled="${not logged}">
+                                    <button id="like_album_btn" class="btn btn-danger ms-1" type="button" th:disabled="${not logged or session.role == 'admin'}">
                                         <i class="fas fa-heart me-1"></i>Like
                                     </button>
                                     <div id="number_of_likes_album" class="ms-3" th:text="${albumDetails.likes}"></div>
@@ -79,7 +79,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center" id="like_container">
-                                    <button class="btn btn-primary like-song-btn" type="button" th:disabled="${not logged}"
+                                    <button class="btn btn-primary like-song-btn" type="button" th:disabled="${not logged or session.role == 'admin'}"
                                             th:data-songtitle="${song.name}" th:data-songcoverurl="${albumDetails.coverURL}">
                                         <i class="fas fa-heart me-1"></i>Like
                                     </button>
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="d-flex gap-1">
                                     <button id="albumReviews_btn" class="btn btn-primary mt-1 col-6" type="button">View all the reviews</button>
-                                    <button id="writeReview_btn" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged}">Write a review</button>
+                                    <button id="writeReview_btn" class="btn btn-primary mt-1 col-6" type="button" th:disabled="${not logged or session.role == 'admin'}">Write a review</button>
                                 </div>
                             </div>
                         </div>
@@ -166,8 +166,11 @@
                                 },
                                 success: function (response) {
                                     console.log(response);
-                                    if (response.outcome_code == 0)
+                                    if (response.outcome_code == 0){
+                                        likeAlbumBtn.style.backgroundColor = "green";
+                                        likeAlbumBtn.style.borderColor = "green";
                                         alert("You correctly liked this album");
+                                    }
                                     else if (response.outcome_code == 1)
                                         alert("Like addition unsuccessful");
                                     else
@@ -196,8 +199,10 @@
                                 },
                                 success: function (response) {
                                     console.log(response);
-                                    if(response.outcome_code == 0)
+                                    if(response.outcome_code == 0){
+                                        alert("sono qui");
                                         alert("You correctly liked the song '" + songTitle + "'");
+                                    }
                                     else if(response.outcome_code == 1)
                                         alert("Like addition unsuccessful");
                                     else

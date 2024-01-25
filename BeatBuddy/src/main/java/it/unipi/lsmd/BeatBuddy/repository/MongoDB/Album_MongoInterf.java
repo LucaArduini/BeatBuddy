@@ -14,10 +14,9 @@ public interface Album_MongoInterf extends MongoRepository<Album, String> {
     boolean existsByTitle(String title);
     Optional<Album> findById(String id);
 
+    @Query(value = "{ 'title': ?0, 'artists': { $in: [?1] } }")
+    List<Album> findByTitleAndArtist(String title, String artist);
 
     @Query(value = "{ 'title': { $regex: ?0, $options: 'i' } }", fields = "{ 'id': 1, 'artists': 1, 'coverURL': 1, 'title': 1 }")
-    List<AlbumDTO> findFirst5ByTitleContaining(String term, Pageable pageable);
-
-    @Query(value = "{ 'title': ?0, 'artists': { $in: [?1] } }")
-    List<Album> findAlbumsByTitleAndArtist(String title, String artist);
+    List<AlbumDTO> findLimitedAlbumsByTitleContaining(String term, Pageable pageable);
 }

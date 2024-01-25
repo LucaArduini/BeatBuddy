@@ -23,46 +23,34 @@ public class AlbumDetailsPage_Ctrl {
     Album_Repo album_Repo;
 
     @GetMapping("/albumDetails")
-    public String albumDetails(HttpSession session, Model model,
+    public String albumDetails(HttpSession session,
+                               Model model,
                                @RequestParam(required = false) String albumId,
                                @RequestParam(required = false) String artist,
                                @RequestParam(required = false) String title) {
-        Optional<Album> optionalAlbum;
+        Album album;
 
         if (albumId != null) {
             // Logica per gestire la richiesta basata su albumId
-            optionalAlbum = album_Repo.getAlbumById(albumId);
+            album = album_Repo.getAlbumById(albumId);
         }
         else if (artist != null && title != null) {
             // Logica per gestire la richiesta basata su artist e title
-            List<Album> list = album_Repo.getAlbumsByTitleAndArtist(title, artist);
-
-            if(list.size() == 1)
-                optionalAlbum = Optional.of(list.get(0));
-            else if(list.size() > 1) {
-                // Se ci sono più album con lo stesso titolo e artista, prendo il primo
-                optionalAlbum = Optional.of(list.get(0));
-                logger.warn("Multiple albums found with the same title and artist");
-            }
-            else{
-                // Se la lista è vuota
-                optionalAlbum = Optional.empty();
-            }
+            album = album_Repo.getAlbumByTitleAndArtist(title, artist);
         }
         else {
             // Caso in cui nessuno dei parametri è fornito
             return "error/albumNotFound";
         }
 
-        if(optionalAlbum.isEmpty())
+        if(album == null)
             return "error/albumNotFound";
         else {
-            Album tmp_album = optionalAlbum.get();
             //calcolo le durate delle canzoni in min e sec
-            tmp_album.calculateDurations_MinSec();
+            album.calculateDurations_MinSec();
 
-            model.addAttribute("albumDetails", tmp_album);
-            model.addAttribute("albumTotalDuration", tmp_album.calculateTotalDuration());
+            model.addAttribute("albumDetails", album);
+            model.addAttribute("albumTotalDuration", album.calculateTotalDuration());
         }
 
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);

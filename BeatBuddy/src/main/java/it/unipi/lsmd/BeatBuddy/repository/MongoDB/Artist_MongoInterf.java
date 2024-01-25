@@ -14,5 +14,5 @@ public interface Artist_MongoInterf extends MongoRepository<Artist, String> {
     Optional<Artist> findById(String id);
 
     @Query(value = "{ 'name': { $regex: ?0, $options: 'i' } }", fields = "{ 'id': 1, 'name': 1, 'profilePicUrl': 1 }")
-    List<ArtistDTO> findFirst5ByTitleContaining(String term, Pageable pageable);
+    List<ArtistDTO> findLimitedArtistsByTitleContaining(String term, Pageable pageable);
 }
