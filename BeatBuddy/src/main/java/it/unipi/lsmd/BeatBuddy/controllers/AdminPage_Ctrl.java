@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 public class AdminPage_Ctrl {
 
     @RequestMapping("/adminPage")
+/*
     public String adminPage(HttpSession session,
                             Model model) {
         if (Utility.isAdmin(session)) {
@@ -17,5 +18,15 @@ public class AdminPage_Ctrl {
         } else {
             return "error/accessDenied";
         }
+  */
+    public String adminPage(HttpSession session) {
+//        if (!Utility.isLogged(session))
+//            return "error/youMustBeLogged";
+//        else if (Utility.isAdmin(session))
+
+            session.setAttribute("role", "admin");
+            return "test/BOTTONI_ADMIN";
+//        else
+//            return "error/accessDenied";
     }
 }

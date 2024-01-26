@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Update Likes</title>
+    <style>
+        .update-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .update-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<button class="update-button" id="updateLikesButton">Update Likes</button>
+
+<script>
+    document.getElementById("updateLikesButton").addEventListener("click", function() {
+        fetch('/api/updateNewLikes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                // Include any necessary headers here
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert('Response: ' + data.outcome_code);
+                switch(data.outcome_code) {
+                    case 0:
+                        alert('Update successful!');
+                        break;
+                    case 1:
+                        alert('User not found or unauthorized.');
+                        break;
+                    case 2:
+                        alert('No new likes found.');
+                        break;
+                    case 3:
+                        alert('Error while updating new likes.');
+                        break;
+                    case 10:
+                        alert('Database connection error.');
+                        break;
+                    default:
+                        alert('Unknown error occurred.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred during the request.');
+            });
+    });
+</script>
+</body>
+</html>
