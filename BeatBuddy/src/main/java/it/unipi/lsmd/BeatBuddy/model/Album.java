@@ -67,11 +67,3 @@ public class Album {
         return artistsString.substring(0, artistsString.length() - 2);
     }
 }
-
-@Data
-@AllArgsConstructor
-class ReviewLite {
-    private String username;
-    private int rating;
-    private String text;
-}
