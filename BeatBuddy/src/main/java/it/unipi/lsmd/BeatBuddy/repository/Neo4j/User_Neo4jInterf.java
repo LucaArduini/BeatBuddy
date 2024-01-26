@@ -1,8 +1,12 @@
 package it.unipi.lsmd.BeatBuddy.repository.Neo4j;
 
+import it.unipi.lsmd.BeatBuddy.model.Album_Neo4j;
+import it.unipi.lsmd.BeatBuddy.model.Song_Neo4j;
 import it.unipi.lsmd.BeatBuddy.model.User_Neo4j;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
+
+import java.util.List;
 
 
 public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
@@ -38,8 +42,19 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
             "DELETE r")
     void removeLikes_S(String username, String songName, String coverUrl);
 
+    @Query("MATCH (u:User {username: $username})-[:LIKES_A]->(s:Song) " +
+            "RETURN s")
+    List<Song_Neo4j> findLikedSongsByUsername(String username);
 
-//    FUNZIONI PER DEBUG
+    @Query("MATCH (u:User {username: $username})-[:LIKES_S]->(a:Album) " +
+            "RETURN a")
+    List<Album_Neo4j> findLikedAlbumsByUsername(String username);
+
+    @Query("MATCH (u:User {username: $username})-[:FOLLOW]->(followed:User) " +
+            "RETURN followed")
+    List<User_Neo4j> findFollowedUsersByUsername(String username);
+
+    //    FUNZIONI PER DEBUG
     @Query("MATCH (u1:User {username: $user1}), (u2:User {username: $user2}) " +
             "MERGE (u1)-[:FOLLOW]->(u2) " +
             "RETURN count(u1) > 0")
