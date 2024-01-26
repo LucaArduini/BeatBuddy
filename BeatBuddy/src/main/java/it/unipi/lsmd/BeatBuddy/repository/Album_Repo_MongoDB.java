@@ -6,8 +6,6 @@ import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.model.AlbumLikes;
 import it.unipi.lsmd.BeatBuddy.model.ReviewLite;
 import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Album_MongoInterf;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
