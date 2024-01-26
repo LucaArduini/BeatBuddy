@@ -46,13 +46,13 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
             "RETURN COUNT(followed)")
     int countFollowedUsers(String username);
 
-//    @Query("MATCH (u:User {username: $username})-[:LIKES_A]->(s:Song) " +
+//    @Query("MATCH (u:User {username: $username})-[:LIKES_S]->(s:Song) " +
 //            "RETURN s")
 //    List<Song_Neo4j> findLikedSongsByUsername(String username);
 
-    @Query("MATCH (u:User {username: $username})-[:LIKES_S]->(a:Album) " +
+    /*@Query("MATCH (u:User {username: $username})-[:LIKES_A]->(a:Album) " +
             "RETURN a")
-    List<Album_Neo4j> findLikedAlbumsByUsername(String username);
+    List<Album_Neo4j> findLikedAlbumsByUsername(String username);*/
 
     @Query("MATCH (u:User {username: $username})-[:FOLLOW]->(followed:User) " +
             "RETURN followed")

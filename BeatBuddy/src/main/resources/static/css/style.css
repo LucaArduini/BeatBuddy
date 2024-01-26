@@ -665,9 +665,18 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer;
 }
 
-.user_sugg{
+.user_foll{
     border-radius: 10px;
-    background-color: #2828286e;
+    background-color: #ffffff6e;
+    color: #282828;
+    text-decoration: none;
+    padding: 5px;
+    align-content: center;
+}
+
+.album_liked, .song_liked{
+    border-radius: 10px;
+    background-color: #ffffff6e;
     color: #282828;
     text-decoration: none;
     padding: 5px;

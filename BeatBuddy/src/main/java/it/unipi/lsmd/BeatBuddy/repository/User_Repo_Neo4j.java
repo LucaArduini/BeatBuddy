@@ -20,6 +20,9 @@ public class User_Repo_Neo4j {
     @Autowired
     private Neo4jClient neo4jClient;
 
+    @Autowired
+    private Neo4jClient neo4jClient;
+
     public int insertUser(String username){
         try {
             user_RI_Neo4j.createUser(username);
@@ -109,6 +112,28 @@ public class User_Repo_Neo4j {
         }
     }
 
+    /*public Song_Neo4j[] getLikedSongsByUsername(String username) {
+        try {
+            return findLikedSongsByUsername(username);
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return null;
+        }
+    }*/
+
+    /*public Album_Neo4j[] getLikedAlbumsByUsername(String username) {
+        try {
+            return user_RI_Neo4j.findLikedAlbumsByUsername(username).toArray(new Album_Neo4j[0]);
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return null;
+        }
+    }*/
+
     public Song_Neo4j[] getLikedSongsByUsername(String username) {
         try {
             return findLikedSongsByUsername(username);
@@ -122,7 +147,7 @@ public class User_Repo_Neo4j {
 
     public Album_Neo4j[] getLikedAlbumsByUsername(String username) {
         try {
-            return user_RI_Neo4j.findLikedAlbumsByUsername(username).toArray(new Album_Neo4j[0]);
+            return findLikedAlbumsByUsername(username);
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
                 throw dae;
@@ -130,6 +155,17 @@ public class User_Repo_Neo4j {
             return null;
         }
     }
+
+    /*public List<Album_Neo4j> getLikedAlbumsByUsername(String username) {
+        try {
+            return user_RI_Neo4j.findLikedAlbumsByUsername(username);
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return null;
+        }
+    }*/
 
     public List<User_Neo4j> getFollowedUsersByUsername(String username) {
         try {
@@ -144,7 +180,8 @@ public class User_Repo_Neo4j {
 
     public Song_Neo4j[] findLikedSongsByUsername(String username) {
         String cypherQuery = "MATCH (u:User {username: $username})-[:LIKES_S]->(s:Song) " +
-                "RETURN s.id AS id, s.songName AS songName, s.albumName AS albumName, " +
+
+                "RETURN s.songName AS songName, s.albumName AS albumName, " +
                 "s.artistName AS artistName, s.coverUrl AS coverUrl";
 
         List<Song_Neo4j> likedSongs = (List<Song_Neo4j>) neo4jClient
@@ -152,14 +189,32 @@ public class User_Repo_Neo4j {
                 .bind(username).to("username")
                 .fetchAs(Song_Neo4j.class)
                 .mappedBy((typeSystem, record) -> {
-                    String id = record.get("id").asString();
                     String songName = record.get("songName").asString();
                     String albumName = record.get("albumName").asString();
                     String artistName = record.get("artistName").asString();
                     String coverUrl = record.get("coverUrl").asString();
-                    return new Song_Neo4j(id, songName, albumName, artistName, coverUrl);
+                    return new Song_Neo4j(songName, albumName, artistName, coverUrl);
                 }).all();
 
         return likedSongs.toArray(new Song_Neo4j[0]);
+    }
+
+    public Album_Neo4j[] findLikedAlbumsByUsername(String username) {
+        String cypherQuery = "MATCH (u:User {username: $username})-[:LIKES_A]->(a:Album) " +
+                "RETURN a.coverURL AS coverURL, a.albumName AS albumName, " +
+                "a.artistName AS artistName";
+
+        List<Album_Neo4j> likedAlbums = (List<Album_Neo4j>) neo4jClient
+                .query(cypherQuery)
+                .bind(username).to("username")
+                .fetchAs(Album_Neo4j.class)
+                .mappedBy((typeSystem, record) -> {
+                    String albumName = record.get("albumName").asString();
+                    String artistName = record.get("artistName").asString();
+                    String coverURL = record.get("coverURL").asString();
+                    return new Album_Neo4j(albumName, artistName, coverURL);
+                }).all();
+
+        return likedAlbums.toArray(new Album_Neo4j[0]);
     }
 }
