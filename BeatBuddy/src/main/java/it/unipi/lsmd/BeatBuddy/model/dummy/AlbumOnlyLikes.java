@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlbumLikes {
+public class AlbumOnlyLikes {
     private String coverURL;
     private Integer likes;
 }

@@ -42,9 +42,13 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
             "DELETE r")
     void removeLikes_S(String username, String songName, String coverUrl);
 
-    /*@Query("MATCH (u:User {username: $username})-[:LIKES_S]->(s:Song) " +
-            "RETURN s")
-    List<Song_Neo4j> findLikedSongsByUsername(String username);*/
+    @Query("MATCH (u:User {username: $username})-[:FOLLOW]->(followed) " +
+            "RETURN COUNT(followed)")
+    int countFollowedUsers(String username);
+
+//    @Query("MATCH (u:User {username: $username})-[:LIKES_S]->(s:Song) " +
+//            "RETURN s")
+//    List<Song_Neo4j> findLikedSongsByUsername(String username);
 
     /*@Query("MATCH (u:User {username: $username})-[:LIKES_A]->(a:Album) " +
             "RETURN a")
@@ -54,7 +58,7 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
             "RETURN followed")
     List<User_Neo4j> findFollowedUsersByUsername(String username);
 
-    //    FUNZIONI PER DEBUG
+//    FUNZIONI PER DEBUG
     @Query("MATCH (u1:User {username: $user1}), (u2:User {username: $user2}) " +
             "MERGE (u1)-[:FOLLOW]->(u2) " +
             "RETURN count(u1) > 0")

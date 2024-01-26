@@ -17,6 +17,8 @@ public class User_Repo_Neo4j {
 
     @Autowired
     private User_Neo4jInterf user_RI_Neo4j;
+    @Autowired
+    private Neo4jClient neo4jClient;
 
     @Autowired
     private Neo4jClient neo4jClient;
@@ -110,9 +112,9 @@ public class User_Repo_Neo4j {
         }
     }
 
-    /*public List<Song_Neo4j> getLikedSongsByUsername(String username) {
+    /*public Song_Neo4j[] getLikedSongsByUsername(String username) {
         try {
-            return user_RI_Neo4j.findLikedSongsByUsername(username);
+            return findLikedSongsByUsername(username);
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
                 throw dae;
@@ -145,7 +147,6 @@ public class User_Repo_Neo4j {
 
     public Album_Neo4j[] getLikedAlbumsByUsername(String username) {
         try {
-            System.out.println(findLikedAlbumsByUsername(username)[0]);
             return findLikedAlbumsByUsername(username);
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
@@ -179,6 +180,7 @@ public class User_Repo_Neo4j {
 
     public Song_Neo4j[] findLikedSongsByUsername(String username) {
         String cypherQuery = "MATCH (u:User {username: $username})-[:LIKES_S]->(s:Song) " +
+
                 "RETURN s.songName AS songName, s.albumName AS albumName, " +
                 "s.artistName AS artistName, s.coverUrl AS coverUrl";
 

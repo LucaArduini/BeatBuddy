@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class Review_Repo {
+public class Review_Repo_Neo4j {
 
     @Autowired
     private Review_MongoInterf review_RI_MongoDB;
