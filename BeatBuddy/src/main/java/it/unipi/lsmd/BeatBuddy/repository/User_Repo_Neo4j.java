@@ -1,10 +1,15 @@
 package it.unipi.lsmd.BeatBuddy.repository;
 
+import it.unipi.lsmd.BeatBuddy.model.Album_Neo4j;
+import it.unipi.lsmd.BeatBuddy.model.Song_Neo4j;
+import it.unipi.lsmd.BeatBuddy.model.User_Neo4j;
 import it.unipi.lsmd.BeatBuddy.repository.Neo4j.User_Neo4jInterf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class User_Repo_Neo4j {
@@ -98,6 +103,39 @@ public class User_Repo_Neo4j {
                 throw dae;
             dae.printStackTrace();
             return false;
+        }
+    }
+
+    public List<Song_Neo4j> getLikedSongsByUsername(String username) {
+        try {
+            return user_RI_Neo4j.findLikedSongsByUsername(username);
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Album_Neo4j> getLikedAlbumsByUsername(String username) {
+        try {
+            return user_RI_Neo4j.findLikedAlbumsByUsername(username);
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<User_Neo4j> getFollowedUsersByUsername(String username) {
+        try {
+            return user_RI_Neo4j.findFollowedUsersByUsername(username);
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return null;
         }
     }
 }

@@ -28,19 +28,25 @@ public class Search_RESTCtrl {
         logger.info("Search attempt: " + term + " in " + category);
 
         if(category.equals("album")){
+<<<<<<< Updated upstream
             System.out.println(new Gson().toJson(album_Repo.find5AlbumsDTO(term)));
             return new Gson().toJson(album_Repo.find5AlbumsDTO(term));
+=======
+            return new Gson().toJson(album_RepoMongoDB.find5AlbumsDTO(term));
+>>>>>>> Stashed changes
         }
         else if(category.equals("artist")){
-            System.out.println(new Gson().toJson(artist_Repo.find5ArtistsDTO(term)));
             return new Gson().toJson(artist_Repo.find5ArtistsDTO(term));
         }
         else if(category.equals("song")){
+<<<<<<< Updated upstream
             System.out.println(new Gson().toJson(album_Repo.find5SongsDTO(term)));
             return new Gson().toJson(album_Repo.find5SongsDTO(term));
+=======
+            return new Gson().toJson(album_RepoMongoDB.find5SongsDTO(term));
+>>>>>>> Stashed changes
         }
         else if(category.equals("user")){
-            System.out.println(new Gson().toJson(user_RepoMongoDB.find5UserDTO(term)));
             return new Gson().toJson(user_RepoMongoDB.find5UserDTO(term));
         }
         else
