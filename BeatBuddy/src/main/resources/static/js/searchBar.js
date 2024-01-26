@@ -14,6 +14,7 @@ $(document).ready(function(){
 })
 function loadSearchBar(){
     let value = $("#is_logged").val();
+    let admin = $("#is_admin").val();
     $(".header").append(
         "<div class=\"container-fluid d-flex align-items-center justify-content-between\">" +
         "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"/homePage\">BeatBuddy</a></h1>" +
@@ -43,17 +44,24 @@ function loadSearchBar(){
         "</div>"
     )
     if(value == 'true'){
-        $("#discover_controller").append(
-            "<a class=\"nav-link scrollto\" href=\"/discoverPage\">Discover</a>"
-        )
-        if(window.location.href.includes("profilePage")){
+        if(admin != 'true'){
+            $("#discover_controller").append(
+                "<a class=\"nav-link scrollto\" href=\"/discoverPage\">Discover</a>"
+            )
+            if(window.location.href.includes("profilePage")){
+                $("#user_controller").append(
+                    "<button class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\" type=\"button\">Logout</button>"
+                )
+            }else {
+                $("#user_controller").append(
+                    "<a href=\"/profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>"
+                )
+            }
+        }else{
             $("#user_controller").append(
                 "<button class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\" type=\"button\">Logout</button>"
             )
-        }else {
-            $("#user_controller").append(
-                "<a href=\"/profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>"
-            )
+            $("#home_controller").empty()
         }
     }
 
