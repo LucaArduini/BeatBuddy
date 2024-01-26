@@ -1,11 +1,11 @@
 package it.unipi.lsmd.BeatBuddy.controllers.api;
 
-import it.unipi.lsmd.BeatBuddy.model.AlbumLikes;
+import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumLikes;
+import it.unipi.lsmd.BeatBuddy.model.dummy.SongLikes;
 import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_Neo4j;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.dao.DataAccessResourceFailureException;
-
-import java.util.List;
 
 
 @RestController
@@ -33,19 +31,27 @@ public class AdminFunction_RESTCtrl {
         try {
             if(!Utility.isAdmin(session))
                 return "{\"outcome_code\": 1}";     // User not found
-            System.out.println("SONO QUI 0");
 
-            List<AlbumLikes> newLikesAlbums = album_RepoNeo4j.getNewLikesForAllAlbums();
-            if(newLikesAlbums.isEmpty())
-                return "{\"outcome_code\": 2}";     // No new likes found
+            AlbumLikes[] newLikesAlbums = album_RepoNeo4j.getNewLikesForAlbums();
+            if(newLikesAlbums.length == 0)
+                return "{\"outcome_code\": 2}";     // No new likes found (for albums)
             System.out.println("SONO QUI 1");
-            boolean outcome = album_RepoMongoDB.setNewLikesToAlbums(newLikesAlbums);
-            if(!outcome)
+            System.out.println(newLikesAlbums.length);
+            boolean outcome1 = album_RepoMongoDB.setNewLikesToAlbums(newLikesAlbums);
+            if(!outcome1)
                 return "{\"outcome_code\": 3}";     // Error while updating new likes
             System.out.println("SONO QUI 2");
 
-
-            //Triple<String, String, Integer>[] getNewLikesForAllSongs()
+            SongLikes[] newLikesSongs = album_RepoNeo4j.getNewLikesForSongs();
+            if(newLikesSongs.length == 0)
+                return "{\"outcome_code\": 4}";     // No new likes found
+            System.out.println("SONO QUI 3");
+            System.out.println(newLikesSongs.length);
+            System.out.println(newLikesSongs[0]);
+            boolean outcome2 = album_RepoMongoDB.setNewLikesToSongs(newLikesSongs);
+            System.out.println("SONO QUI 4");
+            if(!outcome2)
+                return "{\"outcome_code\": 5}";     // Error while updating new likes
 
             return "{\"outcome_code\": 0}";         // Update successful
 

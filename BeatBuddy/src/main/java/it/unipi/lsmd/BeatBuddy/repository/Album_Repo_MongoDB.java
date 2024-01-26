@@ -3,11 +3,11 @@ package it.unipi.lsmd.BeatBuddy.repository;
 import it.unipi.lsmd.BeatBuddy.DTO.AlbumDTO;
 import it.unipi.lsmd.BeatBuddy.DTO.SongDTO;
 import it.unipi.lsmd.BeatBuddy.model.Album;
-import it.unipi.lsmd.BeatBuddy.model.AlbumLikes;
+import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumLikes;
 import it.unipi.lsmd.BeatBuddy.model.ReviewLite;
+import it.unipi.lsmd.BeatBuddy.model.Song;
+import it.unipi.lsmd.BeatBuddy.model.dummy.SongLikes;
 import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Album_MongoInterf;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -178,14 +179,17 @@ public class Album_Repo_MongoDB {
 //    }
 
     @Transactional
-    public boolean setNewLikesToAlbums(List<AlbumLikes> likeList) {
+    public boolean setNewLikesToAlbums(AlbumLikes[] likeList) {
         try {
-            // Costruire e applicare un'unica operazione di aggiornamento
+            BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Album.class);
+
             for (AlbumLikes like : likeList) {
                 Query query = new Query(Criteria.where("coverURL").is(like.getCoverURL()));
                 Update update = new Update().set("likes", like.getLikes());
-                mongoTemplate.updateMulti(query, update, Album.class);
+                bulkOps.updateOne(query, update);
             }
+
+            bulkOps.execute();
             return true;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
@@ -195,31 +199,24 @@ public class Album_Repo_MongoDB {
         }
     }
 
-//    @Transactional
-//    public boolean setNewLikesToSongs(Triple<String, String, Integer>[] likeList) {
-//        try {
-//            for (Triple<String, String, Integer> like : likeList) {
-//                Album album = getAlbumByTitleAndArtist(like.getLeft(), like.getMiddle());
-//                if (album == null) {
-//                    System.err.println("Album not found: " + like.getLeft() + " - " + like.getMiddle());
-//                    continue;
-//                }
-//
-//                for (SongDTO song : album.getSongs()) {
-//                    if (song.getName().equals(like.getMiddle())) {
-//                        song.setLikes(like.getRight());
-//                        break;
-//                    }
-//                }
-//
-//                album_RI_Mongo.save(album);
-//            }
-//            return true;
-//        } catch (DataAccessException dae) {
-//            if (dae instanceof DataAccessResourceFailureException)
-//                throw dae;
-//            dae.printStackTrace();
-//            return false;
-//        }
-//    }
+    @Transactional
+    public boolean setNewLikesToSongs(SongLikes[] likeList) {
+        try {
+            BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Song.class);
+
+            for (SongLikes like : likeList) {
+                Query query = new Query(Criteria.where("coverURL").is(like.getCoverUrl()));
+                Update update = new Update().set("likes", like.getLikes());
+                bulkOps.updateOne(query, update);
+            }
+
+            bulkOps.execute();
+            return true;
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return false;
+        }
+    }
 }
