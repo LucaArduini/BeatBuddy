@@ -80,9 +80,8 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center" id="like_container">
-                                    <button class="btn btn-primary like-song-btn" type="button" th:disabled="${not logged or session.role == 'admin'}"
-                                            th:data-songtitle="${song.name}" th:data-songcoverurl="${albumDetails.coverURL}">
-                                        <i class="fas fa-heart me-1"></i>Like
+                                    <button class="btn btn-primary like-song-btn" type="button" th:disabled="${not logged or session.role == 'admin'}">
+                                        <i class="fas fa-heart me-1"></i>Like: <span th:text="${song.likes}"></span>
                                     </button>
                                 </div>
                             </div>

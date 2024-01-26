@@ -28,7 +28,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*-------------------------------------------------------------
-# Main container
+# Welcome page container
 --------------------------------------------------------------*/
 #welcome_container {
     padding-top: 8%;
@@ -37,6 +37,92 @@ h1, h2, h3, h4, h5, h6 {
 
 #welcome_container h5 {
     color: #373737;
+}
+
+/*-------------------------------------------------------------
+# Carousel of most popular
+--------------------------------------------------------------*/
+
+.carousel-caption h1 span{
+    color: #a412ff;
+    text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff;
+}
+
+#most_popular_albums, #most_popular_artists, #most_popular_songs {
+    text-align: center;
+}
+
+#most-popular-carousel {
+    overflow: hidden;
+    flex: 1;
+}
+
+#most-popular-carousel .carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #282828cb;
+}
+
+#most-popular-carousel .carousel-item img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    transition: transform 0.2s ease-in-out;
+    transition: background-color 0.2s;
+}
+
+.carousel-control-prev:hover, .carousel-control-next:hover {
+    transform: scale(1.1);
+    background-color: #a412ff91;
+}
+
+.carousel-caption {
+    border-radius: 5px;
+    padding: 10px;
+    transition: all 0.5s;
+    text-decoration: none;
+}
+
+.carousel-caption h5 {
+    color: white;
+    font-size: 1.5em;
+}
+
+.carousel-caption p {
+    color: #f8f9fa;
+    font-size: 1em;
+    display: inline;
+}
+
+.carousel-caption .fa-arrow-right {
+    margin-left: 10px;
+}
+
+.carousel-caption:hover {
+    cursor: pointer;
+    background-color: #a412ff7a;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes arrowAnimation {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(5px);
+    }
+}
+
+.carousel-caption:hover .fa-arrow-right {
+    animation: arrowAnimation 0.5s ease-in-out forwards;
 }
 
 /* Dimensione massima dell'immagine */
@@ -85,10 +171,6 @@ h1, h2, h3, h4, h5, h6 {
 .main .tab-content {
     padding-top: 7%;
     padding-bottom: 7%;
-}
-
-.tab-pane>#most-popular-carousel {
-    border-radius: 10px;
 }
 
 /*#search-result {
@@ -143,79 +225,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #discover:hover .fa-arrow-right {
-    animation: arrowAnimation 0.5s ease-in-out forwards;
-}
-
-/* Stile Generale del Carosello */
-#most-popular-carousel {
-    overflow: hidden; /* Mantiene l'ombra e l'arrotondamento solo sulle immagini */
-}
-
-#most-popular-carousel .carousel-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: #282828cb; /* Scurisce le immagini */
-}
-
-#most-popular-carousel .carousel-item img {
-    width: 100%;
-    height: 600px; /* Nuova altezza per le immagini */
-    object-fit: cover;
-}
-
-.carousel-control-prev, .carousel-control-next {
-    transition: transform 0.2s ease-in-out; /* Transizione morbida per le frecce */
-    transition: background-color 0.2s;
-}
-
-.carousel-control-prev:hover, .carousel-control-next:hover {
-    transform: scale(1.1); /* Effetto zoom leggero al passaggio del mouse */
-    background-color: #a412ff91;
-}
-
-/* Stile delle Didascalie */
-.carousel-caption {
-    border-radius: 5px;
-    padding: 10px;
-    transition: all 0.5s;
-    text-decoration: none;
-}
-
-.carousel-caption h5 {
-    color: white;
-    font-size: 1.5em; /* Dimensione del titolo */
-}
-
-.carousel-caption p {
-    color: #f8f9fa;
-    font-size: 1em; /* Dimensione del testo */
-}
-
-.carousel-caption .fa-arrow-right {
-    margin-left: 10px; /* Aggiunge spazio a sinistra dell'icona */
-}
-
-.carousel-caption:hover {
-    cursor: pointer;
-    background-color: #a412ff7a;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Ombra nera per maggiore contrasto */
-}
-
-@keyframes arrowAnimation {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(5px);
-    }
-}
-
-.carousel-caption:hover .fa-arrow-right {
     animation: arrowAnimation 0.5s ease-in-out forwards;
 }
 
@@ -326,9 +335,7 @@ h1, h2, h3, h4, h5, h6 {
 #search-container {
     padding: 10px;
     border-radius: 20px 20px 20px 20px;
-    margin-top: 15px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 15px auto 20px;
 }
 
 #search-container #search_input {
@@ -656,6 +663,15 @@ h1, h2, h3, h4, h5, h6 {
 #artist_album_songs>.song-container:hover {
     background-color: #07c9a9;
     cursor: pointer;
+}
+
+.user_sugg{
+    border-radius: 10px;
+    background-color: #2828286e;
+    color: #282828;
+    text-decoration: none;
+    padding: 5px;
+    align-content: center;
 }
 
 /*--------------------------------------------------------------
