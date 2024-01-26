@@ -25,8 +25,8 @@ public class AdminPage_Ctrl {
 //        else if (Utility.isAdmin(session))
 
             session.setAttribute("role", "admin");
-            return "test/BOTTONI_ADMIN";
-        //return "adminPage";
+            //return "test/BOTTONI_ADMIN";
+        return "adminPage";
 //        else
 //            return "error/accessDenied";
     }

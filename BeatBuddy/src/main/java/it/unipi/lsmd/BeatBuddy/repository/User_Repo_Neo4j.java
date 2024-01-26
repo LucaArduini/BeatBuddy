@@ -20,9 +20,6 @@ public class User_Repo_Neo4j {
     @Autowired
     private Neo4jClient neo4jClient;
 
-    @Autowired
-    private Neo4jClient neo4jClient;
-
     public int insertUser(String username){
         try {
             user_RI_Neo4j.createUser(username);
