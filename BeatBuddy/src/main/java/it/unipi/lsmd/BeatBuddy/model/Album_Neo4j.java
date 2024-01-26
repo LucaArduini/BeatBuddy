@@ -16,6 +16,6 @@ public class Album_Neo4j {
     private String id;
 
     private String albumName;
-    private String artists;
+    private String artistName;
     private String coverURL;
 }

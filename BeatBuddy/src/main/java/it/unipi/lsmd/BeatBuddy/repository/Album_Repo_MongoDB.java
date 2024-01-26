@@ -3,10 +3,10 @@ package it.unipi.lsmd.BeatBuddy.repository;
 import it.unipi.lsmd.BeatBuddy.DTO.AlbumDTO;
 import it.unipi.lsmd.BeatBuddy.DTO.SongDTO;
 import it.unipi.lsmd.BeatBuddy.model.Album;
-import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumLikes;
+import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumOnlyLikes;
 import it.unipi.lsmd.BeatBuddy.model.ReviewLite;
 import it.unipi.lsmd.BeatBuddy.model.Song;
-import it.unipi.lsmd.BeatBuddy.model.dummy.SongLikes;
+import it.unipi.lsmd.BeatBuddy.model.dummy.SongOnlyLikes;
 import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Album_MongoInterf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,18 +15,19 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.AggregationOptions;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -79,6 +80,74 @@ public class Album_Repo_MongoDB {
             dae.printStackTrace();
             return null;
         }
+    }
+
+//    public List<Album> getAlbumsSortedByRating(){
+//        try {
+//            Pageable topFive = PageRequest.of(0, 5);
+//            return album_RI_Mongo.findAlbumsSortedByRating(topFive);
+//        } catch (DataAccessException dae) {
+//            if (dae instanceof DataAccessResourceFailureException)
+//                throw dae;
+//            dae.printStackTrace();
+//            return null;
+//        }
+//    }
+
+    public List<Album> getAlbumsWithMinimumReviewsAndSortedByRating_AllTime() {
+        int minReviews = 5;
+        Pageable pageable = Pageable.ofSize(5);
+
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.lookup("reviews", "_id", "albumID", "albumReviews"), // Join con la collection reviews
+                Aggregation.unwind("albumReviews", true), // Appiattisce l'array di reviews
+                Aggregation.group("_id")
+                        .first("title").as("title")
+                        .first("artists").as("artists")
+                        .first("coverURL").as("coverURL")
+                        .first("songs").as("songs")
+                        .first("likes").as("likes")
+                        .first("averageRating").as("averageRating")
+                        .first("year").as("year")
+                        .first("lastReviews").as("lastReviews")
+                        .count().as("reviewCount"), // Conta il numero di recensioni
+                Aggregation.match(Criteria.where("reviewCount").gte(minReviews)), // Filtra gli album con almeno 5 recensioni
+                Aggregation.sort(Sort.by(Sort.Direction.DESC, "averageRating")), // Ordina in base alla media delle recensioni
+                Aggregation.limit(pageable.getPageSize()) // Applica la paginazione
+        ).withOptions(AggregationOptions.builder().allowDiskUse(true).build()); // Permette l'utilizzo del disco
+
+        AggregationResults<Album> results = mongoTemplate.aggregate(aggregation, "albums", Album.class);
+        return results.getMappedResults();
+    }
+
+    public List<Album> getAlbumsSortedByLikes_AllTime(){
+        try {
+            Pageable topFive = PageRequest.of(0, 5);
+            return album_RI_Mongo.findAlbumsSortedByLikes_AllTime(topFive);
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<SongDTO> getSongsSortedByLikes_AllTime() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.unwind("songs"), // Appiattisce l'array di canzoni
+                Aggregation.sort(Sort.by(Sort.Direction.DESC, "songs.likes")), // Ordina le canzoni in base ai likes
+                Aggregation.limit(5), // Limita il risultato alle prime 5 canzoni
+                Aggregation.project() // Proietta i campi necessari nel formato SongDTO
+                        .and("songs.name").as("name")
+                        .and("title").as("albumTitle")
+                        .and("_id").as("albumId")
+                        .and("coverURL").as("coverURL")
+                        .and("artists").as("artists")
+                        .and("songs.likes").as("likes")
+        );
+
+        AggregationResults<SongDTO> results = mongoTemplate.aggregate(aggregation, Album.class, SongDTO.class);
+        return results.getMappedResults();
     }
 
     public List<AlbumDTO> find5AlbumsDTO(String term){
@@ -158,11 +227,11 @@ public class Album_Repo_MongoDB {
 //    }
 
     @Transactional
-    public boolean setNewLikesToAlbums(AlbumLikes[] likeList) {
+    public boolean setNewLikesToAlbums(AlbumOnlyLikes[] likeList) {
         try {
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Album.class);
 
-            for (AlbumLikes like : likeList) {
+            for (AlbumOnlyLikes like : likeList) {
                 Query query = new Query(Criteria.where("coverURL").is(like.getCoverURL()));
                 Update update = new Update().set("likes", like.getLikes());
                 bulkOps.updateOne(query, update);
@@ -179,11 +248,11 @@ public class Album_Repo_MongoDB {
     }
 
     @Transactional
-    public boolean setNewLikesToSongs(SongLikes[] likeList) {
+    public boolean setNewLikesToSongs(SongOnlyLikes[] likeList) {
         try {
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Song.class);
 
-            for (SongLikes like : likeList) {
+            for (SongOnlyLikes like : likeList) {
                 Query query = new Query(Criteria.where("coverURL").is(like.getCoverUrl()));
                 Update update = new Update().set("likes", like.getLikes());
                 bulkOps.updateOne(query, update);

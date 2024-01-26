@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SongLikes {
+public class SongOnlyLikes {
     private String coverUrl;
     private String songName;
     private Integer likes;

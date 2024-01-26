@@ -20,6 +20,12 @@ public interface Album_MongoInterf extends MongoRepository<Album, String> {
     @Query(value = "{ 'title': { $regex: ?0, $options: 'i' } }", fields = "{ 'id': 1, 'artists': 1, 'coverURL': 1, 'title': 1 }")
     List<AlbumDTO> findLimitedAlbumsByTitleContaining(String term, Pageable pageable);
 
+    @Query(value = "{}", sort = "{ 'averageRating': -1 }")
+    List<Album> findAlbumsSortedByRating(Pageable pageable);
+
+    @Query(value = "{}", sort = "{ 'likes': -1 }")
+    List<Album> findAlbumsSortedByLikes_AllTime(Pageable pageable);
+
     // NB: Non puoi eseguire un'operazione di aggiornamento direttamente
     // all'interno di un'annotazione @Query
 

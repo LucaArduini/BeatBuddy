@@ -3,7 +3,7 @@ package it.unipi.lsmd.BeatBuddy.controllers.api;
 import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
 import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
-import it.unipi.lsmd.BeatBuddy.repository.Review_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.Review_Repo_Neo4j;
 import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
@@ -22,7 +22,7 @@ public class WriteReview_RESTCtrl {
     private static final Logger logger = LoggerFactory.getLogger(WriteReview_RESTCtrl.class);
 
     @Autowired
-    Review_Repo review_Repo;
+    Review_Repo_Neo4j review_RepoNeo4j;
     @Autowired
     Album_Repo_MongoDB album_RepoMongoDB;
     @Autowired
@@ -45,7 +45,7 @@ public class WriteReview_RESTCtrl {
                 return "{\"outcome_code\": 3}";     // Album doesn't exist
             if(rating < 1 || rating > 5)
                 return "{\"outcome_code\": 4}";     // Rating out of range
-            if(review_Repo.existsByAlbumIDAndUsername(albumID, username))
+            if(review_RepoNeo4j.existsByAlbumIDAndUsername(albumID, username))
                 return "{\"outcome_code\": 5}";     // User has already written a review for this album
 
         // insert della review nella collection reviews
@@ -53,7 +53,7 @@ public class WriteReview_RESTCtrl {
             if(album == null)
                 return "{\"outcome_code\": 3}";     // Album doesn't exist
 
-            boolean outcomeInsertIntoReview = review_Repo.insertReview(rating, text, new ObjectId(album.getId()), username);
+            boolean outcomeInsertIntoReview = review_RepoNeo4j.insertReview(rating, text, new ObjectId(album.getId()), username);
             if(!outcomeInsertIntoReview)
                 return "{\"outcome_code\": 6}";     // Error while writing the review into the collection reviews
 

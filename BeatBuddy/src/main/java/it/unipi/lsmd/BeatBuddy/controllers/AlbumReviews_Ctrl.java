@@ -2,7 +2,7 @@ package it.unipi.lsmd.BeatBuddy.controllers;
 
 import it.unipi.lsmd.BeatBuddy.model.Review;
 import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
-import it.unipi.lsmd.BeatBuddy.repository.Review_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.Review_Repo_Neo4j;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class AlbumReviews_Ctrl {
     @Autowired
     Album_Repo_MongoDB album_RepoMongoDB;
     @Autowired
-    Review_Repo review_Repo;
+    Review_Repo_Neo4j review_RepoNeo4j;
 
     @GetMapping("/albumReviews")
     public String albumReviews(HttpSession session,
@@ -28,7 +28,7 @@ public class AlbumReviews_Ctrl {
 
         boolean albumFound = album_RepoMongoDB.existsById(albumId);
         if(albumFound){
-            List<Review> reviews = review_Repo.getReviewsByAlbumID(albumId);
+            List<Review> reviews = review_RepoNeo4j.getReviewsByAlbumID(albumId);
             boolean reviewsFound = (reviews != null && !reviews.isEmpty());
 
             if (reviewsFound){

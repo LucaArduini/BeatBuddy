@@ -1,7 +1,7 @@
 package it.unipi.lsmd.BeatBuddy.controllers;
 
 import it.unipi.lsmd.BeatBuddy.model.Artist;
-import it.unipi.lsmd.BeatBuddy.repository.Artist_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.Artist_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -12,14 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Optional;
-
 @Controller
 public class ArtistDetailsPage_Ctrl {
     private static final Logger logger = LoggerFactory.getLogger(ArtistDetailsPage_Ctrl.class);
 
     @Autowired
-    Artist_Repo artist_Repo;
+    Artist_Repo_MongoDB artist_RepoMongoDB;
 
     @GetMapping("/artistDetails")
     public String artistDetails(HttpSession session,
@@ -28,7 +26,7 @@ public class ArtistDetailsPage_Ctrl {
         Artist artist;
 
         if(artistId != null){
-            artist = artist_Repo.getArtistById(artistId);
+            artist = artist_RepoMongoDB.getArtistById(artistId);
             if(artist == null)
                 return "error/artistNotFound";
         }else{

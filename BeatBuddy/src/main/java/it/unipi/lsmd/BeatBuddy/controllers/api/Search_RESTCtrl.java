@@ -2,7 +2,7 @@ package it.unipi.lsmd.BeatBuddy.controllers.api;
 
 import com.google.gson.Gson;
 import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
-import it.unipi.lsmd.BeatBuddy.repository.Artist_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.Artist_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ public class Search_RESTCtrl {
     Album_Repo_MongoDB album_RepoMongoDB;
 
     @Autowired
-    Artist_Repo artist_Repo;
+    Artist_Repo_MongoDB artist_RepoMongoDB;
 
     @Autowired
     User_Repo_MongoDB user_RepoMongoDB;
@@ -32,8 +32,8 @@ public class Search_RESTCtrl {
             return new Gson().toJson(album_RepoMongoDB.find5AlbumsDTO(term));
         }
         else if(category.equals("artist")){
-            System.out.println(new Gson().toJson(artist_Repo.find5ArtistsDTO(term)));
-            return new Gson().toJson(artist_Repo.find5ArtistsDTO(term));
+            System.out.println(new Gson().toJson(artist_RepoMongoDB.find5ArtistsDTO(term)));
+            return new Gson().toJson(artist_RepoMongoDB.find5ArtistsDTO(term));
         }
         else if(category.equals("song")){
             System.out.println(new Gson().toJson(album_RepoMongoDB.find5SongsDTO(term)));
