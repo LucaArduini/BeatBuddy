@@ -157,27 +157,6 @@ public class Album_Repo_MongoDB {
 //        mongoTemplate.updateFirst(query, update, Album.class);
 //    }
 
-//    @Transactional
-//    public boolean setNewLikesToAlbums(Pair<String, Integer>[] likeList) {
-//        try {
-//            for (Pair<String, Integer> like : likeList) {
-//                setLikesToAlbum(like.getLeft(), like.getRight());
-//            }
-//            return true;
-//        } catch (DataAccessException dae) {
-//            if (dae instanceof DataAccessResourceFailureException)
-//                throw dae;
-//            dae.printStackTrace();
-//            return false;
-//        }
-//    }
-//
-//    public void setLikesToAlbum(String coverURL, int likes) {
-//        Query query = new Query(Criteria.where("coverURL").is(coverURL));
-//        Update update = new Update().set("likes", likes);
-//        mongoTemplate.updateFirst(query, update, Album.class);
-//    }
-
     @Transactional
     public boolean setNewLikesToAlbums(AlbumLikes[] likeList) {
         try {

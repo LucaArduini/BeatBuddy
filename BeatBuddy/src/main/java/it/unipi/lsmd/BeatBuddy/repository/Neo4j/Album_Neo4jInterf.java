@@ -1,27 +1,24 @@
 package it.unipi.lsmd.BeatBuddy.repository.Neo4j;
 
-import it.unipi.lsmd.BeatBuddy.model.AlbumLikes;
 import it.unipi.lsmd.BeatBuddy.model.Album_Neo4j;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
-import org.neo4j.driver.Record;
-
-import java.util.List;
 
 public interface Album_Neo4jInterf extends Neo4jRepository<Album_Neo4j, String> {
 
-    @Query("MATCH (a:Album) <-[l:LIKES_A]- (:User) " +
-            "WHERE date(l.timestamp) >= date() - duration({days: 1}) " +
-            "WITH a " +
-            "MATCH (a) <-[r:LIKES_A]- (:User) " +
-            "RETURN DISTINCT a.coverURL as coverURL, count(r) as likes ")
-    List<AlbumLikes> getNewLikesForAlbums();
+    @Query("MATCH (a:Album) WHERE a.albumName =~ $albumName RETURN a")
+    Album_Neo4j getAlbumByName(String albumName);
 
-    @Query("MATCH (s:Song) <-[l:LIKES_S]- (:User) " +
-            "WHERE date(l.timestamp) >= date() - duration({days: 1}) " +
-            "WITH s, count(l) as likes " +
-            "RETURN DISTINCT s.coverURL as coverURL, s.songName as songName, likes ")
-    Triple<String, String, Integer>[] getNewLikesForSongs();
+//    @Query("MATCH (a:Album) <-[l:LIKES_A]- (:User) " +
+////            "WHERE date(l.timestamp) >= date() - duration({days: 1}) " +
+////            "WITH a " +
+////            "MATCH (a) <-[r:LIKES_A]- (:User) " +
+//            "RETURN DISTINCT a.coverURL as coverURL, count(l) as likes")
+//    AlbumLikes[] getNewLikesForAlbums();
+
+//    @Query("MATCH (s:Song) <-[l:LIKES_S]- (:User) " +
+////            "WHERE date(l.timestamp) >= date() - duration({days: 1}) " +
+//            "WITH s, count(l) as likes " +
+//            "RETURN DISTINCT s.coverUrl as coverUrl, s.songName as songName, likes")
+//    SongLikes[] getNewLikesForSongs();
 }
