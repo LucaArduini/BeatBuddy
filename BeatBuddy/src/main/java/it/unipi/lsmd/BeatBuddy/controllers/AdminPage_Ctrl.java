@@ -26,6 +26,7 @@ public class AdminPage_Ctrl {
 
             session.setAttribute("role", "admin");
             return "test/BOTTONI_ADMIN";
+        //return "adminPage";
 //        else
 //            return "error/accessDenied";
     }
