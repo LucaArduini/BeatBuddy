@@ -19,6 +19,30 @@ public class Review_Repo {
     @Autowired
     private Review_MongoInterf review_RI_MongoDB;
 
+    public boolean existsByAlbumIDAndUsername(String albumID, String username) {
+        try {
+            return review_RI_MongoDB.existsByAlbumIDAndUsername(new ObjectId(albumID) , username);
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean insertReview(int rating, String text, ObjectId albumObjectId, String username) {
+        try {
+            Review review = new Review(rating, text, albumObjectId, username, new Date());
+            review_RI_MongoDB.save(review);
+            return true;
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return false;
+        }
+    }
+
     public List<Review> getReviewsByAlbumID(String albumID) {
         try {
             ObjectId albumObjectId = new ObjectId(albumID);
@@ -45,31 +69,4 @@ public class Review_Repo {
             return null;
         }
     }
-
-//    public int insertReviewEverywhere(int rating, String text, String albumID, String username) {
-//        try {
-//            ObjectId albumObjectId = new ObjectId(albumID);
-//
-//            // insert della review nella collection reviews
-//            if(review_RI_MongoDB.existsByAlbumIDAndUsername(albumObjectId, username))
-//                return 1;
-//            Review review = new Review(rating, text, albumObjectId, username, new Date());
-//            review_RI_MongoDB.save(review);
-//
-//            // insert della review nella collection users
-//            int outcome = user_Repo.insertReviewIntoUser(albumID, rating, username);
-//            if(outcome != 0)
-//                return 2;
-//
-//            // insert della review nella collection albums (aggiornamento lastReviews)
-////            outcome = album_Repo.insertReviewIntoAlbum(###);
-//
-//
-//
-//            return 0;
-//        } catch (DataAccessException dae) {
-//            dae.printStackTrace();
-//            return 2;
-//        }
-//    }
 }

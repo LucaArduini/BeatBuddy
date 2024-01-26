@@ -10,13 +10,6 @@ public class AdminPage_Ctrl {
 
     @RequestMapping("/adminPage")
     public String adminPage(HttpSession session) {
-<<<<<<< Updated upstream
-        if (Utility.isAdmin(session)) {
-            return "test/accessAllowed";
-        } else {
-            return "error/accessDenied";
-        }
-=======
         // session.setAttribute("role", "admin");
 
         if (!Utility.isLogged(session))
@@ -25,6 +18,5 @@ public class AdminPage_Ctrl {
             return "test/BOTTONI_ADMIN";
         else
             return "error/accessDenied";
->>>>>>> Stashed changes
     }
 }

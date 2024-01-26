@@ -1,6 +1,6 @@
 package it.unipi.lsmd.BeatBuddy.controllers;
 
-import it.unipi.lsmd.BeatBuddy.repository.Album_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class WriteReviewPage_Ctrl {
 
     @Autowired
-    Album_Repo album_Repo;
+    Album_Repo_MongoDB album_RepoMongoDB;
 
     @GetMapping("/writeReview")
     public String writeReview(HttpSession session,
@@ -25,7 +25,7 @@ public class WriteReviewPage_Ctrl {
         if(Utility.isAdmin(session))
             return "error/accessDenied";
 
-        boolean albumFound = album_Repo.existsById(albumId);
+        boolean albumFound = album_RepoMongoDB.existsById(albumId);
         if(albumFound)
             model.addAttribute("albumId", albumId);
         else

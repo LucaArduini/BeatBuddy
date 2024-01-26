@@ -1,7 +1,7 @@
 package it.unipi.lsmd.BeatBuddy.controllers;
 
 import it.unipi.lsmd.BeatBuddy.model.Review;
-import it.unipi.lsmd.BeatBuddy.repository.Album_Repo;
+import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.repository.Review_Repo;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +17,7 @@ import java.util.List;
 public class AlbumReviews_Ctrl {
 
     @Autowired
-    Album_Repo album_Repo;
+    Album_Repo_MongoDB album_RepoMongoDB;
     @Autowired
     Review_Repo review_Repo;
 
@@ -26,7 +26,7 @@ public class AlbumReviews_Ctrl {
                                  Model model,
                                  @RequestParam("albumId") String albumId) {
 
-        boolean albumFound = album_Repo.existsById(albumId);
+        boolean albumFound = album_RepoMongoDB.existsById(albumId);
         if(albumFound){
             List<Review> reviews = review_Repo.getReviewsByAlbumID(albumId);
             boolean reviewsFound = (reviews != null && !reviews.isEmpty());
@@ -47,6 +47,7 @@ public class AlbumReviews_Ctrl {
         }
 
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
+        model.addAttribute("admin", (Utility.isAdmin(session)) ? true : false);
 
         return "albumReviews";
     }

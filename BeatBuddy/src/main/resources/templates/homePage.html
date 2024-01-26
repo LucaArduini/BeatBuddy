@@ -34,7 +34,6 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
     <body>
-        <div th:text="${ruolo}"></div>
         <div class="main">
             <input type="hidden" id="is_logged" th:value="${logged}"/>
             <header class="header sticky-top shadow">
@@ -56,7 +55,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img src="img/best-album.jpg" class="d-block w-100" alt="">
-                        <a href="#" class="carousel-caption d-none d-md-block m-3" style="text-align: center;">
+                        <a href="/mostPopularPage" class="carousel-caption d-none d-md-block m-3" style="text-align: center;">
                             <h1>Most popular <span style="color: #a412ff; text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff;">albums</span></h1>
                             <p style="display: inline;">Explore the top rated and most liked albums.</p>
                             <i class="fa fa-arrow-right" aria-hidden="true"></i> <!-- Icona di freccia -->
@@ -64,7 +63,7 @@
                     </div>
                     <div class="carousel-item">
                         <img src="img/best-artist.jpeg" class="d-block w-100" alt="">
-                        <a href="#" class="carousel-caption d-none d-md-block m-3" style="text-align: center;">
+                        <a href="/mostPopularPage" class="carousel-caption d-none d-md-block m-3" style="text-align: center;">
                             <h1>Most popular <span style="color: #a412ff; text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff;">artists</span></h1>
                             <p style="display: inline;">Explore the artists with the most liked albums and songs and with the top rated albums.</p>
                             <i class="fa fa-arrow-right" aria-hidden="true"></i> <!-- Icona di freccia -->
@@ -72,7 +71,7 @@
                     </div>
                     <div class="carousel-item">
                         <img src="img/best-song.jpg" class="d-block w-100" alt="">
-                        <a href="#" class="carousel-caption d-none d-md-block m-3" style="text-align: center;">
+                        <a href="/mostPopularPage" class="carousel-caption d-none d-md-block m-3" style="text-align: center;">
                             <h1>Most popular <span style="color: #a412ff; text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff;">songs</span></h1>
                             <p style="display: inline;">Explore the appreciated songs.</p>
                             <i class="fa fa-arrow-right" aria-hidden="true"></i> <!-- Icona di freccia -->

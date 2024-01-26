@@ -35,6 +35,7 @@
     <body>
         <div class="main">
             <input type="hidden" id="is_logged" th:value="${session.username != null}"/>
+            <input type="hidden" id="is_admin" th:value="${admin}"/>
             <header class="header sticky-top shadow">
                 
             </header>
