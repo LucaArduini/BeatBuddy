@@ -3,7 +3,7 @@ package it.unipi.lsmd.BeatBuddy.controllers.api;
 import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
 import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
-import it.unipi.lsmd.BeatBuddy.repository.Review_Repo_Neo4j;
+import it.unipi.lsmd.BeatBuddy.repository.Review_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,13 +23,14 @@ public class WriteReview_RESTCtrl {
     private static final Logger logger = LoggerFactory.getLogger(WriteReview_RESTCtrl.class);
 
     @Autowired
-    Review_Repo_Neo4j review_RepoNeo4j;
+    Review_Repo_MongoDB review_RepoNeo4j;
     @Autowired
     Album_Repo_MongoDB album_RepoMongoDB;
     @Autowired
     User_Repo_MongoDB user_Repo_Mongo;
 
     @PostMapping("/api/writeReview")
+    @Transactional
     public @ResponseBody String writeReview(HttpSession session,
                                       @RequestParam("rating") int rating,
                                       @RequestParam("text") String text,

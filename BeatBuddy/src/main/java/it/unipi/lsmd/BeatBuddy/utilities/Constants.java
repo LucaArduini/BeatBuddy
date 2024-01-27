@@ -1,7 +1,14 @@
 package it.unipi.lsmd.BeatBuddy.utilities;
 
+import java.io.File;
+
 public final class Constants {
+    // Folder names for the folders
     public static final String folderName_QueryResults = "cachedQueryResults";
+    public static final String folderName_AdminStats = folderName_QueryResults + File.separator + "adminStats";
+
+    // File names for the statistics for the administrator
+    public static final String fileName_AdminStats = "adminStats.json";
 
     // File names for the query results - Album
     public static final String fileName_RankingAlbumByRating_AllTime = "rankingAlbumWithMinReviewsByAvgRating_AllTime.json";

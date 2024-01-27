@@ -11,10 +11,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.stereotype.Repository;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.stereotype.Repository;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+
+// ... (altri import necessari)
 
 import java.util.List;
 import java.util.Optional;
@@ -52,26 +58,37 @@ public class Artist_Repo_MongoDB {
     }
 
     public List<ArtistWithLikes> getArtistsWithMinAlbumsByAvgRating_AllTime() {
-        Aggregation aggregation = Aggregation.newAggregation(
-                Aggregation.unwind("artists"), // Appiattisce il vettore degli artisti
-                Aggregation.lookup("artists", "artists", "name", "artistDetails"), // Esegue il join con la collection artists
-                Aggregation.unwind("artistDetails", true), // Appiattisce i dettagli degli artisti
-                Aggregation.group("artists")
-                        .avg("averageRating").as("avgRating")
-                        .count().as("albumCount")
-                        .first("artistDetails.profilePicUrl").as("profilePicUrl")
-                        .first("artistDetails.name").as("artistName"),
-                Aggregation.match(Criteria.where("albumCount").gte(3)), // Considera solo artisti con almeno 3 album
-                Aggregation.sort(Sort.by(Sort.Direction.DESC, "avgRating")), // Ordina per valutazione media decrescente
-                Aggregation.limit(5), // Limita a 5 artisti
-                Aggregation.project()
-                        .and("artistName").as("name") // Modifica qui
-                        .and("profilePicUrl").as("profilePicUrl")
-                        .and("avgRating").as("avgRating")
-                        .and("_id").as("id")
+        // Operazioni di aggregazione
+        UnwindOperation unwindOperation = unwind("artists");
+        GroupOperation groupOperation = group("artists")
+                .avg("averageRating").as("avgRating")
+                .count().as("albumCount");
+        MatchOperation matchOperation = match(Criteria.where("albumCount").gte(3));
+        LookupOperation lookupOperation = lookup("artists", "artists", "name", "artistDetails");
+        UnwindOperation unwindDetails = unwind("artistDetails", true);
+        SortOperation sortOperation = sort(Sort.by(Sort.Direction.DESC, "avgRating"));
+        ProjectionOperation finalProjection = project()
+                .and("_id").as("name")
+//                .and("artistDetails.name").as("name")
+                //.and("image").as("profilePicUrl")
+                .and("avgRating").as("avgRating")
+                ;
+
+        // Costruzione dell'aggregazione
+        Aggregation aggregation = newAggregation(
+                unwindOperation,
+                groupOperation,
+                matchOperation,
+                lookupOperation,
+                //unwindDetails,
+                sortOperation,
+                limit(5),
+                finalProjection
         );
 
+        // Esecuzione dell'aggregazione
         AggregationResults<ArtistWithLikes> results = mongoTemplate.aggregate(aggregation, "albums", ArtistWithLikes.class);
+        //System.out.println(results.getMappedResults());
         return results.getMappedResults();
     }
 

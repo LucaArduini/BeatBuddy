@@ -22,7 +22,7 @@ public class ArtistDetailsPage_Ctrl {
     @GetMapping("/artistDetails")
     public String artistDetails(HttpSession session,
                                 Model model,
-                               @RequestParam("artistId") String artistId) {
+                                @RequestParam("artistId") String artistId) {
         Artist artist;
 
         if(artistId != null){

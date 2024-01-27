@@ -15,7 +15,8 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
     void createUser(String username);
 
     // cancella l'utente e tutte le relazioni associate ad esso
-    @Query("MATCH (u:User {username: $username})-[r]-() DELETE u, r")
+    @Query("MATCH (u:User {username: $username})-[r]-() " +
+            "DELETE u, r")
     void deleteUser(String username);
 
     @Query("MATCH (u1:User {username: $user1}), (u2:User {username: $user2}) " +

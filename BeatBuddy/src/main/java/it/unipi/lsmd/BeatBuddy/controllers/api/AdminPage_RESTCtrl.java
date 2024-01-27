@@ -5,10 +5,7 @@ import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.model.ReviewLite;
 import it.unipi.lsmd.BeatBuddy.model.Song;
 import it.unipi.lsmd.BeatBuddy.model.dummy.*;
-import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_MongoDB;
-import it.unipi.lsmd.BeatBuddy.repository.Album_Repo_Neo4j;
-import it.unipi.lsmd.BeatBuddy.repository.Artist_Repo_MongoDB;
-import it.unipi.lsmd.BeatBuddy.repository.Song_Repo_Neo4j;
+import it.unipi.lsmd.BeatBuddy.repository.*;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -20,12 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.dao.DataAccessResourceFailureException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+
 import it.unipi.lsmd.BeatBuddy.utilities.Constants;
 
 import java.util.ArrayList;
@@ -33,32 +26,72 @@ import java.util.List;
 
 
 @RestController
-public class AdminFunction_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(AdminFunction_RESTCtrl.class);
+public class AdminPage_RESTCtrl {
+    private static final Logger logger = LoggerFactory.getLogger(AdminPage_RESTCtrl.class);
 
     @Autowired
     private Album_Repo_MongoDB albumRepo_MongoDB;
     @Autowired
     private Artist_Repo_MongoDB artistRepo_MongoDB;
     @Autowired
+    private Review_Repo_MongoDB reviewRepo_MongoDB;
+    @Autowired
     private Album_Repo_Neo4j albumRepo_Neo4j;
     @Autowired
     private Song_Repo_Neo4j songRepo_Neo4j;
 
-
-    @PostMapping("/api/admin/updateNewLikes")
-    public @ResponseBody String updateNewLikes(HttpSession session){
+    @PostMapping("/api/admin/calculateAdminStats")
+    public @ResponseBody String calculateAdminStats(HttpSession session){
         if(!Utility.isAdmin(session))
             return "{\"outcome_code\": 1}";     // User is not an admin
 
         try {
+            System.out.println(">> START: Getting admin stats...");
+
+            int dailyLikesOnAlbums = albumRepo_Neo4j.getNumberOfDailyLikesOnAlbums();
+            System.out.println("> dailyLikesOnAlbums: " + dailyLikesOnAlbums);
+
+            int dailyLikesOnSongs = albumRepo_Neo4j.getNumberOfDailyLikesOnSongs();
+            System.out.println("> dailyLikesOnSongs: " + dailyLikesOnSongs);
+
+            int dailyReviews = reviewRepo_MongoDB.getNumberOfDailyReviews();
+            System.out.println("> dailyReviews: " + dailyReviews);
+
+            AdminStats adminStats = new AdminStats(dailyLikesOnAlbums, dailyLikesOnSongs, dailyReviews);
+            Utility.writeAdminStats(adminStats);
+
+            System.out.println(">> END: Admin stats calculated successfully");
+
+            //return the json string with the outcome code and the admin stats
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(adminStats);
+            System.out.println("{\"outcome_code\": 0, \"admin_stats\": " + json + "}");
+            return "{\"outcome_code\": 0, \"admin_stats\": " + json + "}";
+
+        } catch (DataAccessResourceFailureException e) {
+            e.printStackTrace();
+            return "{\"outcome_code\": 10}";        // Error while connecting to the database
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"outcome_code\": 11}";        // Error while writing to file
+        }
+    }
+
+    @PostMapping("/api/admin/updateNewLikes")
+    public @ResponseBody String updateNewLikesAndAvgRatings(HttpSession session){
+        if(!Utility.isAdmin(session))
+            return "{\"outcome_code\": 1}";     // User is not an admin
+
+        try {
+            System.out.println(">> START: Updating new likes and average ratings...");
+
             // aggiorna i nuovi likes per gli album
             ArrayList<AlbumOnlyLikes> newLikesAlbums = albumRepo_Neo4j.getNewLikesForAlbums();
             System.out.println("> New likes found (for albums): " + newLikesAlbums.size());
             if(!newLikesAlbums.isEmpty()){
                 boolean outcome1 = albumRepo_MongoDB.setLikesToAlbums(newLikesAlbums.toArray(new AlbumOnlyLikes[0]));
                 if(!outcome1)
-                    return "{\"outcome_code\": 2}";     // Error while updating new likes
+                    return "{\"outcome_code\": 2}";     // Error while updating new likes (for albums)
                 else
                     System.out.println(">> New likes updated successfully (for albums)");
             }
@@ -69,23 +102,27 @@ public class AdminFunction_RESTCtrl {
             if(!newLikesSongs.isEmpty()){
                 boolean outcome2 = albumRepo_MongoDB.setLikesToSongs(newLikesSongs.toArray(new SongOnlyLikes[0]));
                 if(!outcome2)
-                    return "{\"outcome_code\": 3}";     // Error while updating new likes
+                    return "{\"outcome_code\": 3}";     // Error while updating new likes (for songs)
                 else
                     System.out.println(">> New likes updated successfully (for songs)");
             }
 
             // aggiorna gli avgRating degli album che hanno ricevuto nuove recensioni
-            int outcome3 = albumRepo_MongoDB.updateAverageRatingForRecentReviews();
-            if(outcome3 < 0)
-                return "{\"outcome_code\": 6}";     // Error while updating average rating
-            else if(outcome3 > 0)
-                System.out.println(">> Average rating updated successfully");
+            List<AlbumOnlyAvgRating> newAvgRatings = albumRepo_MongoDB.getAverageRatingForRecentReviews();
+            System.out.println("> Found " + newAvgRatings.size() + " albums with recent reviews");
+            if(!newAvgRatings.isEmpty()) {
+                boolean outcome3 = albumRepo_MongoDB.setAverageRatingForRecentReviews(newAvgRatings);
+                if (!outcome3)
+                    return "{\"outcome_code\": 4}";     // Error while updating average rating
+                else
+                    System.out.println(">> Average rating updated successfully");
+            }
 
-            System.out.println(">>> All new likes and average ratings updated successfully");
+            System.out.println(">> END: All new likes and average ratings updated successfully");
             return "{\"outcome_code\": 0}";         // Update successful
 
         } catch (DataAccessResourceFailureException e) {
-            logger.error("Impossibile connettersi al database", e);
+            e.printStackTrace();
             return "{\"outcome_code\": 10}";        // Error while connecting to the database
         }
     }
@@ -97,13 +134,15 @@ public class AdminFunction_RESTCtrl {
             return "{\"outcome_code\": 1}"; // User is not an admin
 
         try {
-            clearRankingsDirectory();
+            Utility.clearRankingsDirectory(Constants.folderName_QueryResults);
         } catch (IOException e) {
             logger.error("Error while clearing rankings directory", e);
             return "{\"outcome_code\": 12}";
         }
 
         try {
+            System.out.println(">> Calculating rankings...");
+
         // MongoDB Queries
 
             // Album
@@ -112,7 +151,7 @@ public class AdminFunction_RESTCtrl {
             if(rankingAlbumByRating_AllTime.isEmpty())
                 return "{\"outcome_code\": 2}"; // No albums found (sorted by rating)
             removeUnusedFieldsFromAlbums(rankingAlbumByRating_AllTime);
-            writeToFile(rankingAlbumByRating_AllTime, Constants.fileName_RankingAlbumByRating_AllTime);
+            Utility.writeToFile(rankingAlbumByRating_AllTime, Constants.fileName_RankingAlbumByRating_AllTime, Constants.folderName_QueryResults);
             System.out.println("> Calcolato con successo 1: " + Constants.fileName_RankingAlbumByRating_AllTime);
 
             //ok
@@ -120,7 +159,7 @@ public class AdminFunction_RESTCtrl {
             if(rankingAlbumByLikes_AllTime.isEmpty())
                 return "{\"outcome_code\": 3}"; // No albums found (sorted by likes)
             removeUnusedFieldsFromAlbums(rankingAlbumByRating_AllTime);
-            writeToFile(rankingAlbumByLikes_AllTime, Constants.fileName_RankingAlbumByLikes_AllTime);
+            Utility.writeToFile(rankingAlbumByLikes_AllTime, Constants.fileName_RankingAlbumByLikes_AllTime, Constants.folderName_QueryResults);
             System.out.println("> Calcolato con successo 2: " + Constants.fileName_RankingAlbumByLikes_AllTime);
 
             // Song
@@ -129,23 +168,23 @@ public class AdminFunction_RESTCtrl {
             List<SongDTO> rankingSongByLikes_AllTime = albumRepo_MongoDB.getSongsByLikes_AllTime();
             if(rankingSongByLikes_AllTime.isEmpty())
                 return "{\"outcome_code\": 4}"; // No songs found (sorted by likes)
-            writeToFile(rankingSongByLikes_AllTime, Constants.fileName_RankingSongByLikes_AllTime);
+            Utility.writeToFile(rankingSongByLikes_AllTime, Constants.fileName_RankingSongByLikes_AllTime, Constants.folderName_QueryResults);
             System.out.println("> Calcolato con successo 3: " + Constants.fileName_RankingSongByLikes_AllTime);
 
             // Artist
-            // no
-            List<ArtistWithLikes> rankingArtistsByAvgRating_AllTime = artistRepo_MongoDB.getArtistsWithMinAlbumsByAvgRating_AllTime();
-            if(rankingArtistsByAvgRating_AllTime.isEmpty())
-                return "{\"outcome_code\": 5}"; // No artists found (sorted by rating)
-            writeToFile(rankingArtistsByAvgRating_AllTime, Constants.fileName_RankingArtistsByAvgRating_AllTime);
-            System.out.println("> Calcolato con successo 4: " + Constants.fileName_RankingArtistsByAvgRating_AllTime);
-
-            // no
-            List<ArtistWithLikes> rankingArtistsByLikes_AllTime = artistRepo_MongoDB.getArtistsByLikes_AllTime();
+//            // no
+//            List<ArtistWithLikes> rankingArtistsByAvgRating_AllTime = artistRepo_MongoDB.getArtistsWithMinAlbumsByAvgRating_AllTime();
+//            if(rankingArtistsByAvgRating_AllTime.isEmpty())
+//                return "{\"outcome_code\": 5}"; // No artists found (sorted by rating)
+//            Utility.writeToFile(rankingArtistsByAvgRating_AllTime, Constants.fileName_RankingArtistsByAvgRating_AllTime, Constants.folderName_QueryResults);
+//            System.out.println("> Calcolato con successo 4: " + Constants.fileName_RankingArtistsByAvgRating_AllTime);
+//
+//            // no
+//            List<ArtistWithLikes> rankingArtistsByLikes_AllTime = artistRepo_MongoDB.getArtistsByLikes_AllTime();
 //            if(rankingArtistsByLikes_AllTime.isEmpty())
 //                return "{\"outcome_code\": 6}"; // No artists found (sorted by likes)
-//            writeToFile(rankingArtistsByLikes_AllTime, Constants.fileName_RankingArtistsByLikes_AllTime);
-            System.out.println("> Calcolato con successo 5: " + Constants.fileName_RankingArtistsByLikes_AllTime);
+//            Utility.writeToFile(rankingArtistsByLikes_AllTime, Constants.fileName_RankingArtistsByLikes_AllTime, Constants.folderName_QueryResults);
+//            System.out.println("> Calcolato con successo 5: " + Constants.fileName_RankingArtistsByLikes_AllTime);
 
         // Neo4j Queries
 
@@ -154,7 +193,7 @@ public class AdminFunction_RESTCtrl {
             List<AlbumWithLikes> rankingAlbumByLikes_LastWeek = albumRepo_Neo4j.getAlbumsByLikes_LastWeek();
             if(rankingAlbumByLikes_LastWeek.isEmpty())
                 return "{\"outcome_code\": 7}"; // No albums found (sorted by likes, last week)
-            writeToFile(rankingAlbumByLikes_LastWeek, Constants.fileName_RankingAlbumByLikes_LastWeek);
+            Utility.writeToFile(rankingAlbumByLikes_LastWeek, Constants.fileName_RankingAlbumByLikes_LastWeek, Constants.folderName_QueryResults);
             System.out.println("> Calcolato con successo 6: " + Constants.fileName_RankingAlbumByLikes_LastWeek);
 
             // Song
@@ -162,17 +201,17 @@ public class AdminFunction_RESTCtrl {
             List<SongWithLikes> rankingSongsByLikes_LastWeek = songRepo_Neo4j.getSongsByLikes_LastWeek();
             if(rankingSongsByLikes_LastWeek.isEmpty())
                 return "{\"outcome_code\": 8}"; // No songs found (sorted by likes, last week)
-            writeToFile(rankingSongsByLikes_LastWeek, Constants.fileName_RankingSongByLikes_LastWeek);
+            Utility.writeToFile(rankingSongsByLikes_LastWeek, Constants.fileName_RankingSongByLikes_LastWeek, Constants.folderName_QueryResults);
             System.out.println("> Calcolato con successo 7: " + Constants.fileName_RankingSongByLikes_LastWeek);
 
             System.out.println(">>> Rankings calculated successfully");
             return "{\"outcome_code\": 0}"; // Update successful
 
         } catch (DataAccessResourceFailureException e) {
-            logger.error("Impossibile connettersi al database", e);
+            e.printStackTrace();
             return "{\"outcome_code\": 10}"; // Error while connecting to the database
         } catch (Exception e) {
-            logger.error("Error while writing to file", e);
+            e.printStackTrace();
             return "{\"outcome_code\": 11}"; // Error while writing to file
         }
     }
@@ -184,46 +223,4 @@ public class AdminFunction_RESTCtrl {
             album.setYear("");
         }
     }
-
-    private void writeToFile(Object data, String fileName) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(data);
-
-        // Ottieni il percorso della directory corrente
-        String currentDir = System.getProperty("user.dir");
-
-        // Percorso della sottocartella
-        String subFolderPath = currentDir + File.separator + Constants.folderName_QueryResults;
-
-        // Crea la sottocartella se non esiste
-        File subFolder = new File(subFolderPath);
-        if (!subFolder.exists()) {
-            subFolder.mkdir(); // Nota: usa mkdirs() per creare tutte le sottodirectory necessarie
-        }
-
-        // Costruisci il percorso completo del file
-        Path filePath = Paths.get(subFolder.getPath() + File.separator + fileName);
-
-        // Scrivi nel file
-        Files.write(filePath, json.getBytes(), StandardOpenOption.CREATE);
-    }
-
-    private void clearRankingsDirectory() throws IOException {
-        String currentDir = System.getProperty("user.dir");
-        String subFolderPath = currentDir + File.separator + Constants.folderName_QueryResults;
-        File subFolder = new File(subFolderPath);
-
-        if (subFolder.exists() && subFolder.isDirectory()) {
-            File[] files = subFolder.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (!file.delete()) {
-                        throw new IOException("Failed to delete " + file.getAbsolutePath());
-                    }
-                }
-            }
-        }
-    }
-
-
 }

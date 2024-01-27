@@ -7,17 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class Review_Repo_Neo4j {
+public class Review_Repo_MongoDB {
 
     @Autowired
     private Review_MongoInterf review_RI_MongoDB;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public boolean existsByAlbumIDAndUsername(String albumID, String username) {
         try {
@@ -67,6 +74,29 @@ public class Review_Repo_Neo4j {
                 throw dae;
             dae.printStackTrace();
             return null;
+        }
+    }
+
+    public int getNumberOfDailyReviews() {
+        try {
+            Date twentyFourHoursAgo = new Date(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
+
+            Aggregation aggregation = Aggregation.newAggregation(
+                    Aggregation.match(Criteria.where("date").gte(twentyFourHoursAgo)), // Filtra le recensioni delle ultime 24 ore
+                    Aggregation.group().count().as("totalReviews") // Conta le recensioni
+            );
+
+            AggregationResults<Map> results = mongoTemplate.aggregate(aggregation, "reviews", Map.class);
+            Map<String, Integer> result = results.getUniqueMappedResult();
+
+            return (result != null) ? result.get("totalReviews") : 0;
+
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException) {
+                throw dae;
+            }
+            dae.printStackTrace();
+            return -1;
         }
     }
 }
