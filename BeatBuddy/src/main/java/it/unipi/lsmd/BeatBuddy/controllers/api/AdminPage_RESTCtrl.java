@@ -143,7 +143,8 @@ public class AdminPage_RESTCtrl {
         try {
             System.out.println(">> Calculating rankings...");
 
-            // MongoDB Queries
+
+        // MongoDB Queries
 
             // Album
             //ok
@@ -186,7 +187,8 @@ public class AdminPage_RESTCtrl {
 //            Utility.writeToFile(rankingArtistsByLikes_AllTime, Constants.fileName_RankingArtistsByLikes_AllTime, Constants.folderName_QueryResults);
 //            System.out.println("> Calcolato con successo 5: " + Constants.fileName_RankingArtistsByLikes_AllTime);
 
-            // Neo4j Queries
+
+        // Neo4j Queries
 
             // Album
             //ok

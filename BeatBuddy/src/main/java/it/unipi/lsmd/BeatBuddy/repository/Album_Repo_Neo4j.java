@@ -22,7 +22,44 @@ public class Album_Repo_Neo4j {
     @Autowired
     private Neo4jClient neo4jClient;
 
-    @Transactional
+    public int getNumberOfDailyLikesOnAlbums() {
+        try {
+            return findNumberOfDailyLikesOnAlbums();
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return -1;
+        }
+    }
+
+    private int findNumberOfDailyLikesOnAlbums() {
+        String cypherQuery = "MATCH (a:Album) <-[r:LIKES_A]- (:User) " +
+                "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
+                "RETURN COUNT(r) AS likes";
+
+        return neo4jClient.query(cypherQuery).fetchAs(Integer.class).one().get();
+    }
+
+    public int getNumberOfDailyLikesOnSongs() {
+        try {
+            return findNumberOfDailyLikesOnSongs();
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return -1;
+        }
+    }
+
+    private int findNumberOfDailyLikesOnSongs() {
+        String cypherQuery = "MATCH (s:Song) <-[r:LIKES_S]- (:User) " +
+                "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
+                "RETURN COUNT(r) AS likes";
+
+        return neo4jClient.query(cypherQuery).fetchAs(Integer.class).one().get();
+    }
+
     public ArrayList<AlbumOnlyLikes> getNewLikesForAlbums() {
         try {
             // se findNewLikesForAlbums ritorna un array vuoto,
@@ -36,7 +73,16 @@ public class Album_Repo_Neo4j {
         }
     }
 
-    @Transactional
+    private ArrayList<AlbumOnlyLikes> findNewLikesForAlbums() {
+        String cypherQuery = "MATCH (a:Album) <-[r:LIKES_A]- (:User) " +
+                "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
+                "MATCH (a) <-[l:LIKES_A]- (:User) " +
+                "WITH a, COUNT(l) AS likes " +
+                "RETURN a.coverURL AS coverURL, likes";
+
+        return AlbumOnlyLikes.getAlbumOnlyLikes(cypherQuery, neo4jClient);
+    }
+
     public ArrayList<SongOnlyLikes> getNewLikesForSongs() {
         try {
             return findNewLikesForSongs();
@@ -48,50 +94,14 @@ public class Album_Repo_Neo4j {
         }
     }
 
-    public ArrayList<AlbumOnlyLikes> findNewLikesForAlbums() {
-        String cypherQuery = "MATCH (a:Album) <-[l:LIKES_A]- (:User) " +
-                             "RETURN DISTINCT a.coverURL as coverURL, count(l) as likes";
+    private ArrayList<SongOnlyLikes> findNewLikesForSongs() {
+        String cypherQuery = "MATCH (s:Song) <-[r:LIKES_S]- (:User) " +
+                             "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
+                             "MATCH (s) <-[l:LIKES_S]- (:User) " +
+                             "WITH s, COUNT(l) AS likes " +
+                             "RETURN s.coverUrl as coverUrl, s.songName as songName, likes";
 
-        String nuovaQuery = "MATCH (u:User)-[r:LIKES_A]->(a:ALBUM) " +
-                            "WHERE r.timestamp >= date() - duration({days: 1}) " +
-                            "WITH a, COUNT(r) AS likesInLast24Hours " +
-                            "MATCH (u:User)-[l:LIKES_A]->(a) " +
-                            "WITH a, COUNT(l) AS totalLikes " +
-                            "RETURN DISTINCT a.coverURL AS coverURL, totalLikes";
-
-        return (ArrayList<AlbumOnlyLikes>) neo4jClient
-                .query(cypherQuery)
-                // type of objects that the query results should be converted into
-                .fetchAs(AlbumOnlyLikes.class)
-                .mappedBy((typeSystem, record) -> {
-                    String coverURL = record.get("coverURL").asString();
-                    Integer likes = record.get("likes").asInt();
-                    return new AlbumOnlyLikes(coverURL, likes);
-                }).all();
-    }
-
-    public ArrayList<SongOnlyLikes> findNewLikesForSongs() {
-        String cypherQuery = "MATCH (s:Song) <-[l:LIKES_S]- (:User) " +
-                             "WHERE date(l.timestamp) >= date() - duration({days: 1}) " +
-                             "WITH s, count(l) as likes " +
-                             "RETURN DISTINCT s.coverUrl as coverUrl, s.songName as songName, likes";
-
-        String nuovaQuery = "MATCH (u:User)-[r:LIKES_S]->(s:Song) " +
-                            "WHERE r.timestamp >= date() - duration({days: 1}) " +
-                            "WITH s, COUNT(r) AS likesInLast24Hours " +
-                            "MATCH (u:User)-[l:LIKES_S]->(s) " +
-                            "WITH s, COUNT(l) AS totalLikes " +
-                            "RETURN DISTINCT s.coverUrl AS coverUrl, s.songName AS songName, totalLikes";
-
-        return (ArrayList<SongOnlyLikes>) neo4jClient
-                .query(cypherQuery)
-                .fetchAs(SongOnlyLikes.class)
-                .mappedBy((typeSystem, record) -> {
-                    String coverUrl = record.get("coverUrl").asString();
-                    String songName = record.get("songName").asString();
-                    Integer likes = record.get("likes").asInt();
-                    return new SongOnlyLikes(coverUrl, songName, likes);
-                }).all();
+        return SongOnlyLikes.getSongOnlyLikes(cypherQuery, neo4jClient);
     }
 
     public List<AlbumWithLikes> getAlbumsByLikes_LastWeek(){
@@ -105,7 +115,7 @@ public class Album_Repo_Neo4j {
         }
     }
 
-    public List<AlbumWithLikes> findAlbumsSortedByLikes_LastWeek() {
+    private List<AlbumWithLikes> findAlbumsSortedByLikes_LastWeek() {
         String cypherQuery = "MATCH (a:Album) <-[r:LIKES_A]- (:User) " +
                 "WHERE date(r.timestamp) >= date() - duration('P7D') " +
                 "WITH a, count(r) as likes " +
@@ -114,15 +124,6 @@ public class Album_Repo_Neo4j {
                 "ORDER BY likes DESC " +
                 "LIMIT 5";
 
-        return (List<AlbumWithLikes>) neo4jClient
-                .query(cypherQuery)
-                .fetchAs(AlbumWithLikes.class)
-                .mappedBy((typeSystem, record) -> {
-                    String albumName = record.get("albumName").asString();
-                    String artistName = record.get("artistName").asString();
-                    String coverURL = record.get("coverURL").asString();
-                    Integer likes = record.get("likes").asInt();
-                    return new AlbumWithLikes(albumName, artistName, coverURL, likes);
-                }).all();
+        return AlbumWithLikes.getAlbumWithLikes(cypherQuery, neo4jClient);
     }
 }

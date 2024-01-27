@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +30,7 @@ public class WriteReview_RESTCtrl {
     User_Repo_MongoDB user_Repo_Mongo;
 
     @PostMapping("/api/writeReview")
+    @Transactional
     public @ResponseBody String writeReview(HttpSession session,
                                       @RequestParam("rating") int rating,
                                       @RequestParam("text") String text,

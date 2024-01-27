@@ -5,6 +5,7 @@ import it.unipi.lsmd.BeatBuddy.repository.User_Repo_Neo4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ public class Signup_RESTCtrl {
     User_Repo_Neo4j user_RepoNeo4j;
 
     @PostMapping("/api/signup")
+    @Transactional
     public @ResponseBody String signup(
             @RequestParam("name") String name,
             @RequestParam("surname") String surname,

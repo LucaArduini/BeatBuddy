@@ -24,6 +24,11 @@
 <body>
 <button class="update-button" id="updateLikesButton">Update Likes</button>
 <button class="update-button" id="calculateRankingsButton">Calculate Rankings</button>
+<button class="update-button" id="calculateStatsButton">Calculate Admin Stats</button>
+
+<div id="dailyLikesOnAlbums">Daily Likes on Albums: 0</div>
+<div id="dailyLikesOnSongs">Daily Likes on Songs: 0</div>
+<div id="dailyReviews">Daily Reviews: 0</div>
 
 <script>
     document.getElementById("updateLikesButton").addEventListener("click", function() {
@@ -45,10 +50,13 @@
                         alert('User not found or unauthorized.');
                         break;
                     case 2:
-                        alert('No new likes found.');
+                        alert('Error while updating new likes (for albums).');
                         break;
                     case 3:
-                        alert('Error while updating new likes.');
+                        alert('Error while updating new likes (for songs).');
+                        break;
+                    case 4:
+                        alert('Error while updating average rating.');
                         break;
                     case 10:
                         alert('Database connection error.');
@@ -89,6 +97,45 @@
                         break;
                     case 4:
                         alert('No songs found (sorted by likes).');
+                        break;
+                    case 10:
+                        alert('Database connection error.');
+                        break;
+                    case 11:
+                        alert('Error while writing to file.');
+                        break;
+                    case 12:
+                        alert('Error while clearing rankings directory.');
+                        break;
+                    default:
+                        alert('Unknown error occurred.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred during the request.');
+            });
+    });
+
+    document.getElementById("calculateStatsButton").addEventListener("click", function() {
+        fetch('/api/admin/calculateAdminStats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                // Include any necessary headers here
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                switch(data.outcome_code) {
+                    case 0:
+                        document.getElementById("dailyLikesOnAlbums").innerText = "Daily Likes on Albums: " + data.admin_stats.dailyLikesOnAlbums;
+                        document.getElementById("dailyLikesOnSongs").innerText = "Daily Likes on Songs: " + data.admin_stats.dailyLikesOnSongs;
+                        document.getElementById("dailyReviews").innerText = "Daily Reviews: " + data.admin_stats.dailyReviews;
+                        alert('Admin stats updated successfully!');
+                        break;
+                    case 1:
+                        alert('User not found or unauthorized.');
                         break;
                     case 10:
                         alert('Database connection error.');

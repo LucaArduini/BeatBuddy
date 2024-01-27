@@ -252,11 +252,12 @@ public class Album_Repo_MongoDB {
     @Transactional
     public boolean setLikesToSongs(SongOnlyLikes[] likeList) {
         try {
-            BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Song.class);
+            BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Album.class);
 
             for (SongOnlyLikes like : likeList) {
-                Query query = new Query(Criteria.where("coverURL").is(like.getCoverUrl()));
-                Update update = new Update().set("likes", like.getLikes());
+                Query query = new Query(Criteria.where("coverURL").is(like.getCoverUrl())
+                                                .and("songs.name").is(like.getSongName()));
+                Update update = new Update().set("songs.$.likes", like.getLikes());
                 bulkOps.updateOne(query, update);
             }
 
@@ -271,8 +272,7 @@ public class Album_Repo_MongoDB {
         }
     }
 
-    @Transactional
-    public int updateAverageRatingForRecentReviews() {
+    public List<AlbumOnlyAvgRating> getAverageRatingForRecentReviews() {
         // Una limitazione importante è che MongoDB non supporta l'aggiornamento di documenti direttamente
         // all'interno di una pipeline di aggregazione. Pertanto, quello che posso fare è calcolare le medie e
         // trovare gli ID necessari in un'unica query, ma poi dovrò eseguire un'operazione di aggiornamento separata.
@@ -293,21 +293,28 @@ public class Album_Repo_MongoDB {
             );
 
             List<AlbumOnlyAvgRating> albumAverages = results.getMappedResults();
-            System.out.println("> Found " + albumAverages.size() + " albums with recent reviews");
-
-            // Se non ci sono album da aggiornare, restituisci true
-            if (albumAverages.isEmpty()) {
-                return 0;
-            }
 
             // Arrotonda le medie dei voti
             for (AlbumOnlyAvgRating albumAverage : albumAverages) {
                 albumAverage.roundAverageRating();
             }
 
-            // Prepara le operazioni in batch
-            BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, Album.class);
+            return albumAverages;
 
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return new ArrayList<AlbumOnlyAvgRating>();
+        }
+    }
+
+    @Transactional
+    public boolean setAverageRatingForRecentReviews(List<AlbumOnlyAvgRating> albumAverages) {
+        // Prepara le operazioni in batch
+        BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, Album.class);
+
+        try {
             // Aggiungi ogni operazione di aggiornamento al batch
             albumAverages.forEach(albumAverage -> {
                 Query query = new Query().addCriteria(Criteria.where("_id").is(albumAverage.getAlbumID()));
@@ -317,13 +324,13 @@ public class Album_Repo_MongoDB {
 
             // Esegui tutte le operazioni in batch
             bulkOps.execute();
-            return albumAverages.size();
+            return true;
 
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
                 throw dae;
             dae.printStackTrace();
-            return -1;
+            return false;
         }
     }
 }
