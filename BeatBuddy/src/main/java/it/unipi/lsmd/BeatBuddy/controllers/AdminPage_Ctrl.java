@@ -29,8 +29,8 @@ public class AdminPage_Ctrl {
                 model.addAttribute("dailyReviews", adminStats.getDailyReviews());
             }
 
-            return "test/BOTTONI_ADMIN";
-            //return "adminPage";
+            //return "test/BOTTONI_ADMIN";
+            return "adminPage";
 
         } catch (Exception e) {
             e.printStackTrace();
