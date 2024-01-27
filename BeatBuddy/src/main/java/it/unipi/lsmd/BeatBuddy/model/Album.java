@@ -66,7 +66,7 @@ public class Album {
         for (String artist : artists) {
             artistsString += artist + ", ";
         }
-        
+
         if(artistsString.length() == 0)
             return "";
         else

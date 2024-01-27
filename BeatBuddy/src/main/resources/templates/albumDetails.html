@@ -63,6 +63,7 @@
                                     <i class="fa fa-star me-1 ps-3"></i>
                                     <div id="average_rating" th:text="${albumDetails.averageRating}"></div>
                                 </div>
+                                <button th:if="${admin}" class="btn btn-outline-danger w-25" id="delete_album_btn">Delete Album</button>
                             </div>
                         </div>
                     </div>
@@ -184,10 +185,12 @@
 
                         // Imposto la funzionalità onClick ai pulsanti "Like" delle canzoni
                         $('.like-song-btn').click(function () {
-                            var songTitle = $(this).data('songtitle');
-                            var songCoverUrl = $(this).data('songcoverurl');
+                            let songContainer = $(this).closest(".song-container");
+                            let songTitle = songContainer.find("p").first().text();
+                            let songcoverUrl = /*[[${albumDetails.coverURL}]]*/ null;
+                            let sonoio = $(this);
 
-                            console.log("Like song button clicked\nSong Title: " + songTitle + "\nCover URL: " + songCoverUrl);
+                            console.log("Like song button clicked\nSong Title: " + songTitle + "\nCover URL: " + songcoverUrl);
                             $.ajax({
                                 url: '/api/addLikesSong',
                                 dataType: 'json',
@@ -195,13 +198,16 @@
                                 data: {
                                     username: username,
                                     title: songTitle,
-                                    coverURL: songCoverUrl
+                                    coverURL: songcoverUrl
                                 },
                                 success: function (response) {
                                     console.log(response);
                                     if(response.outcome_code == 0){
                                         alert("sono qui");
                                         alert("You correctly liked the song '" + songTitle + "'");
+                                        console.log(sonoio.text())
+                                        sonoio.css("background-color", "green");
+                                        sonoio.css("border-color", "green");
                                     }
                                     else if(response.outcome_code == 1)
                                         alert("Like addition unsuccessful");

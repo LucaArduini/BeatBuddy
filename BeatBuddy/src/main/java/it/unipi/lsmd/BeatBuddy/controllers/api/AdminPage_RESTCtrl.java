@@ -143,6 +143,7 @@ public class AdminPage_RESTCtrl {
         try {
             System.out.println(">> Calculating rankings...");
 
+
         // MongoDB Queries
 
             // Album
@@ -185,6 +186,7 @@ public class AdminPage_RESTCtrl {
 //                return "{\"outcome_code\": 6}"; // No artists found (sorted by likes)
 //            Utility.writeToFile(rankingArtistsByLikes_AllTime, Constants.fileName_RankingArtistsByLikes_AllTime, Constants.folderName_QueryResults);
 //            System.out.println("> Calcolato con successo 5: " + Constants.fileName_RankingArtistsByLikes_AllTime);
+
 
         // Neo4j Queries
 

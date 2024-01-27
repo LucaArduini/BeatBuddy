@@ -105,6 +105,38 @@
     </section><!-- End Hero -->
 </div>
 
+<script>
+    $('.dislike_A_btn').click(function () {
+        let albumContainer = $(this).closest(".album_liked");
+        let albumCover = albumContainer.find("img").first();
+
+        console.log("Like song button clicked\nCover URL: " + albumCover);
+        /*$.ajax({
+            url: '/api/addLikesSong',
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                username: username,
+                title: songTitle,
+                coverURL: songCoverUrl
+            },
+            success: function (response) {
+                console.log(response);
+                if(response.outcome_code == 0){
+                    alert("sono qui");
+                    alert("You correctly liked the song '" + songTitle + "'");
+                }
+                else if(response.outcome_code == 1)
+                    alert("Like addition unsuccessful");
+                else
+                    alert("Error occurred while adding like to song");
+            },
+            error: function (xhr, status, error) {
+                console.log("Error: " + error);
+            }
+        });*/
+    });
+</script>
 <!-- AOS JavaScript -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
