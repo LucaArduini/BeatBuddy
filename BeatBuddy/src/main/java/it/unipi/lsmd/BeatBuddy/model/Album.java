@@ -69,6 +69,7 @@ public class Album {
 
         if(artistsString.length() == 0)
             return "";
-        return artistsString.substring(0, artistsString.length() - 2);
+        else
+            return artistsString.substring(0, artistsString.length() - 2);
     }
 }

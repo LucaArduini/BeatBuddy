@@ -3,6 +3,7 @@ package it.unipi.lsmd.BeatBuddy.repository;
 import it.unipi.lsmd.BeatBuddy.DTO.AlbumDTO;
 import it.unipi.lsmd.BeatBuddy.DTO.SongDTO;
 import it.unipi.lsmd.BeatBuddy.model.Album;
+import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumOnlyAvgRating;
 import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumOnlyLikes;
 import it.unipi.lsmd.BeatBuddy.model.ReviewLite;
 import it.unipi.lsmd.BeatBuddy.model.Song;
@@ -35,7 +36,6 @@ public class Album_Repo_MongoDB {
 
     @Autowired
     private Album_MongoInterf album_RI_Mongo;
-
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -94,7 +94,7 @@ public class Album_Repo_MongoDB {
 //        }
 //    }
 
-    public List<Album> getAlbumsWithMinimumReviewsAndSortedByRating_AllTime() {
+    public List<Album> getAlbumsWithMinReviewsByAvgRating_AllTime() {
         int minReviews = 5;
         Pageable pageable = Pageable.ofSize(5);
 
@@ -120,7 +120,7 @@ public class Album_Repo_MongoDB {
         return results.getMappedResults();
     }
 
-    public List<Album> getAlbumsSortedByLikes_AllTime(){
+    public List<Album> getAlbumsByLikes_AllTime(){
         try {
             Pageable topFive = PageRequest.of(0, 5);
             return album_RI_Mongo.findAlbumsSortedByLikes_AllTime(topFive);
@@ -132,7 +132,7 @@ public class Album_Repo_MongoDB {
         }
     }
 
-    public List<SongDTO> getSongsSortedByLikes_AllTime() {
+    public List<SongDTO> getSongsByLikes_AllTime() {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.unwind("songs"), // Appiattisce l'array di canzoni
                 Aggregation.sort(Sort.by(Sort.Direction.DESC, "songs.likes")), // Ordina le canzoni in base ai likes
@@ -205,6 +205,7 @@ public class Album_Repo_MongoDB {
             album.setLastReviews(lastReviews.toArray(new ReviewLite[0]));
             album_RI_Mongo.save(album);
             return 0; // Successo
+
         } catch (DuplicateKeyException e) {
             e.printStackTrace();
             return 2; // Violazione del vincolo di unicità
@@ -227,7 +228,7 @@ public class Album_Repo_MongoDB {
 //    }
 
     @Transactional
-    public boolean setNewLikesToAlbums(AlbumOnlyLikes[] likeList) {
+    public boolean setLikesToAlbums(AlbumOnlyLikes[] likeList) {
         try {
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Album.class);
 
@@ -239,6 +240,7 @@ public class Album_Repo_MongoDB {
 
             bulkOps.execute();
             return true;
+
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
                 throw dae;
@@ -248,7 +250,7 @@ public class Album_Repo_MongoDB {
     }
 
     @Transactional
-    public boolean setNewLikesToSongs(SongOnlyLikes[] likeList) {
+    public boolean setLikesToSongs(SongOnlyLikes[] likeList) {
         try {
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Song.class);
 
@@ -260,11 +262,68 @@ public class Album_Repo_MongoDB {
 
             bulkOps.execute();
             return true;
+
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
                 throw dae;
             dae.printStackTrace();
             return false;
+        }
+    }
+
+    @Transactional
+    public int updateAverageRatingForRecentReviews() {
+        // Una limitazione importante è che MongoDB non supporta l'aggiornamento di documenti direttamente
+        // all'interno di una pipeline di aggregazione. Pertanto, quello che posso fare è calcolare le medie e
+        // trovare gli ID necessari in un'unica query, ma poi dovrò eseguire un'operazione di aggiornamento separata.
+
+        try {
+            Date twentyFourHoursAgo = new Date(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
+
+            // la fase di group produce automaticamente un campo _id che contiene il valore o i valori su cui
+            //  hai raggruppato i dati.
+            Aggregation aggregation = Aggregation.newAggregation(
+                    //Aggregation.match(Criteria.where("date").gte(twentyFourHoursAgo)),
+                    Aggregation.group("albumID").avg("rating").as("averageRating"),
+                    Aggregation.project().and("_id").as("albumID").andInclude("averageRating")
+            );
+
+            AggregationResults<AlbumOnlyAvgRating> results = mongoTemplate.aggregate(
+                    aggregation, "reviews", AlbumOnlyAvgRating.class
+            );
+
+            List<AlbumOnlyAvgRating> albumAverages = results.getMappedResults();
+            System.out.println("> Found " + albumAverages.size() + " albums with recent reviews");
+
+            // Se non ci sono album da aggiornare, restituisci true
+            if (albumAverages.isEmpty()) {
+                return 0;
+            }
+
+            // Arrotonda le medie dei voti
+            for (AlbumOnlyAvgRating albumAverage : albumAverages) {
+                albumAverage.roundAverageRating();
+            }
+
+            // Prepara le operazioni in batch
+            BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, Album.class);
+
+            // Aggiungi ogni operazione di aggiornamento al batch
+            albumAverages.forEach(albumAverage -> {
+                Query query = new Query().addCriteria(Criteria.where("_id").is(albumAverage.getAlbumID()));
+                Update update = new Update().set("averageRating", albumAverage.getAverageRating());
+                bulkOps.updateOne(query, update);
+            });
+
+            // Esegui tutte le operazioni in batch
+            bulkOps.execute();
+            return albumAverages.size();
+
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            return -1;
         }
     }
 }

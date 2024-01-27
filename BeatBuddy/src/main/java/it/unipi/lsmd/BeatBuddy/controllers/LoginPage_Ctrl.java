@@ -1,6 +1,5 @@
 package it.unipi.lsmd.BeatBuddy.controllers;
 
-import it.unipi.lsmd.BeatBuddy.service.BatchUpdateService;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

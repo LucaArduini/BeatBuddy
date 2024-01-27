@@ -50,7 +50,7 @@ $(document).ready(function () {
                     $("#password_input").val("");
                 } else if (outcome["outcome_code"] == 2) {
                     alert("Incorrect password");
-                    $("#username_input").val("");
+                    $("#password_input").val("");
                 }
                 else if (outcome["outcome_code"] == 3) {
                     alert("Unable to connect to the database :-(\nPlease try again later.");
