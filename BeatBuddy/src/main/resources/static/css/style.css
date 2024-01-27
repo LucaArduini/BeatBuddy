@@ -365,12 +365,14 @@ h1, h2, h3, h4, h5, h6 {
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 10px 0px 0px 10px;
     box-shadow: 0px 0px 15px 2px #28282847;
+    color: #282828;
 }
 
 #common_songs {
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 15px 2px #28282847;
+    color: #282828;
 }
 
 .suggested-song {
