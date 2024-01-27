@@ -64,9 +64,6 @@ public class ProfilePage_RESTCtrl {
         if (!Utility.isLogged(session)) {
             return "{\"outcome_code\": 1}"; // User not found
         }
-        if (Utility.isAdmin(session)) {
-            return "{\"outcome_code\": 2}"; // feature not accessible for admins
-        }
 
         System.out.println(user_Repo_Neo4j.getFollowedUsersByUsername(username));
         return new Gson().toJson(user_Repo_Neo4j.getFollowedUsersByUsername(username));

@@ -58,13 +58,13 @@ public class MostPopularPage_Ctrl {
                     List<SongWithLikes> rankingSongsByLikes_LastWeek = readJsonData(Constants.fileName_RankingSongByLikes_LastWeek, new TypeReference<List<SongWithLikes>>() {});
                     model.addAttribute("rankingSongsByLikes_LastWeek", rankingSongsByLikes_LastWeek);
                 }
-                else if (type.equals("artists")) {
+                /*else if (type.equals("artists")) {
                     List<Album> rankingArtistsByAvgRating_AllTime = readJsonData(Constants.fileName_RankingArtistsByAvgRating_AllTime, new TypeReference<List<Album>>() {});
                     model.addAttribute("rankingArtistsByAvgRating_AllTime", rankingArtistsByAvgRating_AllTime);
 
                     List<ArtistWithLikes> rankingArtistsByLikes_AllTime = readJsonData(Constants.fileName_RankingArtistsByLikes_AllTime, new TypeReference<List<ArtistWithLikes>>() {});
                     model.addAttribute("rankingArtistsByLikes_AllTime", rankingArtistsByLikes_AllTime);
-                }
+                }*/
                 else
                     return "error/genericError";
 

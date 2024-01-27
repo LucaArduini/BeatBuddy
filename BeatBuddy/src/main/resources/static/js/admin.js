@@ -78,4 +78,19 @@ $(document).ready(function (){
                 alert('An error occurred during the request.');
             });
     });
+
+    $("#most_popular_albums").click(function (e){
+        e.preventDefault();
+        window.location.href = '/mostPopularPage?type=albums';
+    });
+
+    $("#most_popular_songs").click(function (e){
+        e.preventDefault();
+        window.location.href = '/mostPopularPage?type=songs';
+    });
+
+    $("#most_popular_artists").click(function (e){
+        e.preventDefault();
+        window.location.href = '/mostPopularPage?type=artists';
+    });
 })

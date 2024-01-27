@@ -134,7 +134,7 @@ public class AdminFunction_RESTCtrl {
 
             // Artist
             // no
-            List<ArtistWithLikes> rankingArtistsByAvgRating_AllTime = artistRepo_MongoDB.getArtistsWithMinAlbumsByAvgRating_AllTime();
+            /*List<ArtistWithLikes> rankingArtistsByAvgRating_AllTime = artistRepo_MongoDB.getArtistsWithMinAlbumsByAvgRating_AllTime();
             if(rankingArtistsByAvgRating_AllTime.isEmpty())
                 return "{\"outcome_code\": 5}"; // No artists found (sorted by rating)
             writeToFile(rankingArtistsByAvgRating_AllTime, Constants.fileName_RankingArtistsByAvgRating_AllTime);
@@ -145,7 +145,7 @@ public class AdminFunction_RESTCtrl {
 //            if(rankingArtistsByLikes_AllTime.isEmpty())
 //                return "{\"outcome_code\": 6}"; // No artists found (sorted by likes)
 //            writeToFile(rankingArtistsByLikes_AllTime, Constants.fileName_RankingArtistsByLikes_AllTime);
-            System.out.println("> Calcolato con successo 5: " + Constants.fileName_RankingArtistsByLikes_AllTime);
+            System.out.println("> Calcolato con successo 5: " + Constants.fileName_RankingArtistsByLikes_AllTime);*/
 
         // Neo4j Queries
 

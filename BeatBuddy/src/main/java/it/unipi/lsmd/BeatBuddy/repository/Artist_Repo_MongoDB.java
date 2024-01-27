@@ -51,7 +51,7 @@ public class Artist_Repo_MongoDB {
         }
     }
 
-    public List<ArtistWithLikes> getArtistsWithMinAlbumsByAvgRating_AllTime() {
+    /*public List<ArtistWithLikes> getArtistsWithMinAlbumsByAvgRating_AllTime() {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.unwind("artists"), // Appiattisce il vettore degli artisti
                 Aggregation.lookup("artists", "artists", "name", "artistDetails"), // Esegue il join con la collection artists
@@ -59,16 +59,17 @@ public class Artist_Repo_MongoDB {
                 Aggregation.group("artists")
                         .avg("averageRating").as("avgRating")
                         .count().as("albumCount")
-                        .first("artistDetails.profilePicUrl").as("profilePicUrl")
+                        .first("artistDetails.image").as("profilePicUrl")
                         .first("artistDetails.name").as("artistName"),
                 Aggregation.match(Criteria.where("albumCount").gte(3)), // Considera solo artisti con almeno 3 album
                 Aggregation.sort(Sort.by(Sort.Direction.DESC, "avgRating")), // Ordina per valutazione media decrescente
                 Aggregation.limit(5), // Limita a 5 artisti
                 Aggregation.project()
+                        .and("artistName").as("id")
                         .and("artistName").as("name") // Modifica qui
                         .and("profilePicUrl").as("profilePicUrl")
+                        .and("likes").as("likes")
                         .and("avgRating").as("avgRating")
-                        .and("_id").as("id")
         );
 
         AggregationResults<ArtistWithLikes> results = mongoTemplate.aggregate(aggregation, "albums", ArtistWithLikes.class);
@@ -85,13 +86,14 @@ public class Artist_Repo_MongoDB {
                 Aggregation.sort(Sort.by(Sort.Direction.DESC, "likes")), // Ordina per il totale dei likes decrescente
                 Aggregation.limit(5), // Limita a 5 artisti
                 Aggregation.project() // Seleziona i campi necessari
-                        .and("artistDetails._id").as("id") // Mappa "_id" su "id"
-                        .and("artistDetails.name").as("name")
-                        .and("artistDetails.profilePicUrl").as("profilePicUrl")
+                        .and("artistName").as("id")
+                        .and("artistName").as("name") // Modifica qui
+                        .and("profilePicUrl").as("profilePicUrl")
                         .and("likes").as("likes")
+                        .and("avgRating").as("avgRating")
         );
 
         AggregationResults<ArtistWithLikes> results = mongoTemplate.aggregate(aggregation, "albums", ArtistWithLikes.class);
         return results.getMappedResults();
-    }
+    }*/
 }

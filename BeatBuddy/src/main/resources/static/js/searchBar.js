@@ -58,10 +58,10 @@ function loadSearchBar(){
                 )
             }
         }else{
-            $("#user_controller").append(
-                "<button class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\" type=\"button\">Logout</button>"
-            )
-            $("#home_controller").empty()
+            $("#user_controller").empty()
+            let container = $("#home_controller")
+            container.empty()
+            container.append($("<a class=\"nav-link active\" href=\"/adminPage\">Dashboard</a>"))
         }
     }
 
