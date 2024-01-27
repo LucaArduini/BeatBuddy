@@ -58,7 +58,7 @@ public class WriteReview_RESTCtrl {
                 return "{\"outcome_code\": 6}";     // Error while writing the review into the collection reviews
 
         // insert della review nella collection users (aggiornamento reviewedAlbums)
-            ReviewedAlbum reviewedAlbum = new ReviewedAlbum(album.getTitle(), album.getCoverURL(), album.getArtistsString(), rating);
+            ReviewedAlbum reviewedAlbum = new ReviewedAlbum(album.getTitle(), album.getCoverURL(), album.getArtistsAsString(), rating);
 
             boolean outcomeInsertIntoUser = user_Repo_Mongo.insertReviewIntoUser(username, reviewedAlbum);
             if(!outcomeInsertIntoUser)

@@ -16,9 +16,9 @@ public class HomePage_Ctrl {
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
         if (Utility.isLogged(session)) {
-            /*if (Utility.isAdmin(session))
-                return "test/accessAllowed";
-            else*/
+            if (Utility.isAdmin(session))
+                return "adminPage";
+            else
                 return "homePage";
         }
         else

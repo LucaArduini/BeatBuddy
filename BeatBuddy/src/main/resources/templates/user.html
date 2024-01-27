@@ -55,6 +55,7 @@
                         </div>
                     </div>
                     <button id="follow_btn" class="btn btn-primary w-100 mt-1" th:if="${session.role != 'admin'}"><i class="fa fa-user-plus me-1"></i>Follow</button>
+                    <button id="unfollow_btn" class="btn btn-outline-danger w-100 mt-1" th:if="${session.role != 'admin'}" style="display:none;"><i class="fa fa-user-plus me-1"></i>Unfollow</button>
                     <button id="ban_btn" class="btn btn-outline-danger w-100 mt-1" th:if="${session.role == 'admin'}"><i class="fa fa-ban me-1"></i>Ban</button>
                     <div style="background-color: rgba(40, 40, 40, 0.45); color: white; border-radius: 10px; padding: 10px; margin-top: 5px;">
                         <div id="followed_users_btn">
@@ -107,6 +108,43 @@
         </div>
     </section><!-- End Hero -->
 </div>
+
+<script th:inline="javascript">
+    $(document).ready(function (){
+        let username = /*[[${session.username}]]*/ null;
+        let user_follow = $("#username").text();
+
+        if(user_follow == null){
+            alert("Username to follow is null");
+        }else{
+            $("#follow_btn").click(function (){
+                $.ajax({
+                    url: '/api/addFollow',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {
+                        user1: username,
+                        user2: user_follow
+                    },
+                    success: function (response){
+                        if(response.outcome_code == 0){
+                            const followBtn = document.getElementById("#follow_btn");
+                            followBtn.style.backgroundColor = "green";
+                            followBtn.css("border-color", "green");
+                            alert("You correctly followed this user");
+                        }else if(response.outcome_code == 1)
+                            alert("Follow addition unsuccessful");
+                        else
+                            alert("Error occured while following the user");
+                    },
+                    error: function(xhr, status, error){
+                        console.log(error);
+                    }
+                })
+            });
+        }
+    })
+</script>
 
 <!-- AOS JavaScript -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

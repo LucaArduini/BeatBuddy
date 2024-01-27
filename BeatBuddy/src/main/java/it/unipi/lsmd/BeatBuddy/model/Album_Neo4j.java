@@ -21,7 +21,7 @@ public class Album_Neo4j {
 
     public Album_Neo4j(String albumName, String artists, String coverURL) {
         this.albumName = albumName;
-        this.artists = artists;
+        this.artistName = artists;
         this.coverURL = coverURL;
     }
 }

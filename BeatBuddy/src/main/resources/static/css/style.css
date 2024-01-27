@@ -278,6 +278,12 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
+.recom-container {
+    border-radius: 10px;
+    background-color: rgba(40, 40, 40, 0.71);
+    color: white;
+}
+
 /*-------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -392,6 +398,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #a412ff;
     box-shadow: 0px 0px 30px 5px rgba(40, 40, 40, 0.15);
     cursor: pointer;
+    color: white;
 }
 
 #suggested_user_container {

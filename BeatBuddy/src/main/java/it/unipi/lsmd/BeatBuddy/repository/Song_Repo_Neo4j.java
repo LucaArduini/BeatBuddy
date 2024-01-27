@@ -1,6 +1,5 @@
 package it.unipi.lsmd.BeatBuddy.repository;
 
-import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumWithLikes;
 import it.unipi.lsmd.BeatBuddy.model.dummy.SongWithLikes;
 import it.unipi.lsmd.BeatBuddy.repository.Neo4j.Song_Neo4jInterf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class Song_Repo_Neo4j {
     @Autowired
     private Neo4jClient neo4jClient;
 
-    public List<SongWithLikes> getSongsSortedByLikes_LastWeek(){
+    public List<SongWithLikes> getSongsByLikes_LastWeek(){
         try {
             return findSongsSortedByLikes_LastWeek();
         } catch (DataAccessException dae) {

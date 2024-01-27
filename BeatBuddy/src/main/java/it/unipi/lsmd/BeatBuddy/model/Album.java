@@ -1,5 +1,6 @@
 package it.unipi.lsmd.BeatBuddy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -59,11 +60,16 @@ public class Album {
         return totalDuration_minSec;
     }
 
-    public String getArtistsString() {
+    @JsonIgnore
+    public String getArtistsAsString() {
         String artistsString = "";
         for (String artist : artists) {
             artistsString += artist + ", ";
         }
-        return artistsString.substring(0, artistsString.length() - 2);
+
+        if(artistsString.length() == 0)
+            return "";
+        else
+            return artistsString.substring(0, artistsString.length() - 2);
     }
 }
