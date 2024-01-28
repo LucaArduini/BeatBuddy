@@ -9,13 +9,13 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArtistWithLikes {
-    private ObjectId _id;
+    private String _id;
     private String name;
     private String profilePicUrl;
     private Integer likes;
 
     public static ArtistWithLikes mapToArtistWithLikes(org.bson.Document doc) {
-        ObjectId _id = doc.getObjectId("_id");
+        String _id = doc.getObjectId("_id").toHexString(); // Converto ObjectId in String
         String name = doc.getString("name");
         String profilePicUrl = doc.getString("profilePicUrl");
         Integer likes = doc.getInteger("likes");

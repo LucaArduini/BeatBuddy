@@ -87,6 +87,10 @@ public class Utility {
 
     public static void writeAdminStats(AdminStats adminStats) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
+
+        // Abilita la formattazione "pretty print" per l'output JSON
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
         String json = objectMapper.writeValueAsString(adminStats);
 
         // Ottieni il percorso della directory corrente

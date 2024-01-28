@@ -118,7 +118,7 @@ public class AdminPage_RESTCtrl {
                     System.out.println(">> Average rating updated successfully");
             }
 
-            System.out.println(">> END: All new likes and average ratings updated successfully");
+            System.out.println(">>> END: All new likes and average ratings updated successfully");
             return "{\"outcome_code\": 0}";         // Update successful
 
         } catch (DataAccessResourceFailureException e) {
@@ -142,7 +142,7 @@ public class AdminPage_RESTCtrl {
         }
 
         try {
-            System.out.println(">> Calculating rankings...");
+            System.out.println(">> START: Calculating rankings...");
 
 
         // MongoDB Queries
@@ -202,7 +202,7 @@ public class AdminPage_RESTCtrl {
             System.out.println("> Calcolato con successo 7: " + Constants.fileName_RankingSongByLikes_LastWeek);
 
 
-            System.out.println(">>> Rankings calculated successfully");
+            System.out.println(">>> END: Rankings calculated successfully");
             return "{\"outcome_code\": 0}"; // Update successful
 
         } catch (DataAccessException dae) {

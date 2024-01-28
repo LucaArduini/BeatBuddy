@@ -10,13 +10,13 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArtistWithAvgRating {
-    private ObjectId _id;
+    private String _id;
     private String name;
     private String profilePicUrl;
     private Double avgRating;
 
     public static ArtistWithAvgRating mapToArtistWithLikes(Document doc) {
-        ObjectId _id = doc.getObjectId("_id");
+        String _id = doc.getObjectId("_id").toHexString(); // Converto ObjectId in String
         String name = doc.getString("name");
         String profilePicUrl = doc.getString("profilePicUrl");
         Double avgRating = doc.getDouble("avgRating");
