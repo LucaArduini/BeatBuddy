@@ -104,25 +104,14 @@ public class Album_Repo_Neo4j {
         return SongOnlyLikes.getSongOnlyLikes(cypherQuery, neo4jClient);
     }
 
-    public List<AlbumWithLikes> getAlbumsByLikes_LastWeek(){
-        try {
-            return findAlbumsSortedByLikes_LastWeek();
-        } catch (DataAccessException dae) {
-            if (dae instanceof DataAccessResourceFailureException)
-                throw dae;
-            dae.printStackTrace();
-            return null;
-        }
-    }
-
-    private List<AlbumWithLikes> findAlbumsSortedByLikes_LastWeek() {
+    public List<AlbumWithLikes> getAlbumsByLikes_LastWeek() {
         String cypherQuery = "MATCH (a:Album) <-[r:LIKES_A]- (:User) " +
                 "WHERE date(r.timestamp) >= date() - duration('P7D') " +
                 "WITH a, count(r) as likes " +
                 "RETURN DISTINCT a.albumName AS albumName, a.artistName AS artistName, " +
                 "a.coverURL AS coverURL, likes " +
                 "ORDER BY likes DESC " +
-                "LIMIT 5";
+                "LIMIT 10";
 
         return AlbumWithLikes.getAlbumWithLikes(cypherQuery, neo4jClient);
     }

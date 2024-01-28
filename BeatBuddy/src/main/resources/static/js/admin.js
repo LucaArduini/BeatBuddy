@@ -9,7 +9,6 @@ $(document).ready(function (){
         })
             .then(response => response.json())
             .then(data => {
-                alert('Response: ' + data.outcome_code);
                 switch(data.outcome_code) {
                     case 0:
                         alert('Update successful!');
@@ -49,7 +48,6 @@ $(document).ready(function (){
         })
             .then(response => response.json())
             .then(data => {
-                alert('Response: ' + data.outcome_code);
                 switch(data.outcome_code) {
                     case 0:
                         alert('Ranking update successful!');

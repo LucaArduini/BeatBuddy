@@ -2,9 +2,6 @@ package it.unipi.lsmd.BeatBuddy.controllers.api;
 
 import it.unipi.lsmd.BeatBuddy.model.User;
 import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -16,7 +13,6 @@ import java.util.Optional;
 
 @RestController
 public class Login_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(Login_RESTCtrl.class);
 
     @Autowired
     User_Repo_MongoDB user_RepoMongoDB;
@@ -25,7 +21,6 @@ public class Login_RESTCtrl {
     public @ResponseBody String login(HttpSession session,
                                       @RequestParam("username") String username,
                                       @RequestParam("password") String password) {
-        logger.info("Login attempt from user: " + username);
 
         try {
             User user = user_RepoMongoDB.getUserByUsername(username);
@@ -49,8 +44,8 @@ public class Login_RESTCtrl {
             }
 
         } catch (DataAccessResourceFailureException e) {
-            logger.error("Impossibile connettersi al database", e);
-            return "{\"outcome_code\": 3}";         // Errore di connessione al database
+            e.printStackTrace();
+            return "{\"outcome_code\": 3}";         // Error connecting to DB
         }
     }
 }

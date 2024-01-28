@@ -1,9 +1,15 @@
 package it.unipi.lsmd.BeatBuddy.repository;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.client.*;
 import it.unipi.lsmd.BeatBuddy.DTO.ArtistDTO;
+import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.model.Artist;
+import it.unipi.lsmd.BeatBuddy.model.dummy.ArtistWithAvgRating;
 import it.unipi.lsmd.BeatBuddy.model.dummy.ArtistWithLikes;
 import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Artist_MongoInterf;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -11,17 +17,26 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.*;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.query.Criteria;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+
+import static com.mongodb.client.model.Accumulators.avg;
+import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Aggregates.*;
+import static com.mongodb.client.model.Aggregates.limit;
+import static com.mongodb.client.model.Aggregates.lookup;
+import static com.mongodb.client.model.Aggregates.project;
+import static com.mongodb.client.model.Aggregates.sort;
+import static com.mongodb.client.model.Aggregates.unwind;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.descending;
 
 // ... (altri import necessari)
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,58 +72,67 @@ public class Artist_Repo_MongoDB {
         }
     }
 
-    public List<ArtistWithLikes> getArtistsWithMinAlbumsByAvgRating_AllTime() {
-        // Operazioni di aggregazione
-        UnwindOperation unwindOperation = unwind("artists");
-        GroupOperation groupOperation = group("artists")
-                .avg("averageRating").as("avgRating")
-                .count().as("albumCount");
-        MatchOperation matchOperation = match(Criteria.where("albumCount").gte(3));
-        LookupOperation lookupOperation = lookup("artists", "artists", "name", "artistDetails");
-        UnwindOperation unwindDetails = unwind("artistDetails", true);
-        SortOperation sortOperation = sort(Sort.by(Sort.Direction.DESC, "avgRating"));
-        ProjectionOperation finalProjection = project()
-                .and("_id").as("name")
-//                .and("artistDetails.name").as("name")
-                //.and("image").as("profilePicUrl")
-                .and("avgRating").as("avgRating")
-                ;
+    public List<ArtistWithAvgRating> getArtistsWithMinAlbumsByAvgRating_AllTime() {
+        MongoClient myMongoClient = MongoClients.create(new ConnectionString("mongodb://10.1.1.18:27017,10.1.1.17:27017,10.1.1.19:27017/?replicaSet=BB&w=1&readPreference=nearest&retryWrites=true"));
+        MongoDatabase database = myMongoClient.getDatabase("BeatBuddy");
+        MongoCollection<Document> collection = database.getCollection("albums");
 
-        // Costruzione dell'aggregazione
-        Aggregation aggregation = newAggregation(
-                unwindOperation,
-                groupOperation,
-                matchOperation,
-                lookupOperation,
-                //unwindDetails,
-                sortOperation,
-                limit(5),
-                finalProjection
-        );
+        Bson unwindOp1  = unwind("$artists");
+        Bson groupOp    = group("$artists",
+                avg("avgRating", "$averageRating"),
+                sum("albumCount", 1));
+        Bson matchOp    = match(gte("albumCount", 3));
+        Bson lookupOp   = lookup("artists", "_id", "name", "artistDetails");
+        Bson unwindOp2  = unwind("$artistDetails");      // se un documento non ha il campo "artistDetails" o se il campo "artistDetails" è un array vuoto, il documento verrà escluso dalla pipeline di aggregazione.
+        Bson sortOp     = sort(descending("avgRating"));
+        Bson limitOp    = limit(10);
+        Bson projOp     = project(fields(
+                computed("_id", "$artistDetails._id"),
+                computed("name", "$artistDetails.name"),
+                computed("profilePicUrl", "$artistDetails.profilePicUrl"),
+                include("avgRating")
+        ));
 
-        // Esecuzione dell'aggregazione
-        AggregationResults<ArtistWithLikes> results = mongoTemplate.aggregate(aggregation, "albums", ArtistWithLikes.class);
-        //System.out.println(results.getMappedResults());
-        return results.getMappedResults();
+        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(
+                unwindOp1, groupOp, matchOp, lookupOp,
+                unwindOp2, sortOp, limitOp, projOp
+        ));
+
+        List<ArtistWithAvgRating> artistsWithLikes = new ArrayList<>();
+        result.forEach(doc -> artistsWithLikes.add(ArtistWithAvgRating.mapToArtistWithLikes(doc)));
+
+        myMongoClient.close();
+        return artistsWithLikes;
     }
 
     public List<ArtistWithLikes> getArtistsByLikes_AllTime() {
-        Aggregation aggregation = Aggregation.newAggregation(
-                Aggregation.unwind("artists"), // Appiattisce il vettore degli artisti
-                Aggregation.group("artists") // Raggruppa in base agli artisti
-                        .sum("likes").as("likes"), // Calcola la somma dei likes degli album
-                Aggregation.lookup("artists", "artists", "name", "artistDetails"), // Aggiunge dettagli degli artisti
-                Aggregation.unwind("artistDetails"), // Appiattisce i dettagli degli artisti
-                Aggregation.sort(Sort.by(Sort.Direction.DESC, "likes")), // Ordina per il totale dei likes decrescente
-                Aggregation.limit(5), // Limita a 5 artisti
-                Aggregation.project() // Seleziona i campi necessari
-                        .and("artistDetails._id").as("id") // Mappa "_id" su "id"
-                        .and("artistDetails.name").as("name")
-                        .and("artistDetails.profilePicUrl").as("profilePicUrl")
-                        .and("likes").as("likes")
-        );
+        MongoClient myMongoClient = MongoClients.create(new ConnectionString("mongodb://10.1.1.18:27017,10.1.1.17:27017,10.1.1.19:27017/?replicaSet=BB&w=1&readPreference=nearest&retryWrites=true"));
+        MongoDatabase database = myMongoClient.getDatabase("BeatBuddy");
+        MongoCollection<Document> collection = database.getCollection("albums");
 
-        AggregationResults<ArtistWithLikes> results = mongoTemplate.aggregate(aggregation, "albums", ArtistWithLikes.class);
-        return results.getMappedResults();
+        Bson unwindOp1  = unwind("$artists");
+        Bson groupOp    = group("$artists",
+                sum("likes", "$likes"));
+        Bson lookupOp   = lookup("artists", "_id", "name", "artistDetails");
+        Bson unwindOp2  = unwind("$artistDetails"); // Unwind per dettagli artista
+        Bson sortOp     = sort(descending("likes"));
+        Bson limitOp    = limit(10);
+        Bson projOp     = project(fields(
+                computed("_id", "$artistDetails._id"),
+                computed("name", "$artistDetails.name"),
+                computed("profilePicUrl", "$artistDetails.profilePicUrl"),
+                include("likes")
+        ));
+
+        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(
+                unwindOp1, groupOp, lookupOp, unwindOp2,
+                sortOp, limitOp, projOp
+        ));
+
+        List<ArtistWithLikes> artistsWithLikes = new ArrayList<>();
+        result.forEach(doc -> artistsWithLikes.add(ArtistWithLikes.mapToArtistWithLikes(doc)));
+
+        myMongoClient.close();
+        return artistsWithLikes;
     }
 }

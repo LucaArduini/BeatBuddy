@@ -1,6 +1,8 @@
 package it.unipi.lsmd.BeatBuddy.utilities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import it.unipi.lsmd.BeatBuddy.model.dummy.AdminStats;
 import jakarta.servlet.http.HttpSession;
 
@@ -41,6 +43,10 @@ public class Utility {
 
     public static void writeToFile(Object data, String fileName, String folderName) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
+        
+        // Abilita la formattazione "pretty print" per l'output JSON
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
         String json = objectMapper.writeValueAsString(data);
 
         // Ottieni il percorso della directory corrente
@@ -52,7 +58,7 @@ public class Utility {
         // Crea la sottocartella se non esiste
         File subFolder = new File(subFolderPath);
         if (!subFolder.exists()) {
-            subFolder.mkdir(); // Nota: usa mkdirs() per creare tutte le sottodirectory necessarie
+            subFolder.mkdirs();
         }
 
         // Costruisci il percorso completo del file
@@ -81,6 +87,10 @@ public class Utility {
 
     public static void writeAdminStats(AdminStats adminStats) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
+
+        // Abilita la formattazione "pretty print" per l'output JSON
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
         String json = objectMapper.writeValueAsString(adminStats);
 
         // Ottieni il percorso della directory corrente
@@ -92,7 +102,7 @@ public class Utility {
         // Crea la sottocartella se non esiste
         File subFolder = new File(subFolderPath);
         if (!subFolder.exists()) {
-            subFolder.mkdir(); // Nota: usa mkdirs() per creare tutte le sottodirectory necessarie
+            subFolder.mkdirs();
         }
 
         // Costruisci il percorso completo del file

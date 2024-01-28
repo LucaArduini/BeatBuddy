@@ -2,9 +2,6 @@ package it.unipi.lsmd.BeatBuddy.controllers.api;
 
 import com.google.gson.Gson;
 import it.unipi.lsmd.BeatBuddy.repository.User_Repo_Neo4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +11,18 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class ProfilePage_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(ProfilePage_RESTCtrl.class);
 
     @Autowired
     private User_Repo_Neo4j user_Repo_Neo4j;
 
     @PostMapping("/api/logout")
     public @ResponseBody String logout(HttpSession session) {
-        logger.info("Logout attempt from user: " + session.getAttribute("username"));
         if (!Utility.isLogged(session)) {
             // Lancia un'eccezione se l'utente non è loggato
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Accesso non autorizzato");
         }
 
         session.invalidate(); // Invalida la sessione se l'utente è loggato
-        logger.info("User logged out");
         return "{\"outcome_code\": 0}";
     }
 

@@ -3,7 +3,6 @@ package it.unipi.lsmd.BeatBuddy.controllers;
 import it.unipi.lsmd.BeatBuddy.DTO.SongDTO;
 import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumWithLikes;
-import it.unipi.lsmd.BeatBuddy.model.dummy.ArtistWithLikes;
 import it.unipi.lsmd.BeatBuddy.model.dummy.SongWithLikes;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
