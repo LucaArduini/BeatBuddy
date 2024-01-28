@@ -27,6 +27,8 @@ public class DiscoverPage_Ctrl {
 
         if(!Utility.isLogged(session))
             return "redirect:/login";
+        if(Utility.isAdmin(session))
+            return "error/accessDenied";
 
         String currentUsername = Utility.getUsername(session);
 

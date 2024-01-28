@@ -28,12 +28,15 @@ $(document).ready(function() {
             dataType: 'json',
             method: "GET",
             success: function(result_a) {
+                if(result_a.length === 0){
+                    const container = $("#liked_albums_container");
+                    container.empty();
+                    container.append("<p>No album liked.</p>");
+                }
                 displayLikedAlbums(result_a, user);
             },
             error: function() {
-                const container = $("#liked_albums_container");
-                container.empty();
-                container.append("<p>No album liked.</p>");
+                alert("Errore nella richiesta Ajax.");
             }
         });
     });

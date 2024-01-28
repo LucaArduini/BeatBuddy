@@ -278,6 +278,11 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
+.top-container:hover {
+    color: #282828;
+    background-color: #07c9a9;
+}
+
 .recom-container {
     border-radius: 10px;
     background-color: rgba(40, 40, 40, 0.71);

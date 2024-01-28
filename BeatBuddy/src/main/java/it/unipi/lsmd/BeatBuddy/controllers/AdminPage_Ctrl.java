@@ -33,8 +33,8 @@ public class AdminPage_Ctrl {
             else
                 model.addAttribute("adminStatsFound", false);
 
-            return "test/BOTTONI_ADMIN";
-            //return "adminPage";
+            //return "test/BOTTONI_ADMIN";
+            return "adminPage";
 
         } catch (Exception e) {
             e.printStackTrace();
