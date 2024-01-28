@@ -96,7 +96,7 @@ public class Album_Repo_MongoDB {
 
     public List<Album> getAlbumsWithMinReviewsByAvgRating_AllTime() {
         int minReviews = 5;
-        Pageable pageable = Pageable.ofSize(5);
+        Pageable pageable = Pageable.ofSize(10);
 
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.lookup("reviews", "_id", "albumID", "albumReviews"), // Join con la collection reviews
@@ -121,22 +121,15 @@ public class Album_Repo_MongoDB {
     }
 
     public List<Album> getAlbumsByLikes_AllTime(){
-        try {
-            Pageable topFive = PageRequest.of(0, 5);
-            return album_RI_Mongo.findAlbumsSortedByLikes_AllTime(topFive);
-        } catch (DataAccessException dae) {
-            if (dae instanceof DataAccessResourceFailureException)
-                throw dae;
-            dae.printStackTrace();
-            return null;
-        }
+        Pageable topFive = PageRequest.of(0, 10);
+        return album_RI_Mongo.findAlbumsSortedByLikes_AllTime(topFive);
     }
 
     public List<SongDTO> getSongsByLikes_AllTime() {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.unwind("songs"), // Appiattisce l'array di canzoni
                 Aggregation.sort(Sort.by(Sort.Direction.DESC, "songs.likes")), // Ordina le canzoni in base ai likes
-                Aggregation.limit(5), // Limita il risultato alle prime 5 canzoni
+                Aggregation.limit(10), // Limita il risultato alle prime 5 canzoni
                 Aggregation.project() // Proietta i campi necessari nel formato SongDTO
                         .and("songs.name").as("name")
                         .and("title").as("albumTitle")

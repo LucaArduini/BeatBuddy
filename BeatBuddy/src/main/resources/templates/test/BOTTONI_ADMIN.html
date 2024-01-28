@@ -22,9 +22,10 @@
     </style>
 </head>
 <body>
-<button class="update-button" id="updateLikesButton">Update Likes</button>
-<button class="update-button" id="calculateRankingsButton">Calculate Rankings</button>
+<body>
 <button class="update-button" id="calculateStatsButton">Calculate Admin Stats</button>
+<button class="update-button" id="updateLikesButton">Update Likes and Avg Ratings</button>
+<button class="update-button" id="calculateRankingsButton">Calculate Rankings</button>
 
 <div id="dailyLikesOnAlbums">Daily Likes on Albums: 0</div>
 <div id="dailyLikesOnSongs">Daily Likes on Songs: 0</div>
@@ -34,14 +35,10 @@
     document.getElementById("updateLikesButton").addEventListener("click", function() {
         fetch('/api/admin/updateNewLikes', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-                // Include any necessary headers here
-            }
+            headers: {'Content-Type': 'application/json'}
         })
             .then(response => response.json())
             .then(data => {
-                alert('Response: ' + data.outcome_code);
                 switch(data.outcome_code) {
                     case 0:
                         alert('Update successful!');
@@ -74,14 +71,10 @@
     document.getElementById("calculateRankingsButton").addEventListener("click", function() {
         fetch('/api/admin/calculateRankings', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-                // Include any necessary headers here
-            }
+            headers: {'Content-Type': 'application/json'}
         })
             .then(response => response.json())
             .then(data => {
-                alert('Response: ' + data.outcome_code);
                 switch(data.outcome_code) {
                     case 0:
                         alert('Ranking update successful!');
@@ -90,13 +83,13 @@
                         alert('User not found or unauthorized.');
                         break;
                     case 2:
-                        alert('No albums found (sorted by rating).');
-                        break;
                     case 3:
-                        alert('No albums found (sorted by likes).');
-                        break;
                     case 4:
-                        alert('No songs found (sorted by likes).');
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                        alert('No rankings data found.');
                         break;
                     case 10:
                         alert('Database connection error.');
@@ -120,10 +113,7 @@
     document.getElementById("calculateStatsButton").addEventListener("click", function() {
         fetch('/api/admin/calculateAdminStats', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-                // Include any necessary headers here
-            }
+            headers: {'Content-Type': 'application/json'}
         })
             .then(response => response.json())
             .then(data => {

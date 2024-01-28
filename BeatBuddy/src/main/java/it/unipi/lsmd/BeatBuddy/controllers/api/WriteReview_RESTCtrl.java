@@ -8,8 +8,6 @@ import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WriteReview_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(WriteReview_RESTCtrl.class);
 
     @Autowired
     Review_Repo_MongoDB review_RepoNeo4j;
@@ -36,7 +33,6 @@ public class WriteReview_RESTCtrl {
                                       @RequestParam("text") String text,
                                       @RequestParam("albumID") String albumID,
                                       @RequestParam("username") String username) {
-        logger.info("Write review attempt from user: " + username);
 
         try {
             if(!Utility.isLogged(session))
@@ -82,7 +78,7 @@ public class WriteReview_RESTCtrl {
             return "{\"outcome_code\": 0}";         // Review successfully written
 
         } catch (DataAccessResourceFailureException e) {
-            logger.error("Impossibile connettersi al database", e);
+            e.printStackTrace();
             return "{\"outcome_code\": 12}";         // Error while connecting to the database
         }
     }

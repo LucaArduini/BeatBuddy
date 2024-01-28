@@ -22,6 +22,6 @@ public class HomePage_Ctrl {
                 return "homePage";
         }
         else
-            return "redirect:/";
+            return "redirect:/login";
     }
 }
