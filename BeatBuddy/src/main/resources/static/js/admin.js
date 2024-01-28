@@ -124,8 +124,9 @@ $(document).ready(function (){
         $.ajax({
             url: '/api/admin/calculateAdminStats',
             method: 'POST',
-            contentType: 'application/json',
+            dataType: 'json',
             success: function (data) {
+                alert("Response" + data.outcome_code);
                 switch (data.outcome_code) {
                     case 0:
                         $("#dailyLikesOnAlbums").text("Daily Likes on Albums: " + data.admin_stats.dailyLikesOnAlbums);
@@ -157,7 +158,7 @@ $(document).ready(function (){
         $.ajax({
             url: '/api/admin/calculateRankings',
             method: 'POST',
-            contentType: 'application/json',
+            dataType: 'json',
             success: function (data) {
                 alert('Response: ' + data.outcome_code);
                 switch (data.outcome_code) {
@@ -200,7 +201,7 @@ $(document).ready(function (){
         $.ajax({
             url: '/api/admin/updateNewLikes',
             method: 'POST',
-            contentType: 'application/json',
+            dataType: '/json',
             success: function (data) {
                 alert('Response: ' + data.outcome_code);
                 switch (data.outcome_code) {
