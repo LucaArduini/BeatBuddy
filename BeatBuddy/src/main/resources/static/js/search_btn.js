@@ -47,12 +47,9 @@ $(document).ready(function () {
                 else if(category == "user") {
                     displayUser(arrayResults);
                 }
-
-                console.log(arrayResults);
-
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                console.error("Error: " + error);
             }
         });
     }

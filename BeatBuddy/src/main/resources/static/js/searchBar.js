@@ -54,7 +54,7 @@ function loadSearchBar(){
                 )
             }else {
                 $("#user_controller").append(
-                    "<a href=\"/profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>"
+                    "<a href=\"/profilePage\" class=\"btn btn-success\" style=\"border-radius: 10px 10px 10px 10px;\"><i class=\"fa fa-user me-1\"></i>Profile page</a>"
                 )
             }
         }else{

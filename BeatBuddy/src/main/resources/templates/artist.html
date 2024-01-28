@@ -50,10 +50,10 @@
                     <div class="d-flex gap-1">
                         <div id="artist_album_songs" class="d-flex flex-column row-gap-1 col-md-12 p-1">
                             <h1 style="text-align: center">Album</h1>
-                            <div th:each="album : ${artistDetails.albums}" class="song-container d-flex align-items-center p-1">
+                            <div th:each="album : ${artistDetails.albums}" th:href="'/albumDetails?title=' + ${album.title} + '&artist=' + ${artistDetails.name}" class="song-container d-flex align-items-center p-1">
                                 <div class="d-flex align-items-center ps-1 pt-1">
-                                        <img id="album_cover" class="album-cover-sm mb-1" style="width: 80px;" th:src="${album.coverURL}">
-                                        <h3 id="album_title" class="ms-3" th:text="${album.title}"></h3>
+                                    <img id="album_cover" class="album-cover-sm mb-1" style="width: 80px;" th:src="${album.coverURL}">
+                                    <h3 id="album_title" class="ms-3" th:text="${album.title}"></h3>
                                 </div>
                             </div>
                         </div>

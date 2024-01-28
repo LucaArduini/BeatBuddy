@@ -61,8 +61,7 @@ $(document).ready(function () {
             },
             // La funzione error viene eseguita quando la richiesta fallisce.
             error: function (xhr, status, error) {
-                alert("ERRORE QUI 0");  //###
-                alert("Error: " + error);
+                console.log("Error: " + error);
             }
         });
 	}

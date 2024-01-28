@@ -17,8 +17,7 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                alert("ERRORE QUI 1");  //###
-                alert("Error: " + error);
+                console.log("Error: " + error);
             }
         });
     });

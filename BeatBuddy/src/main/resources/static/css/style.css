@@ -392,6 +392,10 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 10px;
 }
 
+#suggested_user_container:hover {
+    background-color: #a412ff;
+}
+
 .song-details h1, .song-details p {
     margin: 0;
 }
@@ -410,8 +414,8 @@ h1, h2, h3, h4, h5, h6 {
 
 #suggested_user_container {
     background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px 2px #28282847;
+    border-radius: 5px;
+    color: #282828;
 }
 
 .suggested-user {
@@ -438,9 +442,6 @@ h1, h2, h3, h4, h5, h6 {
     border: solid 3px #a412ff;
 }
 
-#hero {
-    padding: auto;
-}
 
 #user_inf {
     border-radius: 10px;
@@ -688,6 +689,11 @@ h1, h2, h3, h4, h5, h6 {
     align-content: center;
 }
 
+.user_foll:hover {
+    cursor: pointer;
+    background-color: #07c9a9;
+}
+
 .album_liked, .song_liked{
     border-radius: 10px;
     background-color: #ffffff6e;
@@ -695,6 +701,11 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
     padding: 5px;
     align-content: center;
+}
+
+.album_liked:hover, .song_liked:hover {
+    cursor: pointer;
+    background-color: #07c9a9;
 }
 
 /*--------------------------------------------------------------
@@ -746,7 +757,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
     font-size: xx-large;
     transition: all 0.5s;
-    margin: none;
+    margin: 0;
     font-weight: bolder;
     background: linear-gradient(45deg, #282828cc 0%, #282828cc 100%), url("../img/best-album.jpg") center center no-repeat;
 }
@@ -763,7 +774,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
     font-size: xx-large;
     transition: all 0.5s;
-    margin: none;
+    margin: 0;
     background: linear-gradient(45deg, #282828cc 0%, #282828cc 100%), url("../img/best-album.jpg") center center no-repeat;
 }
 
@@ -779,7 +790,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: xx-large;
     transition: all 0.5s;
     border: none;
-    margin: none;
+    margin: 0;
     background: linear-gradient(45deg, #282828cc 0%, #282828cc 100%), url("../img/best-album.jpg") center center no-repeat;
 }
 

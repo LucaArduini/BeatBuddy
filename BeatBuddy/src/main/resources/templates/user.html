@@ -63,7 +63,7 @@
                                 <span>Followed users</span><i class="fa fa-arrow-down" style="font-size: 16px; margin-right: 10px;"></i>
                             </h1>
                         </div>
-                        <div class="collapse" id="followed_container">
+                        <div class="collapse overflow-y-auto" id="followed_container" style="max-height: 300px;">
 
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                                 <span>Liked albums</span><i class="fa fa-arrow-down" style="font-size: 20px;"></i>
                             </h1>
                         </div>
-                        <div class="collapse" id="liked_albums_container">
+                        <div class="collapse overflow-y-auto" id="liked_albums_container" style="max-height: 300px;">
 
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                                 <span>Liked songs</span><i class="fa fa-arrow-down" style="font-size: 20px;"></i>
                             </h1>
                         </div>
-                        <div class="collapse" id="liked_songs_container">
+                        <div class="collapse overflow-y-auto" id="liked_songs_container" style="max-height: 300px;">
 
                         </div>
                     </div>
@@ -128,17 +128,16 @@
                     },
                     success: function (response){
                         if(response.outcome_code == 0){
-                            const followBtn = document.getElementById("#follow_btn");
-                            followBtn.style.backgroundColor = "green";
+                            const followBtn = $("#follow_btn");
+                            followBtn.css("background-color", "green");
                             followBtn.css("border-color", "green");
-                            alert("You correctly followed this user");
                         }else if(response.outcome_code == 1)
                             alert("Follow addition unsuccessful");
                         else
                             alert("Error occured while following the user");
                     },
                     error: function(xhr, status, error){
-                        console.log(error);
+                        console.log("Error: " + error);
                     }
                 })
             });

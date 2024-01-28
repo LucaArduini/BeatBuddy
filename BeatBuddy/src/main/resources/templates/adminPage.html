@@ -76,9 +76,9 @@
             <!--<div th:if="${adminStatsFound}">TROVATI</div>
             <div th:if="${!adminStatsFound}">NON TROVATI</div>-->
             <div class="d-flex gap-1">
-                <div id="dailyLikesOnAlbums" class="p-3 w-100"></div>
-                <div id="dailyLikesOnSongs" class="p-3 w-100"></div>
-                <div id="dailyReviews" class="p-3 w-100"></div>
+                <div id="dailyLikesOnAlbums" class="p-3 w-100">Daily Likes on Albums: <span th:text="${adminStatsFound ? dailyLikesOnAlbums : '0'}"></span></div>
+                <div id="dailyLikesOnSongs" class="p-3 w-100">Daily Likes on Songs: <span th:text="${adminStatsFound ? dailyLikesOnSongs : '0'}"></span></div>
+                <div id="dailyReviews" class="p-3 w-100">Daily Reviews: <span th:text="${adminStatsFound ? dailyReviews : 0}"></span></div>
             </div>
         </div>
         <div class="m-1 p-3" style="text-align: center; color: #282828; background-color: rgba(255,255,255,0.7); border-radius: 10px;">
