@@ -226,7 +226,8 @@ public class Album_Repo_MongoDB {
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Album.class);
 
             for (AlbumOnlyLikes like : likeList) {
-                Query query = new Query(Criteria.where("coverURL").is(like.getCoverURL()));
+                Query query = new Query(Criteria.where("title").is(like.getAlbumName())
+                        .andOperator(Criteria.where("artists").is(like.getArtistsArray())));
                 Update update = new Update().set("likes", like.getLikes());
                 bulkOps.updateOne(query, update);
             }
@@ -248,8 +249,11 @@ public class Album_Repo_MongoDB {
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Album.class);
 
             for (SongOnlyLikes like : likeList) {
-                Query query = new Query(Criteria.where("coverURL").is(like.getCoverUrl())
-                                                .and("songs.name").is(like.getSongName()));
+                Query query = new Query(new Criteria().andOperator(
+                        Criteria.where("title").is(like.getAlbumName()),
+                        Criteria.where("artists").is(like.getArtistsArray()),
+                        Criteria.where("songs.name").is(like.getSongName())
+                ));
                 Update update = new Update().set("songs.$.likes", like.getLikes());
                 bulkOps.updateOne(query, update);
             }

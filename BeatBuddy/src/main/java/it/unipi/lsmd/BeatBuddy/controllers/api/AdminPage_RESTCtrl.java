@@ -41,12 +41,14 @@ public class AdminPage_RESTCtrl {
 
     @PostMapping("/api/admin/calculateAdminStats")
     public @ResponseBody String calculateAdminStats(HttpSession session){
+        // chiamata una volta al giorno
+
         if(!Utility.isAdmin(session))
             return "{\"outcome_code\": 1}";     // User is not an admin
 
         try {
             System.out.println(">> START: Getting admin stats...");
-
+            // ### queste 3 controllate (sul -1 day e sono giuste)
             int dailyLikesOnAlbums = albumRepo_Neo4j.getNumberOfDailyLikesOnAlbums();
             System.out.println("> dailyLikesOnAlbums: " + dailyLikesOnAlbums);
 
@@ -79,6 +81,8 @@ public class AdminPage_RESTCtrl {
     @PostMapping("/api/admin/updateNewLikes")
     @Transactional
     public @ResponseBody String updateNewLikesAndAvgRatings(HttpSession session){
+        // chiamata una volta al giorno
+
         if(!Utility.isAdmin(session))
             return "{\"outcome_code\": 1}";     // User is not an admin
 
@@ -88,8 +92,12 @@ public class AdminPage_RESTCtrl {
             // aggiorna i nuovi likes per gli album
             ArrayList<AlbumOnlyLikes> newLikesAlbums = albumRepo_Neo4j.getNewLikesForAlbums();
             System.out.println("> New likes found (for albums): " + newLikesAlbums.size());
+            System.out.println("> Timestamp inizio aggiornamento: " + System.currentTimeMillis());
+            long start = System.currentTimeMillis();
             if(!newLikesAlbums.isEmpty()){
                 boolean outcome1 = albumRepo_MongoDB.setLikesToAlbums(newLikesAlbums.toArray(new AlbumOnlyLikes[0]));
+                System.out.println("> Timestamp fine aggiornamento: " + System.currentTimeMillis());
+                System.out.println("> Tempo impiegato (in sec): " + (start - System.currentTimeMillis())/1000);
                 if(!outcome1)
                     return "{\"outcome_code\": 2}";     // Error while updating new likes (for albums)
                 else
@@ -99,8 +107,12 @@ public class AdminPage_RESTCtrl {
             // aggiorna i nuovi likes per le canzoni
             ArrayList<SongOnlyLikes> newLikesSongs = albumRepo_Neo4j.getNewLikesForSongs();
             System.out.println("> New likes found (for songs): " + newLikesSongs.size());
+            System.out.println("> Timestamp inizio aggiornamento: " + System.currentTimeMillis());
+            start = System.currentTimeMillis();
             if(!newLikesSongs.isEmpty()){
                 boolean outcome2 = albumRepo_MongoDB.setLikesToSongs(newLikesSongs.toArray(new SongOnlyLikes[0]));
+                System.out.println("> Timestamp fine aggiornamento: " + System.currentTimeMillis());
+                System.out.println("> Tempo impiegato (in sec): " + (start - System.currentTimeMillis())/1000);
                 if(!outcome2)
                     return "{\"outcome_code\": 3}";     // Error while updating new likes (for songs)
                 else
@@ -130,6 +142,7 @@ public class AdminPage_RESTCtrl {
 
     @PostMapping("/api/admin/calculateRankings")
     public @ResponseBody String calculateRankings(HttpSession session){
+        // chiamata una volta a settimana
 
         if(!Utility.isAdmin(session))
             return "{\"outcome_code\": 1}"; // User is not an admin
