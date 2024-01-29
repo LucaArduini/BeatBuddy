@@ -115,6 +115,8 @@ public class Utility {
     public static AdminStats readAdminStats() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
+        System.out.println("SONO QUI");
+
         // Ottieni il percorso della directory corrente
         String currentDir = System.getProperty("user.dir");
 

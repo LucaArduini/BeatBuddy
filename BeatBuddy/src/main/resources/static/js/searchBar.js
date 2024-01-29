@@ -18,7 +18,7 @@ function loadSearchBar(){
     $(".header").append(
         "<div class=\"container-fluid d-flex align-items-center justify-content-between\">" +
         "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"/homePage\">BeatBuddy</a></h1>" +
-        "<section id=\"search-container\" class=\"g-col-3\">" +
+        "<section id=\"search-container\" class=\"w-50\">" +
         "<form class=\"d-flex\">" +
         "<input class=\"form-control\" type=\"text\" id=\"search_input\" placeholder=\"What are you looking for?\">" +
         "<select name=\"category\" id=\"category_input\"></select>" +
@@ -54,7 +54,7 @@ function loadSearchBar(){
                 )
             }else {
                 $("#user_controller").append(
-                    "<a href=\"/profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>"
+                    "<a href=\"/profilePage\" class=\"btn btn-success\" style=\"border-radius: 10px 10px 10px 10px;\"><i class=\"fa fa-user me-1\"></i>Profile page</a>"
                 )
             }
         }else{

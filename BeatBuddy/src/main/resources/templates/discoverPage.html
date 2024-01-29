@@ -36,62 +36,52 @@
             <header class="header sticky-top shadow">
                 
             </header>
-            <div id="suggested_songs" class="d-flex flex-column m-1 p-3">
-                <h1 class="display-3 mb-3" style="text-align: center; font-weight: 500; text-shadow: 0px 0px 20px #28282870;">Suggested <span style="color: #a412ff; text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff, 0px 0px 20px #28282870;">songs</span></h1>
-                <div class="d-flex d-flex gap-1">
-                    <div id="friend_songs" class="d-flex flex-column recom-container p-1 gap-1 w-100">
-                        <h1 class="display-3 mb-3" style="text-align: center; font-weight: 500; text-shadow: 0px 0px 20px #28282870;">Suggested <span style="color: #a412ff; text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff, 0px 0px 20px #28282870;">songs</span></h1>
-                        <div id="friend_songs_container" class="d-flex flex-column gap-1">
-                            <div class="top-container d-flex align-items-center">
-                                <img class="top-cover p-1" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
+            <section id="hero" class="d-flex flex-column container-fluid">
+                <div class="justify-content-center" data-aos="zoom-in" data-aos-delay="150">
+                    <div class="container-fluid p-3 d-flex gap-1 col-12">
+                    <div id="friend_songs" class="d-flex flex-column recom-container p-1 gap-1 w-100 overflow-y-auto" style="max-height: 550px;">
+                        <h1>Suggested songs by taste</h1>
+                        <div th:if="${no_s_1}">No suggestion yet.</div>
+                        <a th:each="song : ${suggestedSongs_ByTaste}" id="friend_songs_container" class="d-flex flex-column gap-1">
+                            <div th:if="${suggestedSongs_ByTaste.isEmpty()}">No suggestions.</div>
+                            <a th:href="@{/albumDetails(title=${song.albumName},artist=${song.artistName})}" class="top-container d-flex align-items-center">
+                                <img class="top-cover p-1" th:src="${song.coverUrl}">
                                 <div class="song-details d-flex flex-column">
-                                    <h5 style="margin-bottom: 0;">Titolo 1</h5>
-                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0">Club Dogo</p>
-                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0">Club Dogo</p>
+                                    <h5 style="margin-bottom: 0;" th:text="${song.songName}"></h5>
+                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0" th:text="${song.albumName}"></p>
+                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0" th:text="${#strings.arrayJoin(song.artistName, ', ')}"></p>
                                 </div>
-                                <span class="view_details_btn align-self-center ms-5 p-3">View details <i class="fa fa-arrow-right ms-1"></i></span>
-                            </div>
+                            </a>
+                        </a>
+                    </div>
+                    <div id="common_songs" class="d-flex flex-column recom-container p-1 gap-1 w-100 overflow-y-auto" style="max-height: 550px;">
+                        <h1>Suggested songs by follow</h1>
+                        <div th:if="${no_s_2}">No suggestions yet.</div>
+                        <div th:each="song_f : ${suggestedSongs_ByFollow}" id="common_songs_container" class="d-flex flex-column gap-1">
+                            <a th:href="'/albumDetails?title=' + ${song_f.albumName} + '&artist=' + ${song_f.artistName}" class="top-container d-flex align-items-center">
+                                <img class="top-cover p-1" th:src="${song_f.coverUrl}">
+                                <div class="song-details d-flex flex-column">
+                                    <h5 style="margin-bottom: 0;" th:text="${song_f.songName}"></h5>
+                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0" th:text="${song_f.albumName}"></p>
+                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0" th:text="${#strings.arrayJoin(song_f.artistName, ', ')}"></p>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                    <div id="common_songs" class="d-flex flex-column recom-container p-1 gap-1 w-100">
-                        <h1>Common liked songs with users</h1>
-                        <div id="common_songs_container" class="d-flex flex-column gap-1">
-                            <div class="top-container d-flex align-items-center">
-                                <img class="top-cover p-1" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
-                                <div class="song-details d-flex flex-column">
-                                    <h5 style="margin-bottom: 0;">Titolo 1</h5>
-                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0">Club Dogo</p>
-                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0">Club Dogo</p>
+                    <div id="suggested_users" class="d-flex flex-column container-fluid recom-container p-1 gap-1 w-100 overflow-y-auto" style="max-height: 550px;">
+                        <h1>Suggested users to follow</h1>
+                        <div th:if="${no_s_3}" style="color: white;">No suggestion yet.</div>
+                        <div th:each="user : ${suggestedUsersToFollow}" id="suggested_user_container" class="d-flex flex-column gap-1 p-3">
+                            <a th:href="'user?username=' + ${user.username}" class="d-flex align-items-center" style="text-decoration: none; color: #282828;">
+                                <div class="d-flex flex-column">
+                                    <h5 style="margin-bottom: 0;"><i class="fa fa-user me-1"></i><span th:text="${user.username}"></span></h5>
                                 </div>
-                                <span class="view_details_btn align-self-center ms-5 p-3">View details <i class="fa fa-arrow-right ms-1"></i></span>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <div id="suggested_users" class="d-flex flex-column recom-container p-1 gap-1 w-100">
-                        <h1>Common liked songs with users</h1>
-                        <div id="suggested_user_container" class="d-flex flex-column gap-1">
-                            <div class="top-container d-flex align-items-center">
-                                <img class="top-cover p-1" src="https://ondarock.it/images/cover/ClubDogoClubDogoCover_1705244254.jpg">
-                                <div class="song-details d-flex flex-column">
-                                    <h5 style="margin-bottom: 0;">Titolo 1</h5>
-                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0">Club Dogo</p>
-                                    <p style="margin-top:0; margin-bottom: 0;" class="mb-0">Club Dogo</p>
-                                </div>
-                                <span class="view_details_btn align-self-center ms-5 p-3">View details <i class="fa fa-arrow-right ms-1"></i></span>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="suggested_users" class="container-fluid p-3">
-                <h1 class="display-3 p-3" style="text-align: center; font-weight: 500; text-shadow: 0px 0px 20px #28282870;">Suggested <span style="color: #07c9a9; text-shadow:-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff, 0px 0px 20px #28282870;">users</span></h1>
-                <div id="suggested_user_container" class="d-flex p-3 m-1 justify-content-evenly">
-                    <div class="suggested-user d-flex flex-column justify-content-center p-3" id="suggested-user-1">
-                        <img src="img/icons8-male-user-96.png">
-                        <h3>User1234</h3>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
 
         <!-- AOS JavaScript -->

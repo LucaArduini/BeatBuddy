@@ -3,7 +3,9 @@ package it.unipi.lsmd.BeatBuddy.controllers;
 import it.unipi.lsmd.BeatBuddy.DTO.SongDTO;
 import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumWithLikes;
+import it.unipi.lsmd.BeatBuddy.model.dummy.ArtistWithAvgRating;
 import it.unipi.lsmd.BeatBuddy.model.dummy.SongWithLikes;
+import it.unipi.lsmd.BeatBuddy.model.dummy.ArtistWithLikes;
 import it.unipi.lsmd.BeatBuddy.utilities.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,13 +59,13 @@ public class MostPopularPage_Ctrl {
                     List<SongWithLikes> rankingSongsByLikes_LastWeek = readJsonData(Constants.fileName_RankingSongByLikes_LastWeek, new TypeReference<List<SongWithLikes>>() {});
                     model.addAttribute("rankingSongsByLikes_LastWeek", rankingSongsByLikes_LastWeek);
                 }
-                /*else if (type.equals("artists")) {
-                    List<Album> rankingArtistsByAvgRating_AllTime = readJsonData(Constants.fileName_RankingArtistsByAvgRating_AllTime, new TypeReference<List<Album>>() {});
+                else if (type.equals("artists")) {
+                    List<ArtistWithAvgRating> rankingArtistsByAvgRating_AllTime = readJsonData(Constants.fileName_RankingArtistsByAvgRating_AllTime, new TypeReference<List<ArtistWithAvgRating>>() {});
                     model.addAttribute("rankingArtistsByAvgRating_AllTime", rankingArtistsByAvgRating_AllTime);
 
                     List<ArtistWithLikes> rankingArtistsByLikes_AllTime = readJsonData(Constants.fileName_RankingArtistsByLikes_AllTime, new TypeReference<List<ArtistWithLikes>>() {});
                     model.addAttribute("rankingArtistsByLikes_AllTime", rankingArtistsByLikes_AllTime);
-                }*/
+                }
                 else
                     return "error/genericError";
 

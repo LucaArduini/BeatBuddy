@@ -59,7 +59,7 @@
                                 <span>Followed users</span><i class="fa fa-arrow-down" style="font-size: 16px; margin-right: 10px;"></i>
                             </h1>
                         </div>
-                        <div id="followed_container" class="collapse">
+                        <div id="followed_container" class="collapse overflow-y-auto" style="max-height: 300px;">
 
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                                 <span>Liked albums</span><i class="fa fa-arrow-down" style="font-size: 20px;"></i>
                             </h1>
                         </div>
-                        <div id="liked_albums_container" class="collapse">
+                        <div id="liked_albums_container" class="collapse overflow-y-auto" style="max-height: 300px;">
 
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                                 <span>Liked songs</span><i class="fa fa-arrow-down" style="font-size: 20px;"></i>
                             </h1>
                         </div>
-                        <div class="collapse" id="liked_songs_container">
+                        <div class="collapse overflow-y-auto" id="liked_songs_container" style="max-height: 300px;">
 
                         </div>
                     </div>
@@ -105,13 +105,13 @@
     </section><!-- End Hero -->
 </div>
 
-<script>
+<!--<script>
     $('.dislike_A_btn').click(function () {
         let albumContainer = $(this).closest(".album_liked");
         let albumCover = albumContainer.find("img").first();
 
         console.log("Like song button clicked\nCover URL: " + albumCover);
-        /*$.ajax({
+        $.ajax({
             url: '/api/addLikesSong',
             dataType: 'json',
             type: 'POST',
@@ -134,9 +134,9 @@
             error: function (xhr, status, error) {
                 console.log("Error: " + error);
             }
-        });*/
+        });
     });
-</script>
+</script>-->
 <!-- AOS JavaScript -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>

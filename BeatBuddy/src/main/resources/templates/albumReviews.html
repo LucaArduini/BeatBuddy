@@ -50,8 +50,8 @@
                         <h6 id="timestamp" style="font-style: italic;" th:text="${review.printableDate}"></h6>
                     </div>
                     <div id="text_review" th:text="${review.text}"></div>
-                    <button th:if="${session.role == 'admin'}" id="delete_review_btn" class="btn btn-outline-danger mt-1">Delete Review</button>
                 </div>
+                <button onClick="history.go(-1);return true;" class="btn btn-primary w-100">Return to the album page</button>
             </div>
         </section><!-- End Hero -->
     </div>

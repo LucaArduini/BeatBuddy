@@ -27,26 +27,40 @@ public class DiscoverPage_Ctrl {
 
         if(!Utility.isLogged(session))
             return "redirect:/login";
+        if(Utility.isAdmin(session))
+            return "error/accessDenied";
 
         String currentUsername = Utility.getUsername(session);
 
         ArrayList<Song_Neo4j> suggestedSongs_ByTaste = song_RepoNeo4j.getSuggestedSongs_ByTaste(currentUsername);
         if(suggestedSongs_ByTaste == null)
             return "error/genericError";
-        else
-            model.addAttribute("suggestedSongs_ByTaste", suggestedSongs_ByTaste);
+        else{
+            if(suggestedSongs_ByTaste.isEmpty())
+                model.addAttribute("no_s_1", true);
+            else
+                model.addAttribute("suggestedSongs_ByTaste", suggestedSongs_ByTaste);
+        }
 
         ArrayList<Song_Neo4j> suggestedSongs_ByFollow = song_RepoNeo4j.getSuggestedSongs_ByFollowed(currentUsername);
         if(suggestedSongs_ByFollow == null)
             return "error/genericError";
-        else
-            model.addAttribute("suggestedSongs_ByFollow", suggestedSongs_ByFollow);
+        else {
+            if (suggestedSongs_ByFollow.isEmpty())
+                model.addAttribute("no_s_2", true);
+            else
+                model.addAttribute("suggestedSongs_ByFollow", suggestedSongs_ByFollow);
+        }
 
         ArrayList<User_Neo4j> suggestedUsersToFollow = user_RepoNeo4j.findSuggestedUserstoFollow(currentUsername);
         if(suggestedUsersToFollow == null)
             return "error/genericError";
-        else
-            model.addAttribute("suggestedUsersToFollow", suggestedUsersToFollow);
+        else {
+            if (suggestedSongs_ByFollow.isEmpty())
+                model.addAttribute("no_s_3", true);
+            else
+                model.addAttribute("suggestedUsersToFollow", suggestedUsersToFollow);
+        }
 
         //////////////////
         System.out.println("Suggested songs by taste:");

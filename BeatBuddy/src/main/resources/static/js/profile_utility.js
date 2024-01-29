@@ -28,12 +28,15 @@ $(document).ready(function() {
             dataType: 'json',
             method: "GET",
             success: function(result_a) {
+                if(result_a.length === 0){
+                    const container = $("#liked_albums_container");
+                    container.empty();
+                    container.append("<p>No album liked.</p>");
+                }
                 displayLikedAlbums(result_a, user);
             },
             error: function() {
-                const container = $("#liked_albums_container");
-                container.empty();
-                container.append("<p>No album liked.</p>");
+                alert("Errore nella richiesta Ajax.");
             }
         });
     });
@@ -66,15 +69,17 @@ function displayFollowed(followed) {
         userInf.append($("<i class=\"fa fa-user me-3\"></i>"));
         userInf.append($("<span></span>").text(user_tmp.username));
         if(window.location.href.includes("profilePage")){
-            userInf.append($("<button id=\"unfollow_btn_" + increment + "\" class=\"btn btn-danger\">Unfollow</button>"))
+            userDiv.append($("<button id=\"unfollow_btn_" + increment + "\" class=\"btn btn-danger ms-auto\">Unfollow</button>"))
         }
+        $(userInf).click(function (){
+            window.location.href = "/user?username=" + user_tmp.username;
+        })
         container.append(userDiv);
         let id="unfollow_btn_" + increment;
         $("#" + id).click(function () {
             let userContainer = $(this).closest(".user_foll");
             let username = $("#username").text();
 
-            console.log("Like album button clicked\nMe: " + username + "user: " + user_tmp.username);
             $.ajax({
                 url: '/api/removeFollow',
                 dataType: 'json',
@@ -89,9 +94,9 @@ function displayFollowed(followed) {
                         alert("Follow removed");
                     }
                     else if(response.outcome_code == 1)
-                        alert("Dislike addition unsuccessful");
+                        alert("Follow removal unsuccessful");
                     else
-                        alert("Error occurred while adding like to song");
+                        alert("Error occurred while removing a follow");
                 },
                 error: function (xhr, status, error) {
                     console.log("Error: " + error);
@@ -107,15 +112,18 @@ function displayLikedAlbums(liked){
     container.empty();
 
     liked.forEach(function (album_tmp){
-        let albumDiv = $("<div class=\"d-flex album_liked gap-1 p-1 align-items-center mb-1 justify-content-between\"></div>");
+        let albumDiv = $("<div class=\"d-flex album_liked gap-1 p-1 align-items-center mb-1\"></div>");
         albumDiv.append($("<img class=\"album-cover shadow\" style=\"max-width: 100px;\">").attr("src", album_tmp.coverURL));
-        let albumInf = $("<div class=\"d-flex flex-column\"></div>");
+        let albumInf = $("<div class=\"d-flex flex-column album_inf\"></div>");
         albumDiv.append(albumInf);
         albumInf.append($("<h3 style=\"margin-bottom:0; font-weight: bold\"></h3>").text(album_tmp.albumName));
         albumInf.append($("<p style=\"font-size: large; margin-top:0; margin-bottom: 0;\"></p>").text(album_tmp.artistName));
         if(window.location.href.includes("profilePage")){
-            albumDiv.append("<button id=\"dislike_A_btn_" + increment + "\" class=\"btn btn-danger\">Dislike</button>");
+            albumDiv.append("<button id=\"dislike_A_btn_" + increment + "\" class=\"btn btn-danger ms-auto\">Dislike</button>");
         }
+        $(albumInf).click(function (){
+            window.location.href = "/albumDetails?title=" + album_tmp.albumName + "&artist=" + album_tmp.artistName;
+        })
         container.append(albumDiv);
         let id="dislike_A_btn_" + increment;
         $("#" + id).click(function () {
@@ -125,7 +133,6 @@ function displayLikedAlbums(liked){
             let username = $("#username").text();
             let albumTitle = albumContainer.find("h3").first().text();
 
-            console.log("Like album button clicked\nCover URL: " + albumCover + "user: " + username + "title: " + albumTitle);
             $.ajax({
                 url: '/api/albumDetails/removeLikesAlbum',
                 dataType: 'json',
@@ -142,7 +149,7 @@ function displayLikedAlbums(liked){
                     else if(response.outcome_code == 1)
                         alert("Dislike addition unsuccessful");
                     else
-                        alert("Error occurred while adding like to song");
+                        alert("Error occurred while removing like to album");
                 },
                 error: function (xhr, status, error) {
                     console.log("Error: " + error);
@@ -158,16 +165,19 @@ function displayLikedSongs(liked){
     container.empty();
 
     liked.forEach(function (song_tmp){
-        let songDiv = $("<div class=\"d-flex song_liked gap-1 p-1 align-items-center mb-1 justify-content-between\"></div>");
+        let songDiv = $("<div class=\"d-flex song_liked gap-1 p-1 align-items-center mb-1\"></div>");
         songDiv.append($("<img class=\"album-cover shadow\" style=\"max-width: 100px;\">").attr("src", song_tmp.coverUrl));
-        let songInf = $("<div class=\"d-flex flex-column\"></div>");
+        let songInf = $("<div class=\"d-flex flex-column song_inf\"></div>");
         songDiv.append(songInf);
         songInf.append($("<h3 style=\"margin-bottom:0; font-weight: bold\"></h3>").text(song_tmp.songName));
         songInf.append($("<p style=\"font-size: large; margin-top:0; margin-bottom: 0;\"></p>").text(song_tmp.albumName));
         songInf.append($("<p style=\"font-size: large; margin-top:0; margin-bottom: 0;\"></p>").text(song_tmp.artistName));
         if(window.location.href.includes("profilePage")){
-            songDiv.append($("<button id=\"dislike_S_btn_" + increment + "\" class=\"btn btn-danger\">Dislike</button>"))
+            songDiv.append($("<button id=\"dislike_S_btn_" + increment + "\" class=\"btn btn-danger ms-auto\">Dislike</button>"))
         }
+        $(songInf).click(function (){
+            window.location.href = "/albumDetails?title=" + song_tmp.albumName + "&artist=" + song_tmp.artistName;
+        })
         container.append(songDiv);
         let id="dislike_S_btn_" + increment;
         $("#" + id).click(function () {
@@ -177,7 +187,6 @@ function displayLikedSongs(liked){
             let username = $("#username").text();
             let songTitle = songContainer.find("h3").first().text();
 
-            console.log("Like album button clicked\nCover URL: " + songCover + "user: " + username + "title: " + songTitle);
             $.ajax({
                 url: '/api/albumDetails/removeLikesSong',
                 dataType: 'json',
@@ -195,7 +204,7 @@ function displayLikedSongs(liked){
                     else if(response.outcome_code == 1)
                         alert("Dislike addition unsuccessful");
                     else
-                        alert("Error occurred while adding like to song");
+                        alert("Error occurred while removing like to song");
                 },
                 error: function (xhr, status, error) {
                     console.log("Error: " + error);

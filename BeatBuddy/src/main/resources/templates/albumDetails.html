@@ -63,7 +63,6 @@
                                     <i class="fa fa-star me-1 ps-3"></i>
                                     <div id="average_rating" th:text="${albumDetails.averageRating}"></div>
                                 </div>
-                                <button th:if="${admin}" class="btn btn-outline-danger w-25" id="delete_album_btn">Delete Album</button>
                             </div>
                         </div>
                     </div>
@@ -153,7 +152,7 @@
                         // Imposto la funzionalità onClick ai pulsanti "Like" degli album
                         const likeAlbumBtn = document.getElementById("like_album_btn");
                         likeAlbumBtn.addEventListener("click", function () {
-                            alert("like_album_btn clicked");
+                            //alert("like_album_btn clicked");
                             let albumCoverUrl = /*[[${albumDetails.coverURL}]]*/ null;
 
                             console.log("like_album_btn clicked\nalbumCoverUrl: " + albumCoverUrl + "\nusername: " + username);
@@ -166,14 +165,13 @@
                                     coverURL: albumCoverUrl
                                 },
                                 success: function (response) {
-                                    console.log(response);
                                     if (response.outcome_code == 0){
                                         likeAlbumBtn.style.backgroundColor = "green";
                                         likeAlbumBtn.style.borderColor = "green";
                                         alert("You correctly liked this album");
                                     }
                                     else if (response.outcome_code == 1)
-                                        alert("Like addition unsuccessful");
+                                        alert("You have already liked this album");
                                     else
                                         alert("Error occurred while adding like to album");
                                 },
@@ -190,7 +188,6 @@
                             let songcoverUrl = /*[[${albumDetails.coverURL}]]*/ null;
                             let sonoio = $(this);
 
-                            console.log("Like song button clicked\nSong Title: " + songTitle + "\nCover URL: " + songcoverUrl);
                             $.ajax({
                                 url: '/api/addLikesSong',
                                 dataType: 'json',
@@ -201,16 +198,14 @@
                                     coverURL: songcoverUrl
                                 },
                                 success: function (response) {
-                                    console.log(response);
                                     if(response.outcome_code == 0){
-                                        alert("sono qui");
+                                        //alert("sono qui");
                                         alert("You correctly liked the song '" + songTitle + "'");
-                                        console.log(sonoio.text())
                                         sonoio.css("background-color", "green");
                                         sonoio.css("border-color", "green");
                                     }
                                     else if(response.outcome_code == 1)
-                                        alert("Like addition unsuccessful");
+                                        alert("You have already liked this song.");
                                     else
                                         alert("Error occurred while adding like to song");
                                 },
