@@ -129,9 +129,9 @@ function displayLikedAlbums(liked){
         $("#" + id).click(function () {
             let albumContainer = $(this).closest(".album_liked");
             let albumCoverContainer = albumContainer.find("img").first()
-            let albumCover = albumCoverContainer.attr("src");
             let username = $("#username").text();
-            let albumTitle = albumContainer.find("h3").first().text();
+            let albumTitle = album_tmp.albumName
+            let artistsAsString = album_tmp.artistName;
 
             $.ajax({
                 url: '/api/albumDetails/removeLikesAlbum',
@@ -139,7 +139,8 @@ function displayLikedAlbums(liked){
                 type: 'POST',
                 data: {
                     username: username,
-                    coverURL: albumCover
+                    albumTitle: albumTitle,
+                    artists: artistsAsString
                 },
                 success: function (response) {
                     console.log(response);
@@ -185,6 +186,8 @@ function displayLikedSongs(liked){
             let songCoverContainer = songContainer.find("img").first()
             let songCover = songCoverContainer.attr("src");
             let username = $("#username").text();
+            let albumTitle = song_tmp.albumName;
+            let artistsAsString = song_tmp.artistName;
             let songTitle = songContainer.find("h3").first().text();
 
             $.ajax({
@@ -193,8 +196,9 @@ function displayLikedSongs(liked){
                 type: 'POST',
                 data: {
                     username: username,
-                    title: songTitle,
-                    coverURL: songCover
+                    albumTitle: albumTitle,
+                    artists: artistsAsString,
+                    songTitle: songTitle
                 },
                 success: function (response) {
                     console.log(response);

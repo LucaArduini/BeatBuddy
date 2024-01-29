@@ -62,9 +62,9 @@ public class User_Repo_Neo4j {
         }
     }
 
-    public String[] addLikes_A(String username, String coverURL) {
+    public String[] addLikes_A(String username, String title, String artistArray) {
         try {
-            String[] created = user_RI_Neo4j.addLikes_A(username, coverURL);
+            String[] created = user_RI_Neo4j.addLikes_A(username, title, artistArray);
             return created;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
@@ -75,9 +75,9 @@ public class User_Repo_Neo4j {
         }
     }
 
-    public boolean removeLikes_A(String username, String coverURL) {
+    public boolean removeLikes_A(String username, String title, String artistArray) {
         try {
-            user_RI_Neo4j.removeLikes_A(username, coverURL);
+            user_RI_Neo4j.removeLikes_A(username, title, artistArray);
             return true;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
@@ -87,9 +87,9 @@ public class User_Repo_Neo4j {
         }
     }
 
-    public String addLikes_S(String username, String title, String coverURL) {
+    public String addLikes_S(String username, String title, String artistArray, String songName) {
         try {
-            String created = user_RI_Neo4j.addLikes_S(username, title, coverURL);
+            String created = user_RI_Neo4j.addLikes_S(username, title, artistArray, songName);
             return created;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
@@ -99,9 +99,9 @@ public class User_Repo_Neo4j {
         }
     }
 
-    public boolean removeLikes_S(String username, String title, String coverURL) {
+    public boolean removeLikes_S(String username, String title, String artistArray, String songName) {
         try {
-            user_RI_Neo4j.removeLikes_S(username, title, coverURL);
+            user_RI_Neo4j.removeLikes_S(username, title, artistArray, songName);
             return true;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
