@@ -19,6 +19,7 @@ public class AdminPage_Ctrl {
             return "error/accessDenied";
 
         try {
+            model.addAttribute("logged", Utility.isLogged(session));
             AdminStats adminStats = Utility.readAdminStats();
             if(adminStats != null){
                 model.addAttribute("adminStatsFound", true);

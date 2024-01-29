@@ -44,7 +44,7 @@
                         <div th:if="${no_s_1}">No suggestion yet.</div>
                         <a th:each="song : ${suggestedSongs_ByTaste}" id="friend_songs_container" class="d-flex flex-column gap-1">
                             <div th:if="${suggestedSongs_ByTaste.isEmpty()}">No suggestions.</div>
-                            <a th:href="'/albumDetails?title=' + ${song.albumName} + '&artist=' + ${song.artistName}" class="top-container d-flex align-items-center">
+                            <a th:href="@{/albumDetails(title=${song.albumName},artist=${song.artistName})}" class="top-container d-flex align-items-center">
                                 <img class="top-cover p-1" th:src="${song.coverUrl}">
                                 <div class="song-details d-flex flex-column">
                                     <h5 style="margin-bottom: 0;" th:text="${song.songName}"></h5>

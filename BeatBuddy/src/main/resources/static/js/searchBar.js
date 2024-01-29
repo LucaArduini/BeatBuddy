@@ -18,7 +18,7 @@ function loadSearchBar(){
     $(".header").append(
         "<div class=\"container-fluid d-flex align-items-center justify-content-between\">" +
         "<h1 id=\"logo\" class=\"g-col-3\"><a href=\"/homePage\">BeatBuddy</a></h1>" +
-        "<section id=\"search-container\" class=\"g-col-3\">" +
+        "<section id=\"search-container\" class=\"w-50\">" +
         "<form class=\"d-flex\">" +
         "<input class=\"form-control\" type=\"text\" id=\"search_input\" placeholder=\"What are you looking for?\">" +
         "<select name=\"category\" id=\"category_input\"></select>" +

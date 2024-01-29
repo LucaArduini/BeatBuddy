@@ -114,7 +114,7 @@ function displayLikedAlbums(liked){
     liked.forEach(function (album_tmp){
         let albumDiv = $("<div class=\"d-flex album_liked gap-1 p-1 align-items-center mb-1\"></div>");
         albumDiv.append($("<img class=\"album-cover shadow\" style=\"max-width: 100px;\">").attr("src", album_tmp.coverURL));
-        let albumInf = $("<div class=\"d-flex flex-column\"></div>");
+        let albumInf = $("<div class=\"d-flex flex-column album_inf\"></div>");
         albumDiv.append(albumInf);
         albumInf.append($("<h3 style=\"margin-bottom:0; font-weight: bold\"></h3>").text(album_tmp.albumName));
         albumInf.append($("<p style=\"font-size: large; margin-top:0; margin-bottom: 0;\"></p>").text(album_tmp.artistName));
@@ -167,7 +167,7 @@ function displayLikedSongs(liked){
     liked.forEach(function (song_tmp){
         let songDiv = $("<div class=\"d-flex song_liked gap-1 p-1 align-items-center mb-1\"></div>");
         songDiv.append($("<img class=\"album-cover shadow\" style=\"max-width: 100px;\">").attr("src", song_tmp.coverUrl));
-        let songInf = $("<div class=\"d-flex flex-column\"></div>");
+        let songInf = $("<div class=\"d-flex flex-column song_inf\"></div>");
         songDiv.append(songInf);
         songInf.append($("<h3 style=\"margin-bottom:0; font-weight: bold\"></h3>").text(song_tmp.songName));
         songInf.append($("<p style=\"font-size: large; margin-top:0; margin-bottom: 0;\"></p>").text(song_tmp.albumName));

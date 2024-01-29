@@ -690,8 +690,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .user_foll:hover {
-    cursor: pointer;
     background-color: #07c9a9;
+}
+
+.user_foll h5:hover {
+    cursor: pointer;
 }
 
 .album_liked, .song_liked{
@@ -704,8 +707,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .album_liked:hover, .song_liked:hover {
-    cursor: pointer;
     background-color: #07c9a9;
+}
+
+.album_inf:hover, .song_inf:hover {
+    cursor: pointer;
 }
 
 /*--------------------------------------------------------------

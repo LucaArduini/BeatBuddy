@@ -45,10 +45,10 @@ public class Neo4jBasicOperations_RESTCtrl {
             @RequestParam("username") String username,
             @RequestParam("coverURL") String coverURL) {
 
-        String result = user_RepoNeo4j.addLikes_A(username, coverURL);
-        if(result.equals("CREATED"))
+        String[] result = user_RepoNeo4j.addLikes_A(username, coverURL);
+        if(result[0].equals("CREATED"))
             return "{\"outcome_code\": 0}";
-        else if(result.equals("EXISTING"))
+        else if(result[0].equals("EXISTING"))
             return "{\"outcome_code\": 1}";
         else
             return "{\"outcome_code\": 2}";

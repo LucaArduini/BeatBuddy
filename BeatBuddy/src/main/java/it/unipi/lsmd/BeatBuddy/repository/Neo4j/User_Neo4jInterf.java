@@ -23,11 +23,11 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
             "MERGE (u1)-[:FOLLOW]->(u2)")
     void addFollow(String user1, String user2);*/
     @Query("MATCH (u1:User {username: $user1}), (u2:User {username: $user2}) " +
-            "WITH u1, u2, f, CASE WHEN id(f) IS NOT NULL THEN 'EXISTING' ELSE 'CREATED' END AS status " +
-            "MERGE (u1)-[f:FOLLOW]->(u2) " +
+            "OPTIONAL MATCH (u1)-[f:FOLLOW]->(u2) " +
+            "WITH u1, u2, f, CASE WHEN f IS NULL THEN 'CREATED' ELSE 'EXISTING' END AS status " +
+            "MERGE (u1)-[:FOLLOW]->(u2) " +
             "RETURN status")
     String addFollow(String user1, String user2);
-
 
     @Query("MATCH (u1:User {username: $user1})-[r:FOLLOW]->(u2:User {username: $user2}) " +
             "DELETE r")
@@ -41,7 +41,7 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
             "WITH u, l, a, CASE WHEN l.timestamp IS NULL THEN true ELSE false END AS isNew " +
             "SET l.timestamp = datetime() " +
             "RETURN CASE WHEN isNew = true THEN 'CREATED' ELSE 'EXISTING' END")
-    String addLikes_A(String username, String coverURL);
+    String[] addLikes_A(String username, String coverURL);
 
     @Query("MATCH (u:User {username: $username})-[r:LIKES_A]->(a:Album {coverURL: $coverURL}) " +
             "DELETE r")

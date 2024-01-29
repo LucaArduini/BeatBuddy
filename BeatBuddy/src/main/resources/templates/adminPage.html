@@ -36,10 +36,11 @@
 <body>
 <div class="main">
     <input type="hidden" id="is_logged" th:value="${logged}"/>
+    <input type="hidden" id="is_admin" th:value="${session.role == 'admin'}">
     <header class="header sticky-top shadow">
         <div class="container-fluid d-flex align-items-center justify-content-between">
             <h1 id="logo" class="g-col-3"><a href="/adminPage">BeatBuddy</a></h1>
-            <section id="search-container" class="g-col-3">
+            <section id="search-container" class="w-50">
                 <form class="d-flex">
                     <input class="form-control" type="text" id="search_input" placeholder="What are you looking for?">
                     <select name="category" id="category_input">
@@ -64,14 +65,14 @@
         <div class="m-1 p-3" style="text-align: center; color: #282828; background-color: rgba(255,255,255,0.7); border-radius: 10px;">
             <h1>UPDATE OPERATIONS</h1>
             <div class="d-flex gap-1">
-                <button class="btn btn-primary p-3 w-100 shadow" id="updateLikesButton">Update Likes</button>
-                <button class="btn btn-primary p-3 w-100 shadow" id="update_db_btn">Update Database</button>
+                <button class="btn btn-primary p-3 w-100 shadow" id="updateLikesButton">Update Likes and Average Ratings</button>
+                <button class="btn btn-primary p-3 w-100 shadow" id="update_db_btn">Find New Albums</button>
             </div>
         </div>
         <div class="m-1 p-3" style="text-align: center; color: #282828; background-color: rgba(255,255,255,0.7); border-radius: 10px;">
             <h1>ADMIN STATISTICS</h1>
             <div class="d-flex gap-1">
-                <button class="btn btn-outline-secondary p-3 w-100" id="calculateStatsButton">Calculate Admin Stats</button>
+                <button class="btn btn-primary p-3 w-100" id="calculateStatsButton">Calculate Admin Stats</button>
             </div>
             <!--<div th:if="${adminStatsFound}">TROVATI</div>
             <div th:if="${!adminStatsFound}">NON TROVATI</div>-->
@@ -86,7 +87,7 @@
             <div class="d-flex gap-1">
                 <button class="btn btn-outline-secondary p-3 w-100" id="most_popular_albums">Most Popular Albums</button>
                 <button class="btn btn-outline-secondary p-3 w-100" id="most_popular_songs">Most Popular Songs</button>
-                <!--<button class="btn btn-outline-secondary p-3 w-100" id="most_popular_artists">Most Popular Artists</button>-->
+                <button class="btn btn-outline-secondary p-3 w-100" id="most_popular_artists">Most Popular Artists</button>
             </div>
             <button class="btn btn-primary p-3 w-100 shadow mt-1" id="calculateRankingsButton">Calculate Rankings</button>
         </div>

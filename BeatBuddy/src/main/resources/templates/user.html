@@ -55,7 +55,6 @@
                         </div>
                     </div>
                     <button id="follow_btn" class="btn btn-primary w-100 mt-1" th:if="${session.role != 'admin'}"><i class="fa fa-user-plus me-1"></i>Follow</button>
-                    <button id="unfollow_btn" class="btn btn-outline-danger w-100 mt-1" th:if="${session.role != 'admin'}" style="display:none;"><i class="fa fa-user-plus me-1"></i>Unfollow</button>
                     <button id="ban_btn" class="btn btn-outline-danger w-100 mt-1" th:if="${session.role == 'admin'}"><i class="fa fa-ban me-1"></i>Ban</button>
                     <div style="background-color: rgba(40, 40, 40, 0.45); color: white; border-radius: 10px; padding: 10px; margin-top: 5px;">
                         <div id="followed_users_btn">
@@ -132,7 +131,7 @@
                             followBtn.css("background-color", "green");
                             followBtn.css("border-color", "green");
                         }else if(response.outcome_code == 1)
-                            alert("Follow addition unsuccessful");
+                            alert("You have already followed this user.");
                         else
                             alert("Error occured while following the user");
                     },
@@ -142,6 +141,9 @@
                 })
             });
         }
+        $("#ban_btn").click(function (){
+            alert("Feature yet to be implemented.");
+        })
     })
 </script>
 
