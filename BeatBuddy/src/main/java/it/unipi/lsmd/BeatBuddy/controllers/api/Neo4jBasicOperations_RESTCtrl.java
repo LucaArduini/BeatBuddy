@@ -43,9 +43,10 @@ public class Neo4jBasicOperations_RESTCtrl {
     @PostMapping("/api/addLikesAbum")
     public @ResponseBody String addLikesAbum(
             @RequestParam("username") String username,
-            @RequestParam("coverURL") String coverURL) {
+            @RequestParam("albumTitle") String albumTitle,
+            @RequestParam("artists") String artists){
 
-        String[] result = user_RepoNeo4j.addLikes_A(username, coverURL);
+        String[] result = user_RepoNeo4j.addLikes_A(username, albumTitle, artists);
         if(result[0].equals("CREATED"))
             return "{\"outcome_code\": 0}";
         else if(result[0].equals("EXISTING"))
@@ -57,10 +58,11 @@ public class Neo4jBasicOperations_RESTCtrl {
     @PostMapping("/api/addLikesSong")
     public @ResponseBody String addLikesSong(
             @RequestParam("username") String username,
-            @RequestParam("title") String title,
-            @RequestParam("coverURL") String coverURL) {
+            @RequestParam("albumTitle") String albumTitle,
+            @RequestParam("artists") String artists,
+            @RequestParam("songName") String songName) {
 
-        String result = user_RepoNeo4j.addLikes_S(username, title, coverURL);
+        String result = user_RepoNeo4j.addLikes_S(username, albumTitle, artists, songName);
         if(result.equals("CREATED"))
             return "{\"outcome_code\": 0}";
         else if(result.equals("EXISTING"))
@@ -72,9 +74,10 @@ public class Neo4jBasicOperations_RESTCtrl {
     @PostMapping("/api/albumDetails/removeLikesAlbum")
     public @ResponseBody String removeLikesAlbum(
             @RequestParam("username") String username,
-            @RequestParam("coverURL") String coverURL) {
+            @RequestParam("albumTitle") String albumTitle,
+            @RequestParam("artists") String artists){
 
-        if(user_RepoNeo4j.removeLikes_A(username, coverURL))
+        if(user_RepoNeo4j.removeLikes_A(username, albumTitle, artists))
             return "{\"outcome_code\": 0}";
         else
             return "{\"outcome_code\": 1}";
@@ -83,10 +86,11 @@ public class Neo4jBasicOperations_RESTCtrl {
     @PostMapping("/api/albumDetails/removeLikesSong")
     public @ResponseBody String removeLikesSong(
             @RequestParam("username") String username,
-            @RequestParam("title") String title,
-            @RequestParam("coverURL") String coverURL) {
+            @RequestParam("albumTitle") String albumTitle,
+            @RequestParam("artists") String artists,
+            @RequestParam("songName") String songName) {
 
-        if(user_RepoNeo4j.removeLikes_S(username, title, coverURL))
+        if(user_RepoNeo4j.removeLikes_S(username, albumTitle, artists, songName))
             return "{\"outcome_code\": 0}";
         else
             return "{\"outcome_code\": 1}";

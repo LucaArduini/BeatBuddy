@@ -36,32 +36,32 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
     /*@Query("MATCH (u:User {username: $username}), (a:Album {coverURL: $coverURL}) " +
             "MERGE (u)-[l:LIKES_A {timestamp: datetime()}]->(a)")
     void addLikes_A(String username, String coverURL);*/
-    @Query("MATCH (u:User {username: $username}), (a:Album {coverURL: $coverURL}) " +
+    @Query("MATCH (u:User {username: $username}), (a:Album {albumTitle: $albumTitle, artistName: $artistName}) " +
             "MERGE (u)-[l:LIKES_A]->(a) " +
             "WITH u, l, a, CASE WHEN l.timestamp IS NULL THEN true ELSE false END AS isNew " +
             "SET l.timestamp = datetime() " +
             "RETURN CASE WHEN isNew = true THEN 'CREATED' ELSE 'EXISTING' END")
-    String[] addLikes_A(String username, String coverURL);
+    String[] addLikes_A(String username, String albumTitle, String artistName);
 
-    @Query("MATCH (u:User {username: $username})-[r:LIKES_A]->(a:Album {coverURL: $coverURL}) " +
+    @Query("MATCH (u:User {username: $username})-[r:LIKES_A]->(a:Album {albumTitle: $albumTitle, artistName: $artistName}) " +
             "DELETE r")
-    void removeLikes_A(String username, String coverURL);
+    void removeLikes_A(String username, String albumTitle, String artistName);
 
     /*@Query("MATCH (u:User {username: $username}), (s:Song {songName: $songName, coverUrl: $coverUrl}) " +
             "MERGE (u)-[l:LIKES_S {timestamp: datetime()}]->(s)")
     void addLikes_S(String username, String songName, String coverUrl);*/
 
-    @Query("MATCH (u:User {username: $username}), (s:Song {songName: $songName, coverUrl: $coverUrl}) " +
+    @Query("MATCH (u:User {username: $username}), (s:Song {albumTitle: $albumTitle, artistName: $artistName, songName: $songName}) " +
             "MERGE (u)-[l:LIKES_S]->(s) " +
             "WITH u, l, s, CASE WHEN l.timestamp IS NULL THEN true ELSE false END AS isNew " +
             "SET l.timestamp = datetime() " +
             "RETURN CASE WHEN isNew = true THEN 'CREATED' ELSE 'EXISTING' END")
-    String addLikes_S(String username, String songName, String coverUrl);
+    String addLikes_S(String username, String albumTitle, String artistName, String songName);
 
 
-    @Query("MATCH (u:User {username: $username})-[r:LIKES_S]->(s:Song {songName: $songName, coverUrl: $coverUrl}) " +
+    @Query("MATCH (u:User {username: $username})-[r:LIKES_S]->(s:Song {albumTitle: $albumTitle, artistName: $artistName, songName: $songName}) " +
             "DELETE r")
-    void removeLikes_S(String username, String songName, String coverUrl);
+    void removeLikes_S(String username, String albumTitle, String artistName, String songName);
 
     @Query("MATCH (u:User {username: $username})-[:FOLLOW]->(followed) " +
             "RETURN COUNT(followed)")

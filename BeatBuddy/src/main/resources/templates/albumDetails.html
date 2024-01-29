@@ -153,7 +153,9 @@
                         // Imposto la funzionalità onClick ai pulsanti "Like" degli album
                         const likeAlbumBtn = document.getElementById("like_album_btn");
                         likeAlbumBtn.addEventListener("click", function () {
-                            let albumCoverUrl = /*[[${albumDetails.coverURL}]]*/ null;
+                            //alert("like_album_btn clicked");
+                            let albumTitle = /*[[${albumDetails.title}]]*/ null;
+                            let artistsAsString = /*[[${#strings.arrayJoin(albumDetails.artists, ', ')}]]*/ null;
 
                             console.log("like_album_btn clicked\nalbumCoverUrl: " + albumCoverUrl + "\nusername: " + username);
                             $.ajax({
@@ -162,7 +164,8 @@
                                 type: 'POST',
                                 data: {
                                     username: username,
-                                    coverURL: albumCoverUrl
+                                    albumTitle: albumTitle,
+                                    artists: artistsAsString
                                 },
                                 success: function (response) {
                                     if (response.outcome_code == 0){
@@ -184,8 +187,9 @@
                         // Imposto la funzionalità onClick ai pulsanti "Like" delle canzoni
                         $('.like-song-btn').click(function () {
                             let songContainer = $(this).closest(".song-container");
+                            let albumTitle = /*[[${albumDetails.title}]]*/ null;
+                            let artistsAsString = /*[[${#strings.arrayJoin(albumDetails.artists, ', ')}]]*/ null;
                             let songTitle = songContainer.find("p").first().text();
-                            let songcoverUrl = /*[[${albumDetails.coverURL}]]*/ null;
                             let sonoio = $(this);
 
                             $.ajax({
@@ -194,8 +198,9 @@
                                 type: 'POST',
                                 data: {
                                     username: username,
-                                    title: songTitle,
-                                    coverURL: songcoverUrl
+                                    albumTitle: albumTitle,
+                                    artists: artistsAsString,
+                                    songName: songTitle
                                 },
                                 success: function (response) {
                                     if(response.outcome_code == 0){

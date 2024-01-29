@@ -78,7 +78,7 @@ public class Album_Repo_Neo4j {
                 "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
                 "MATCH (a) <-[l:LIKES_A]- (:User) " +
                 "WITH a, COUNT(l) AS likes " +
-                "RETURN a.coverURL AS coverURL, likes";
+                "RETURN a.albumName AS albumName, a.artistName AS artistsString, likes";
 
         return AlbumOnlyLikes.getAlbumOnlyLikes(cypherQuery, neo4jClient);
     }
@@ -99,7 +99,7 @@ public class Album_Repo_Neo4j {
                              "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
                              "MATCH (s) <-[l:LIKES_S]- (:User) " +
                              "WITH s, COUNT(l) AS likes " +
-                             "RETURN s.coverUrl as coverUrl, s.songName as songName, likes";
+                             "RETURN s.albumName AS albumName, s.artistName AS artistsString, s.songName as songName, likes";
 
         return SongOnlyLikes.getSongOnlyLikes(cypherQuery, neo4jClient);
     }

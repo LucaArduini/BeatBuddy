@@ -11,19 +11,28 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SongOnlyLikes {
-    private String coverUrl;
+    private String albumName;
+    private String[] artistsArray;
     private String songName;
     private Integer likes;
+
+    public SongOnlyLikes(String albumName, String artistsString, String songName, Integer likes) {
+        this.albumName = albumName;
+        this.artistsArray = artistsString.split(", ");
+        this.songName = songName;
+        this.likes = likes;
+    }
 
     public static ArrayList<SongOnlyLikes> getSongOnlyLikes(String cypherQuery, Neo4jClient neo4jClient) {
         return (ArrayList<SongOnlyLikes>) neo4jClient
                 .query(cypherQuery)
                 .fetchAs(SongOnlyLikes.class)
                 .mappedBy((typeSystem, record) -> {
-                    String coverUrl = record.get("coverUrl").asString();
+                    String albumName = record.get("albumName").asString();
+                    String artistsString = record.get("artistsString").asString();
                     String songName = record.get("songName").asString();
                     Integer likes = record.get("likes").asInt();
-                    return new SongOnlyLikes(coverUrl, songName, likes);
+                    return new SongOnlyLikes(albumName, artistsString, songName, likes);
                 }).all();
     }
 }
