@@ -25,8 +25,7 @@
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- Main JavaScript -->
-
+    <!-- JavaScript & AJAX-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="js/searchBar.js" type="text/javascript"></script>
     <script src="js/logout_btn.js" type="text/javascript"></script>
@@ -102,7 +101,7 @@
                 <div class="d-flex flex-column chart-container p-1 gap-1 w-100">
                     <div class="d-flex flex-column gap-1 overflow-y-auto" style="max-height: 550px;">
                         <h1 style="text-align: center;"><i class="fa fa-thumbs-up me-3"></i>Most liked - last week</h1>
-                        <a th:each="song : ${rankingSongsByLikes_LastWeek}" th:href="'albumDetails?title=' + ${song.albumName} + '&artist=' + ${song.artistName}" class="d-flex top-container align-items-center">
+                        <a th:each="song : ${rankingSongsByLikes_LastWeek}" th:href="'/albumDetails?title=' + ${song.albumName} + '&artist=' + ${#strings.contains(song.artistName, ',') ? #strings.substringBefore(song.artistName, ',') : song.artistName}" class="d-flex top-container align-items-center">
                             <img class="top-cover p-1" th:src="${song.coverUrl}">
                             <div class="d-flex flex-column">
                                 <h5 style="margin-bottom:0;" th:text="${song.songName}"></h5>

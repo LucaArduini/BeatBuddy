@@ -24,6 +24,7 @@
         <!-- FontAwesome -->
         <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
 
+        <!-- Javascript & AJAX -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="js/searchBar.js" type="text/javascript"></script>
         <script src="js/search_btn.js" type="text/javascript"></script>
@@ -140,7 +141,7 @@
                         ;   // Non fare nulla
                     else if (writeReviewBtn !== null) {
                         writeReviewBtn.addEventListener("click", function () {
-                            // Esegui la richiesta GET quando il pulsante viene cliccato
+                            // Vai alla pagina delle recensioni dell'album specificato da albumId
                             window.location.href = '/writeReview?albumId=' + albumId;
                         });
                     } else
@@ -152,7 +153,6 @@
                         // Imposto la funzionalità onClick ai pulsanti "Like" degli album
                         const likeAlbumBtn = document.getElementById("like_album_btn");
                         likeAlbumBtn.addEventListener("click", function () {
-                            //alert("like_album_btn clicked");
                             let albumCoverUrl = /*[[${albumDetails.coverURL}]]*/ null;
 
                             console.log("like_album_btn clicked\nalbumCoverUrl: " + albumCoverUrl + "\nusername: " + username);
