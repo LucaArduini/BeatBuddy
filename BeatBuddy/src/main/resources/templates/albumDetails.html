@@ -156,10 +156,10 @@
                             //alert("like_album_btn clicked");
                             let albumTitle = /*[[${albumDetails.title}]]*/ null;
                             let artistsAsString = /*[[${#strings.arrayJoin(albumDetails.artists, ', ')}]]*/ null;
+                            console.log(artistsAsString);
 
-                            console.log("like_album_btn clicked\nalbumCoverUrl: " + albumCoverUrl + "\nusername: " + username);
                             $.ajax({
-                                url: '/api/addLikesAbum',
+                                url: '/api/addLikesAlbum',
                                 dataType: 'json',
                                 type: 'POST',
                                 data: {
@@ -168,6 +168,7 @@
                                     artists: artistsAsString
                                 },
                                 success: function (response) {
+                                    console.log("SONO ENTRATO");
                                     if (response.outcome_code == 0){
                                         likeAlbumBtn.style.backgroundColor = "green";
                                         likeAlbumBtn.style.borderColor = "green";
@@ -191,6 +192,7 @@
                             let artistsAsString = /*[[${#strings.arrayJoin(albumDetails.artists, ', ')}]]*/ null;
                             let songTitle = songContainer.find("p").first().text();
                             let sonoio = $(this);
+                            console.log("TITOLO: " + albumTitle + "ARTISTI: " + artistsAsString + "TITOLOS: " + songTitle);
 
                             $.ajax({
                                 url: '/api/addLikesSong',

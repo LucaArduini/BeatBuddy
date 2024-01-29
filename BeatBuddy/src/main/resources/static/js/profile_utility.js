@@ -161,6 +161,7 @@ function displayLikedAlbums(liked){
     })
 }
 function displayLikedSongs(liked){
+    console.log("CIAO AMICI");
     let increment = 0;
     const container = $("#liked_songs_container");
     container.empty();
@@ -190,6 +191,8 @@ function displayLikedSongs(liked){
             let artistsAsString = song_tmp.artistName;
             let songTitle = songContainer.find("h3").first().text();
 
+            console.log("TITOLO: " + albumTitle + " ARTISTA: " + artistsAsString + " CANZONE: " + songTitle);
+
             $.ajax({
                 url: '/api/albumDetails/removeLikesSong',
                 dataType: 'json',
@@ -198,10 +201,10 @@ function displayLikedSongs(liked){
                     username: username,
                     albumTitle: albumTitle,
                     artists: artistsAsString,
-                    songTitle: songTitle
+                    songName: songTitle
                 },
                 success: function (response) {
-                    console.log(response);
+                    console.log("RISPOSTA: " + response);
                     if(response.outcome_code == 0){
                         alert("Song disliked");
                     }

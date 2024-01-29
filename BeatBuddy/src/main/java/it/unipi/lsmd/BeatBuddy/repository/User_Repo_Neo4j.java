@@ -62,15 +62,17 @@ public class User_Repo_Neo4j {
         }
     }
 
-    public String[] addLikes_A(String username, String title, String artistArray) {
+    public String addLikes_A(String username, String title, String artistArray) {
         try {
-            String[] created = user_RI_Neo4j.addLikes_A(username, title, artistArray);
+            System.out.println("AO");
+            String created = user_RI_Neo4j.addLikes_A(username, title, artistArray);
+            System.out.println("AO2");
             return created;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
                 throw dae;
             dae.printStackTrace();
-            String[] err = {"ERR"};
+            String err = "ERR";
             return err;
         }
     }
