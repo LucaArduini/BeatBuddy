@@ -29,8 +29,7 @@ $(document).ready(function () {
             method: 'GET',
 
             success: function (arrayResults) {
-
-                if(arrayResults.length == 0) {
+                if(arrayResults==null || arrayResults.length == 0) {
                     const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
                     container.empty(); // Pulisci il contenuto precedente
                     container.append($("<p>No results found</p>"));
