@@ -130,11 +130,35 @@ h1, h2, h3, h4, h5, h6 {
     width: 15%;
 }
 
-#followed_users_btn:hover {
+#followedUsers_btn:hover {
     background-color: #057f6a;
     border-radius: 10px;
     cursor: pointer;
     box-shadow: 0px 0px 20px 3px #2828286b;
+}
+
+#followed_container {
+    max-height: 300px;
+}
+
+#user_reviews {
+    background-color: rgba(40, 40, 40, 0.45);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 5px;
+    height: 300px;
+}
+
+#user_reviews h1>span {
+    color: #282828;
+    font-weight: bold;
+}
+
+.rev_container {
+    background-color: rgba(250, 250, 250, 0.45);
+    color: #282828;
+    border-radius: 10px;
 }
 
 #show_follower_btn:hover {
@@ -146,7 +170,27 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #057f6a;
     border-radius: 10px;
     cursor: pointer;
-    box-shadow: 0px 0px 20px 3px #2828286b;
+    box-shadow: 0 0 20px 3px #2828286b;
+}
+
+#liked_albums_btn i{
+    font-size: 20px;
+}
+
+#liked_albums_container{
+    max-height: 300px;
+}
+
+#liked_songs {
+    background-color: rgba(40, 40, 40, 0.45);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+#liked_songs_btn i{
+    font-size: 20px;
 }
 
 #liked_songs_btn:hover {
@@ -156,10 +200,43 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0px 0px 20px 3px #2828286b;
 }
 
-#user-details div {
+#liked_songs_container{
+    max-height: 300px;
+}
+
+#user_details {
+    color: white;
+}
+
+#user_details div {
     background-color: rgba(40, 40, 40, 0.45);
-    border: 1px solid #282828; /* Colore e spessore del bordo desiderati */
-    padding: 5px; /* Spazio interno per separare il contenuto dal bordo */
+    border: 1px solid #282828;
+    padding: 5px;
+    text-align: center;
+}
+
+#user_details>#name {
+    border-radius: 5px 0 0 5px;
+}
+
+#user_details>#surname {
+    border-radius: 0;
+}
+
+#user_details>#birthday {
+    border-radius: 0 5px 5px 0;
+}
+
+#followed_main {
+    background-color: rgba(40, 40, 40, 0.45);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+#followed_main i{
+    font-size: 16px;
 }
 
 .main {
@@ -194,6 +271,24 @@ h1, h2, h3, h4, h5, h6 {
 #discover {
     background: linear-gradient(45deg, #282828d1 0%, #282828d1 100%), url('../img/discover-bg.jpg') center center no-repeat;
     transition: all 1s;
+}
+
+#discover a{
+    text-align: center;
+}
+
+#discover h1 {
+    font-weight:400;
+}
+
+#discover span{
+    color: #057f6a;
+    text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px  1px 0 #ffffff, 1px  1px 0 #ffffff;
+}
+
+#discover p{
+    font-size: large;
+    display: inline;
 }
 
 #discover .text-container {
@@ -240,6 +335,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #ffffff42;
 }
 
+.main>#login h1, .main>#login input, .main>#login button {
+    text-align: center;
+}
+
 .main>#register {
     padding-top: 3%;
     padding-bottom: 3%;
@@ -248,6 +347,10 @@ h1, h2, h3, h4, h5, h6 {
     border: solid 2px #282828;
     border-radius: 10px;
     background-color: #ffffff42;
+}
+
+.main>#register h1, .main>#register input, .main>#register button {
+    text-align: center;
 }
 
 .main>#write_review {
@@ -260,6 +363,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #ffffff42;
 }
 
+#write_review h1 {
+    text-align: center;
+}
+
 #most_popular_container {
     border-radius: 10px;
     background-color: #ffffff42;
@@ -269,6 +376,11 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 10px;
     background-color: rgba(40, 40, 40, 0.71);
     color: white;
+    max-height: 550px;
+}
+
+.chart-container h1{
+    text-align: center;
 }
 
 .top-container {
@@ -484,10 +596,12 @@ h1, h2, h3, h4, h5, h6 {
     gap: 2px;
 }
 
-#liked-albums {
+#liked_albums {
+    background-color: rgba(40, 40, 40, 0.45);
     color: white;
-    background-color: #282828c2;
     border-radius: 10px;
+    padding: 10px;
+    margin-top: 5px;
 }
 
 #album_info {
@@ -503,7 +617,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 10px;
 }
 
-#rating_review {
+.rating_review {
     border-radius: 10px;
 }
 
@@ -524,6 +638,10 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: row;
     flex: 6;
     gap: 20px;
+}
+
+.album-details p{
+    font-size: medium;
 }
 
 .artist-details {
@@ -660,6 +778,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #ffffa594;
     border-radius: 5px;
     color: #282828;
+}
+
+#average_rating_container span{
+    border-radius: 5px 0 0 5px;
 }
 
 #album_artists_page, #release_date_page, #album_duration_page {

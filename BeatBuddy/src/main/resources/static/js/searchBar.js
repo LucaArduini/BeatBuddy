@@ -66,7 +66,7 @@ function loadSearchBar(){
     }
 
     $("body").append(
-        "<div class=\"modal fade\" id=\"search_results\" tabindex=\"-1\" aria-hidden=\"true\">\n" +
+        "<div class=\"modal fade\" id=\"search_results\" data-bs-backdrop=\"static\" tabindex=\"-1\" aria-hidden=\"true\">\n" +
         "  <div class=\"modal-dialog modal-lg modal-dialog-centered\">\n" +
         "    <div class=\"modal-content\">\n" +
         "      <div class=\"modal-header\">\n" +

@@ -5,6 +5,10 @@ $(document).ready(function () {
         search();
         $('#search_results').modal('show');
     });
+    $("#close_btn").click(function (e){
+        e.preventDefault();
+        $(".modal-body").empty();
+    })
 
     // Ascoltatore per il tasto "Invio" nel campo di input
     $("#search_input").on("keydown", function (e) {
@@ -29,8 +33,8 @@ $(document).ready(function () {
             method: 'GET',
 
             success: function (arrayResults) {
-
-                if(arrayResults.length == 0) {
+                console.log(arrayResults);
+                if(arrayResults==null || arrayResults.length == 0) {
                     const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
                     container.empty(); // Pulisci il contenuto precedente
                     container.append($("<p>No results found</p>"));

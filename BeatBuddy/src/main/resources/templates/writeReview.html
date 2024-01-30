@@ -12,34 +12,44 @@
     <link href="img/logo.png" rel="icon">
     <link href="img/logo.png" rel="apple-touch-icon">
 
-    <!-- JavaScript for login -->
+    <!-- JavaScript (for loading the search bar and the research) & AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="js/searchBar.js"></script>
     <script src="js/search_btn.js"></script>
+
     <!-- Main CSS File -->
     <link href="css/style.css" rel="stylesheet">
 
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <!-- FontAwesome -->
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
+
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
     <div class="main">
+        <!-- Variable "logged" taken with Thymeleaf for the buttons of the search bar -->
         <input type="hidden" id="is_logged" th:value="${logged}"/>
-        <!-- Header -->
+
+        <!-- Dynamic Header -->
         <header class="header sticky-top shadow">
 
         </header>
         <!-- End header -->
+
+        <!-- Container for the form to write a review -->
         <div id="write_review" class="w-50 container-fluid d-block align-items-center shadow" data-aos="fade-up">
-            <h1 style="text-align: center;">Write a review</h1>
-            <div class="container-fluid" data-aos="zoom-in" data-aos-delay="100" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <h1>Write a review</h1>
+            <div class="container-fluid d-flex flex-column align-items-center justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+                <!-- Form to write a review -->
                 <form class="container-fluid w-100">
-                    <div class="container-fluid w-100" style="display: flex; flex-direction: column;">
+                    <div class="container-fluid w-100 d-flex flex-column">
                         <div class="mb-3">
                             <label for="rating_input">Rating</label>
+                            <!-- The user can choose a value from 1 to 5 -->
                             <select class="form-control" id="rating_input">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -48,11 +58,14 @@
                                 <option value="5">5</option>
                             </select>
                         </div>
+                        <!-- Input text of the review -->
                         <div class="mb-3">
                             <label for="text_review_input">Write your review</label>
                             <textarea class="form-control" id="text_review_input" rows="5"></textarea>
                         </div>
+                        <!-- Button to send the review (Javascript code below in this page) -->
                         <button id="sendReview_btn" type="button" class="btn btn-primary">Send review</button>
+                        <!-- Return to the album page of the album the user want to review (with the albumId taken from the controller) -->
                         <a th:href="@{/albumDetails(albumId=${albumId})}" class="btn btn-outline-secondary mt-1">
                             Return to the album page
                         </a>
@@ -62,6 +75,7 @@
         </div>
     </div>
 
+    <!-- AOS Javascript -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
@@ -70,19 +84,20 @@
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
+    <!-- Javascript to manage the writing of a review -->
     <script th:inline="javascript">
         $(document).ready(function () {
             $('#sendReview_btn').click(function (e) {
                 e.preventDefault();
 
-                // Raccogli i dati del form
+                // Take the data from the form
                 const rating = $('#rating_input').val();
                 const text = $('#text_review_input').val();
-                const albumID = /*[[${albumId}]]*/ null;            // Valore inserito da Thymeleaf
-                const username = /*[[${session.username}]]*/ null;  // Valore inserito dalla HttpSession
-                const isAdmin = /*[[${session.isAdmin}]]*/ false;   // Valore inserito dalla HttpSession
+                const albumID = /*[[${albumId}]]*/ null;            // Id of the album insert with Thymeleaf, taken from the controller
+                const username = /*[[${session.username}]]*/ null;  // Username of the logged user insert by HttpSession
+                const isAdmin = /*[[${session.isAdmin}]]*/ false;   // Value insert by HttpSession to understand if the logged user is admin
 
-                // Controllo se tutti i campi sono stati riempiti
+                // Check if all fields have been filled in
                 if (!rating || !text) {
                     alert("Please fill in all fields.");
                     return;
@@ -100,7 +115,7 @@
                     return;
                 }
 
-                // Prepara i dati da inviare
+                // Prepare the data to be sent
                 const formData = {
                     rating: rating,
                     text: text,
@@ -108,7 +123,7 @@
                     username: username
                 };
 
-                // Invia la richiesta al server
+                // Send the request to the server
                 $.ajax({
                     url: '/api/writeReview',
                     data: formData,
@@ -132,14 +147,12 @@
                     window.location.href = '/albumDetails?albumId=' + /*[[${albumId}]]*/ null;
                     break;
                 case 1:
-                    //alert("User not logged in.");
                     window.location.href = '/youMustBeLogged';
                     break;
                 case 2:
                     alert("Usernames don't match.");
                     break;
                 case 3:
-                    //alert("Album doesn't exist.");
                     window.location.href = '/albumNotFound';
                     break;
                 case 4:
@@ -155,7 +168,6 @@
                     alert("Error while writing the review into the collection users.");
                     break;
                 case 8:
-                    //alert("Album not found.");
                     window.location.href = '/albumNotFound';
                     break;
                 case 9:

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1" name="viewport">
 
-        <title th:text="${albumDetails != null} ? ${albumDetails.title} : 'Album non trovato'">BeatBuddy</title>
+        <title th:text="${albumDetails.title}"></title>
         <meta content="" name="description">
         <meta content="" name="keywords">
 
@@ -26,29 +26,32 @@
 
         <!-- Javascript & AJAX -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script src="js/searchBar.js" type="text/javascript"></script>
-        <script src="js/search_btn.js" type="text/javascript"></script>
+        <script src="js/searchBar.js" type="text/javascript"></script>  <!-- Load search bar -->
+        <script src="js/search_btn.js" type="text/javascript"></script> <!-- Search function -->
 
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
     <body>
         <div class="main">
+            <!-- Value taken by Thymeleaf to understand if the user is logged in and if he is an admin -->
             <input type="hidden" id="is_logged" th:value="${logged}"/>
             <input type="hidden" id="is_admin" th:value="${admin}"/>
+            <!-- Dynamic header -->
             <header class="header sticky-top shadow">
 
             </header>
+            <!-- End header -->
             <section id="hero" class="d-flex flex-column align-items-center container-fluid p-3">
                 <div class="gap-1 d-flex flex-column container-fluid justify-content-center" data-aos="zoom-in" data-aos-delay="150">
                     <div id="album_info" class="d-flex mb-1 align-items-center col-md-12">
                         <img id="album_cover" class="album-cover" th:src="${albumDetails.coverURL}" alt="Copertina Album"/>
                         <div id="album_details" class="album-details d-flex flex-column">
-                            <h1 id="album_title" class="display-5 mb-0" style="font-weight: bold;" th:text="${albumDetails.title}"></h1>
+                            <h1 id="album_title" class="display-5 mb-0 fw-bold" th:text="${albumDetails.title}"></h1>
                             <div class="d-flex mt-0 mb-0 gap-3 align-items-center">
-                                <p style="font-size: medium;" id="album_artists_page" th:text="${#strings.arrayJoin(albumDetails.artists, ', ')}"></p>
-                                <p style="font-size: medium;" id="release_date_page" th:text="${albumDetails.year}"></p>
-                                <p style="font-size: medium;" id="album_duration_page" th:text="${albumTotalDuration}"></p>
+                                <p id="album_artists_page" th:text="${#strings.arrayJoin(albumDetails.artists, ', ')}"></p>
+                                <p id="release_date_page" th:text="${albumDetails.year}"></p>
+                                <p id="album_duration_page" th:text="${albumTotalDuration}"></p>
                             </div>
                             <div class="d-flex gap-3">
                                 <div id="like_album_container" class="d-flex w-25 align-items-center">
@@ -58,7 +61,7 @@
                                     <div id="number_of_likes_album" class="ms-3" th:text="${albumDetails.likes}"></div>
                                 </div>
                                 <div id="average_rating_container" class="d-flex w-25 align-items-center">
-                                    <span style="border-radius: 5px 0px 0px 5px;" class="text-bg-warning p-3">
+                                    <span class="text-bg-warning p-3">
                                         Average rating
                                     </span>
                                     <i class="fa fa-star me-1 ps-3"></i>
@@ -93,13 +96,13 @@
                                     <h1 style="text-align: center">Last 5 reviews</h1>
                                     <div th:each="review : ${albumDetails.lastReviews}" class="album-review d-flex flex-column p-3">
                                         <div class="d-flex align-items-center gap-1">
-                                            <h4 th:text="${review.username}" id="user_review"></h4>
-                                            <h5 id="rating_review" class="text-bg-dark p-1 ps-3 pe-3">
+                                            <h4 th:text="${review.username}" class="user_review"></h4>
+                                            <h5 class="rating_review text-bg-dark p-1 ps-3 pe-3">
                                                 <i class="fas fa-star me-1"></i>
                                                 <span th:text="${review.rating}"></span>
                                             </h5>
                                         </div>
-                                        <div th:text="${review.text}" id="text_review"></div>
+                                        <div th:text="${review.text}" class="text_review"></div>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-1">
@@ -113,10 +116,9 @@
             </section>
         </div>
 
-        <!-- JavaScript per la gestione dei pulsanti -->
+        <!-- JavaScript's management of the buttons -->
         <script th:inline="javascript">
             $(document).ready(function () {
-                // Recupera l'albumId dalla variabile albumDetails.id
                 let albumId = /*[[${albumDetails.id}]]*/ null;
                 let logged = /*[[${logged}]]*/ false;
                 let username = /*[[${session.username}]]*/ null;
@@ -125,18 +127,15 @@
                     alert("albumId is null");
                 }
                 else {
-                    /* Imposto la funzionalità onClick per il btn View All Reviews */
-                    let viewAllReviewBtn = document.getElementById("albumReviews_btn");
+                    let viewAllReviewBtn = $("#albumReviews_btn");
                     if (viewAllReviewBtn != null) {
-                        viewAllReviewBtn.addEventListener("click", function () {
-                            // Esegui la richiesta GET quando il pulsante viene cliccato
+                        $(viewAllReviewBtn).click(function (){
                             window.location.href = '/albumReviews?albumId=' + albumId;
                         });
                     } else
                         alert("viewAllReviewBtn not found");
 
-                    /* Imposto la funzionalità onClick per il btn Write a Review */
-                    let writeReviewBtn = document.getElementById("writeReview_btn");
+                    let writeReviewBtn = $("#writeReview_btn");document.getElementById("writeReview_btn");
                     if (logged === false)
                         ;   // Non fare nulla
                     else if (writeReviewBtn !== null) {

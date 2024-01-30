@@ -32,10 +32,13 @@
     </head>
     <body>
         <div class="main">
+            <!-- Value taken by Thymeleaf to understand if the user is logged in -->
             <input type="hidden" id="is_logged" th:value="${logged}"/>
+            <!-- Dynamic header -->
             <header class="header sticky-top shadow">
                 
             </header>
+            <!-- End header -->
             <section id="hero" class="d-flex flex-column container-fluid">
                 <div class="justify-content-center" data-aos="zoom-in" data-aos-delay="150">
                     <div class="container-fluid p-3 d-flex gap-1 col-12">
@@ -72,7 +75,7 @@
                         <h1>Suggested users to follow</h1>
                         <div th:if="${no_s_3}" style="color: white;">No suggestion yet.</div>
                         <div th:each="user : ${suggestedUsersToFollow}" id="suggested_user_container" class="d-flex flex-column gap-1 p-3">
-                            <a th:href="'user?username=' + ${user.username}" class="d-flex align-items-center" style="text-decoration: none; color: #282828;">
+                            <a th:href="'user?username=' + ${#uris.escapeQueryParam(user.username)}" class="d-flex align-items-center" style="text-decoration: none; color: #282828;">
                                 <div class="d-flex flex-column">
                                     <h5 style="margin-bottom: 0;"><i class="fa fa-user me-1"></i><span th:text="${user.username}"></span></h5>
                                 </div>
