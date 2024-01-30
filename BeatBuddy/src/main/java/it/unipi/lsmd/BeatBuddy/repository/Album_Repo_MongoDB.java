@@ -1,14 +1,18 @@
 package it.unipi.lsmd.BeatBuddy.repository;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.client.*;
 import it.unipi.lsmd.BeatBuddy.DTO.AlbumDTO;
 import it.unipi.lsmd.BeatBuddy.DTO.SongDTO;
 import it.unipi.lsmd.BeatBuddy.model.Album;
 import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumOnlyAvgRating;
 import it.unipi.lsmd.BeatBuddy.model.dummy.AlbumOnlyLikes;
 import it.unipi.lsmd.BeatBuddy.model.ReviewLite;
-import it.unipi.lsmd.BeatBuddy.model.Song;
 import it.unipi.lsmd.BeatBuddy.model.dummy.SongOnlyLikes;
 import it.unipi.lsmd.BeatBuddy.repository.MongoDB.Album_MongoInterf;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -19,17 +23,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.AggregationOptions;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Aggregates.*;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.ne;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Projections.computed;
+import static com.mongodb.client.model.Sorts.descending;
 
 @Repository
 public class Album_Repo_MongoDB {
@@ -82,42 +93,38 @@ public class Album_Repo_MongoDB {
         }
     }
 
-//    public List<Album> getAlbumsSortedByRating(){
-//        try {
-//            Pageable topFive = PageRequest.of(0, 5);
-//            return album_RI_Mongo.findAlbumsSortedByRating(topFive);
-//        } catch (DataAccessException dae) {
-//            if (dae instanceof DataAccessResourceFailureException)
-//                throw dae;
-//            dae.printStackTrace();
-//            return null;
-//        }
-//    }
-
     public List<Album> getAlbumsWithMinReviewsByAvgRating_AllTime() {
+        MongoClient myMongoClient = MongoClients.create(new ConnectionString("mongodb://10.1.1.18:27017,10.1.1.17:27017,10.1.1.19:27017/?replicaSet=BB&w=1&readPreference=nearest&retryWrites=true"));
+        MongoDatabase database = myMongoClient.getDatabase("BeatBuddy");
+        MongoCollection<Document> collection = database.getCollection("reviews");
         int minReviews = 5;
-        Pageable pageable = Pageable.ofSize(10);
 
-        Aggregation aggregation = Aggregation.newAggregation(
-                Aggregation.lookup("reviews", "_id", "albumID", "albumReviews"), // Join con la collection reviews
-                Aggregation.unwind("albumReviews", true), // Appiattisce l'array di reviews
-                Aggregation.group("_id")
-                        .first("title").as("title")
-                        .first("artists").as("artists")
-                        .first("coverURL").as("coverURL")
-                        .first("songs").as("songs")
-                        .first("likes").as("likes")
-                        .first("averageRating").as("averageRating")
-                        .first("year").as("year")
-                        .first("lastReviews").as("lastReviews")
-                        .count().as("reviewCount"), // Conta il numero di recensioni
-                Aggregation.match(Criteria.where("reviewCount").gte(minReviews)), // Filtra gli album con almeno 5 recensioni
-                Aggregation.sort(Sort.by(Sort.Direction.DESC, "averageRating")), // Ordina in base alla media delle recensioni
-                Aggregation.limit(pageable.getPageSize()) // Applica la paginazione
-        ).withOptions(AggregationOptions.builder().allowDiskUse(true).build()); // Permette l'utilizzo del disco
+        Bson groupOp    = group("$albumID", sum("reviewCount", 1));
+        Bson matchOp1   = match(gte("reviewCount", minReviews));
+        Bson lookupOp   = lookup("albums", "_id", "_id", "albumDetails");
+        Bson matchOp2   = match(ne("albumDetails", Collections.EMPTY_LIST));
+        Bson projectOp  = project(fields(
+                excludeId(),    //altrimenti il campo '_id' viene comunqe incluso
+                computed("id", "$_id"),
+                computed("title", new Document("$arrayElemAt", Arrays.asList("$albumDetails.title", 0))),
+                computed("artists", new Document("$arrayElemAt", Arrays.asList("$albumDetails.artists", 0))),
+                computed("coverURL", new Document("$arrayElemAt", Arrays.asList("$albumDetails.coverURL", 0))),
+                computed("likes", new Document("$arrayElemAt", Arrays.asList("$albumDetails.likes", 0))),
+                computed("averageRating", new Document("$arrayElemAt", Arrays.asList("$albumDetails.averageRating", 0)))
+                // non restituisco: songs, year e lastReviews
+        ));
+        Bson sortOp     = sort(descending("averageRating"));
+        Bson limitOp    = limit(10);
 
-        AggregationResults<Album> results = mongoTemplate.aggregate(aggregation, "albums", Album.class);
-        return results.getMappedResults();
+        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(
+                groupOp, matchOp1, lookupOp, matchOp2, projectOp, sortOp, limitOp
+        ));
+
+        List<Album> albums = new ArrayList<>();
+        result.forEach(doc -> albums.add(Album.mapToAlbum(doc)));
+
+        myMongoClient.close();
+        return albums;
     }
 
     public List<Album> getAlbumsByLikes_AllTime(){
@@ -277,21 +284,33 @@ public class Album_Repo_MongoDB {
         try {
             Date twentyFourHoursAgo = new Date(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
 
-            // la fase di group produce automaticamente un campo _id che contiene il valore o i valori su cui
-            //  hai raggruppato i dati.
-            Aggregation aggregation = Aggregation.newAggregation(
-                    //Aggregation.match(Criteria.where("date").gte(twentyFourHoursAgo)),
+            // Fase 1: Trovo gli ID degli album con recensioni recenti
+            Aggregation recentReviewsAggregation = Aggregation.newAggregation(
+                    Aggregation.match(Criteria.where("date").gte(twentyFourHoursAgo)),
+                    Aggregation.group("albumID")
+            );
+            AggregationResults<AlbumOnlyAvgRating> recentAlbums = mongoTemplate.aggregate(
+                    recentReviewsAggregation, "reviews", AlbumOnlyAvgRating.class
+            );
+
+            // Estraggo gli ID di questi album
+            List<ObjectId> recentAlbumIds = recentAlbums.getMappedResults().stream()
+                    .map(AlbumOnlyAvgRating::getAlbumID)
+                    .collect(Collectors.toList());
+
+            // Fase 2: Calcolo la media dei rating per questi album
+            Aggregation averageRatingAggregation = Aggregation.newAggregation(
+                    Aggregation.match(Criteria.where("albumID").in(recentAlbumIds)),
                     Aggregation.group("albumID").avg("rating").as("averageRating"),
                     Aggregation.project().and("_id").as("albumID").andInclude("averageRating")
             );
-
             AggregationResults<AlbumOnlyAvgRating> results = mongoTemplate.aggregate(
-                    aggregation, "reviews", AlbumOnlyAvgRating.class
+                    averageRatingAggregation, "reviews", AlbumOnlyAvgRating.class
             );
 
             List<AlbumOnlyAvgRating> albumAverages = results.getMappedResults();
 
-            // Arrotonda le medie dei voti
+            // Arrotondo le medie dei voti
             for (AlbumOnlyAvgRating albumAverage : albumAverages) {
                 albumAverage.roundAverageRating();
             }

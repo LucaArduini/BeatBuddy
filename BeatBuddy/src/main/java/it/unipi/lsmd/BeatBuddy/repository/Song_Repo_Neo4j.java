@@ -23,12 +23,12 @@ public class Song_Repo_Neo4j {
 
     public List<SongWithLikes> getSongsByLikes_LastWeek() {
         String cypherQuery = "MATCH (s:Song) <-[r:LIKES_S]- (:User) " +
-                "WHERE date(r.timestamp) >= date() - duration('P7D') " +
-                "WITH s, count(r) as likes " +
-                "RETURN DISTINCT s.songName AS songName, s.albumName AS albumName, " +
-                "s.artistName AS artistName, s.coverUrl AS coverUrl, likes " +
-                "ORDER BY likes DESC " +
-                "LIMIT 10";
+                             "WHERE date(r.timestamp) >= date() - duration('P7D') " +
+                             "WITH s, count(r) as likes " +
+                             "RETURN DISTINCT s.songName AS songName, s.albumName AS albumName, " +
+                             "s.artistName AS artistName, s.coverUrl AS coverUrl, likes " +
+                             "ORDER BY likes DESC " +
+                             "LIMIT 10";
 
         return SongWithLikes.getSongWithLikes(cypherQuery, neo4jClient);
     }

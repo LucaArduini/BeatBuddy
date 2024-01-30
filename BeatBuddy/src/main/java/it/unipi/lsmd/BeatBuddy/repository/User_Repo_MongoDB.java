@@ -16,14 +16,11 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Repository;
-import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
 
 import java.util.List;
 import java.util.Optional;
@@ -99,7 +96,7 @@ public class User_Repo_MongoDB {
 
     public boolean insertReviewIntoUser(String username, ReviewedAlbum reviewedAlbum) {
         try {
-            addReviewedAlbumAtStart(username, reviewedAlbum);
+            addReviewedAlbumAsFirstIntoUser(username, reviewedAlbum);
             return true;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
@@ -109,7 +106,7 @@ public class User_Repo_MongoDB {
         }
     }
 
-    public void addReviewedAlbumAtStart(String username, ReviewedAlbum reviewedAlbum) {
+    public void addReviewedAlbumAsFirstIntoUser(String username, ReviewedAlbum reviewedAlbum) {
         Query query = new Query(Criteria.where("username").is(username));
         Update update = new Update().push("reviewedAlbums").atPosition(0).each(reviewedAlbum);
         mongoTemplate.updateFirst(query, update, User.class);

@@ -35,8 +35,8 @@ public class Album_Repo_Neo4j {
 
     private int findNumberOfDailyLikesOnAlbums() {
         String cypherQuery = "MATCH (a:Album) <-[r:LIKES_A]- (:User) " +
-                "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
-                "RETURN COUNT(r) AS likes";
+                             "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
+                             "RETURN COUNT(r) AS likes";
 
         return neo4jClient.query(cypherQuery).fetchAs(Integer.class).one().get();
     }
@@ -54,8 +54,8 @@ public class Album_Repo_Neo4j {
 
     private int findNumberOfDailyLikesOnSongs() {
         String cypherQuery = "MATCH (s:Song) <-[r:LIKES_S]- (:User) " +
-                "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
-                "RETURN COUNT(r) AS likes";
+                             "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
+                             "RETURN COUNT(r) AS likes";
 
         return neo4jClient.query(cypherQuery).fetchAs(Integer.class).one().get();
     }
@@ -75,10 +75,10 @@ public class Album_Repo_Neo4j {
 
     private ArrayList<AlbumOnlyLikes> findNewLikesForAlbums() {
         String cypherQuery = "MATCH (a:Album) <-[r:LIKES_A]- (:User) " +
-                "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
-                "MATCH (a) <-[l:LIKES_A]- (:User) " +
-                "WITH a, COUNT(l) AS likes " +
-                "RETURN a.albumName AS albumName, a.artistName AS artistsString, likes";
+                             "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
+                             "MATCH (a) <-[l:LIKES_A]- (:User) " +
+                             "WITH a, COUNT(l) AS likes " +
+                             "RETURN a.albumName AS albumName, a.artistName AS artistsString, likes";
 
         return AlbumOnlyLikes.getAlbumOnlyLikes(cypherQuery, neo4jClient);
     }
@@ -106,12 +106,12 @@ public class Album_Repo_Neo4j {
 
     public List<AlbumWithLikes> getAlbumsByLikes_LastWeek() {
         String cypherQuery = "MATCH (a:Album) <-[r:LIKES_A]- (:User) " +
-                "WHERE date(r.timestamp) >= date() - duration('P7D') " +
-                "WITH a, count(r) as likes " +
-                "RETURN DISTINCT a.albumName AS albumName, a.artistName AS artistName, " +
-                "a.coverURL AS coverURL, likes " +
-                "ORDER BY likes DESC " +
-                "LIMIT 10";
+                             "WHERE date(r.timestamp) >= date() - duration('P7D') " +
+                             "WITH a, count(r) as likes " +
+                             "RETURN DISTINCT a.albumName AS albumName, a.artistName AS artistName, " +
+                             "a.coverURL AS coverURL, likes " +
+                             "ORDER BY likes DESC " +
+                             "LIMIT 10";
 
         return AlbumWithLikes.getAlbumWithLikes(cypherQuery, neo4jClient);
     }

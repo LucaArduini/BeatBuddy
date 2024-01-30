@@ -18,6 +18,8 @@ public class AdminPage_Ctrl {
         else if(!Utility.isAdmin(session))
             return "error/accessDenied";
 
+        session.setAttribute("username", "luca");
+
         try {
             model.addAttribute("logged", Utility.isLogged(session));
             AdminStats adminStats = Utility.readAdminStats();

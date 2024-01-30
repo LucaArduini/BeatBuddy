@@ -19,6 +19,6 @@ public interface User_MongoInterf extends MongoRepository<User, String> {
     @Query("{ $or: [ { 'email': ?0 }, { 'username': ?1 } ] }")
     Optional<User> findByEmailOrUsername(String email, String username);
 
-    @Query(value = "{ 'username': {$regex: ?0, $options: 'i'} }", fields = "{ 'id': 1, 'username': 1, 'name': 1, 'surname': 1}")
+    @Query(value = "{ $text: { $search: ?0 } }", fields = "{ 'id': 1, 'username': 1, 'name': 1, 'surname': 1}")
     List<UserDTO> findLimitedUsersByUsernameContaining(String term, Pageable pageable);
 }
