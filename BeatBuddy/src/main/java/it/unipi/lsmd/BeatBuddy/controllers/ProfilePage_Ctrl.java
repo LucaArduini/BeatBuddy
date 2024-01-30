@@ -28,6 +28,8 @@ public class ProfilePage_Ctrl {
             return "redirect:/adminPage";
         else{
             User optionalUser = user_Repo.getUserByUsername(Utility.getUsername(session));
+            if(optionalUser==null)
+                return "error/genericError";
             model.addAttribute("userDetails", optionalUser);
             return "profilePage";
         }

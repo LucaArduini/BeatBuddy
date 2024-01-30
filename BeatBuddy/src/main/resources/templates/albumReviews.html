@@ -24,32 +24,36 @@
     <!-- FontAwesome -->
     <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
 
+    <!-- Javascript & AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="js/searchBar.js" type="text/javascript"></script>
-    <script src="js/search_btn.js" type="text/javascript"></script>
+    <script src="js/searchBar.js" type="text/javascript"></script>  <!-- Load search bar -->
+    <script src="js/search_btn.js" type="text/javascript"></script> <!-- Search function -->
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
     <div class="main">
+        <!-- Value taken by Thymeleaf to understand if the user is logged in and if he is an admin -->
         <input type="hidden" id="is_logged" th:value="${logged}"/>
         <input type="hidden" id="is_admin" th:value="${admin}"/>
+        <!-- Dynamic header -->
         <header class="header sticky-top shadow">
 
         </header>
+        <!-- End header -->
         <section id="hero" class="d-flex flex-column align-items-center container-fluid p-3">
             <div id="all_reviews" class="gap-1 d-flex flex-column container-fluid justify-content-center" data-aos="zoom-in" data-aos-delay="150">
                 <div th:each="review : ${reviews}" class="album-review d-flex flex-column p-3">
                     <div class="d-flex align-items-center gap-3">
-                        <h4 id="user_review"><span style="color: #a412ff;">User: </span><span th:text="${review.username}"></span></h4>
-                        <h5 id="rating_review" class="text-bg-dark p-1 ps-3 pe-3">
+                        <h4 class="user_review"><span style="color: #a412ff;">User: </span><span th:text="${review.username}"></span></h4>
+                        <h5 class="rating_review text-bg-dark p-1 ps-3 pe-3">
                             <i class="fas fa-star me-1"></i>
                             <span th:text="${review.rating}"></span>
                         </h5>
-                        <h6 id="timestamp" style="font-style: italic;" th:text="${review.printableDate}"></h6>
+                        <h6 class="timestamp" style="font-style: italic;" th:text="${review.printableDate}"></h6>
                     </div>
-                    <div id="text_review" th:text="${review.text}"></div>
+                    <div class="text_review" th:text="${review.text}"></div>
                 </div>
                 <button onClick="history.go(-1);return true;" class="btn btn-primary w-100">Return to the album page</button>
             </div>

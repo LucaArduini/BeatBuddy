@@ -5,6 +5,10 @@ $(document).ready(function () {
         search();
         $('#search_results').modal('show');
     });
+    $("#close_btn").click(function (e){
+        e.preventDefault();
+        $(".modal-body").empty();
+    })
 
     // Ascoltatore per il tasto "Invio" nel campo di input
     $("#search_input").on("keydown", function (e) {
