@@ -278,15 +278,16 @@ public class Album_Repo_MongoDB {
             // Fase 1: Trovo gli ID degli album con recensioni recenti
             Aggregation recentReviewsAggregation = Aggregation.newAggregation(
                     Aggregation.match(Criteria.where("date").gte(twentyFourHoursAgo)),
-                    Aggregation.group("albumID")
+                    Aggregation.group("albumID"),
+                    Aggregation.project("albumID") // Project the albumID
             );
-            AggregationResults<AlbumOnlyAvgRating> recentAlbums = mongoTemplate.aggregate(
-                    recentReviewsAggregation, "reviews", AlbumOnlyAvgRating.class
-            );
+            // Execute the aggregation
+            AggregationResults<Document> aggregationResults = mongoTemplate.aggregate(
+                    recentReviewsAggregation, "reviews", Document.class);
 
-            // Estraggo gli ID di questi album
-            List<ObjectId> recentAlbumIds = recentAlbums.getMappedResults().stream()
-                    .map(AlbumOnlyAvgRating::getAlbumID)
+            // Map the results to a list of ObjectId
+            List<ObjectId> recentAlbumIds = aggregationResults.getMappedResults().stream()
+                    .map(document -> document.getObjectId("_id"))
                     .collect(Collectors.toList());
 
             // Fase 2: Calcolo la media dei rating per questi album

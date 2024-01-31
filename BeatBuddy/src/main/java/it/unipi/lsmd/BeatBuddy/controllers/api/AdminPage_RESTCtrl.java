@@ -77,7 +77,6 @@ public class AdminPage_RESTCtrl {
             //return the json string with the outcome code and the admin stats
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(adminStats);
-            System.out.println("{\"outcome_code\": 0, \"admin_stats\": " + json + "}");
             return "{\"outcome_code\": 0, \"admin_stats\": " + json + "}";
 
         } catch (DataAccessResourceFailureException e) {
@@ -122,7 +121,6 @@ public class AdminPage_RESTCtrl {
             // aggiorna i nuovi likes per gli album
             ArrayList<AlbumOnlyLikes> newLikesAlbums = albumRepo_Neo4j.getNewLikesForAlbums();
             System.out.println("> New likes found (for albums): " + newLikesAlbums.size());
-            long start = System.currentTimeMillis();
             if(!newLikesAlbums.isEmpty()){
                 boolean outcome1 = albumRepo_MongoDB.setLikesToAlbums(newLikesAlbums.toArray(new AlbumOnlyLikes[0]));
                 if(!outcome1)
