@@ -36,7 +36,6 @@ import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.gte;
 import static com.mongodb.client.model.Projections.*;
-import static com.mongodb.client.model.Projections.computed;
 import static com.mongodb.client.model.Sorts.descending;
 
 @Repository
@@ -265,6 +264,16 @@ public class Album_Repo_MongoDB {
         }
     }
 
+    /**
+     * Questa funzione calcola la media dei rating per gli album che hanno ricevuto recensioni
+     * nelle ultime 24 ore. I risultati vengono restituiti come una lista di oggetti {@code AlbumOnlyAvgRating},
+     * che contengono l'ID dell'album e la media dei rating.
+     *
+     * @return Una lista di oggetti {@code AlbumOnlyAvgRating} contenente l'ID dell'album e la media dei rating.
+     *         Gli oggetti {@code AlbumOnlyAvgRating} hanno anche la media dei rating arrotondata.
+     *         In caso di errori, restituisce una lista vuota.
+     * @throws DataAccessResourceFailureException se si verifica un errore di accesso ai dati.
+     */
     public List<AlbumOnlyAvgRating> getAverageRatingForRecentReviews() {
         // Una limitazione importante è che MongoDB non supporta l'aggiornamento di documenti direttamente
         // all'interno di una pipeline di aggregazione. Pertanto, quello che posso fare è calcolare le medie e
