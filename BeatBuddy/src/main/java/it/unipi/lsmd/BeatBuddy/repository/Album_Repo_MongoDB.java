@@ -29,15 +29,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Filters.ne;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Projections.computed;
 import static com.mongodb.client.model.Sorts.descending;
@@ -97,12 +94,11 @@ public class Album_Repo_MongoDB {
         MongoClient myMongoClient = MongoClients.create(new ConnectionString("mongodb://10.1.1.18:27017,10.1.1.17:27017,10.1.1.19:27017/?replicaSet=BB&w=1&readPreference=nearest&retryWrites=true"));
         MongoDatabase database = myMongoClient.getDatabase("BeatBuddy");
         MongoCollection<Document> collection = database.getCollection("reviews");
-        int minReviews = 5;
+        int minReviews = 10;
 
-        Bson groupOp    = group("$albumID", sum("reviewCount", 1));
-        Bson matchOp1   = match(gte("reviewCount", minReviews));
-        Bson lookupOp   = lookup("albums", "_id", "_id", "albumDetails");
-        Bson matchOp2   = match(ne("albumDetails", Collections.EMPTY_LIST));
+        Bson groupOp    = group("$albumID", sum("reviewCount", 1)); //conta il numero di recensioni per ogni album
+        Bson matchOp1   = match(gte("reviewCount", minReviews));                //seleziona solo gli album con almeno minReviews recensioni
+        Bson lookupOp   = lookup("albums", "_id", "_id", "albumDetails");   //join con la collezione 'albums'
         Bson projectOp  = project(fields(
                 excludeId(),    //altrimenti il campo '_id' viene comunqe incluso
                 computed("id", "$_id"),
@@ -113,11 +109,11 @@ public class Album_Repo_MongoDB {
                 computed("averageRating", new Document("$arrayElemAt", Arrays.asList("$albumDetails.averageRating", 0)))
                 // non restituisco: songs, year e lastReviews
         ));
-        Bson sortOp     = sort(descending("averageRating"));
-        Bson limitOp    = limit(10);
+        Bson sortOp     = sort(descending("averageRating"));                //ordina gli album per averageRating
+        Bson limitOp    = limit(10);                                                  //seleziona i primi 10 album
 
         AggregateIterable<Document> result = collection.aggregate(Arrays.asList(
-                groupOp, matchOp1, lookupOp, matchOp2, projectOp, sortOp, limitOp
+                groupOp, matchOp1, lookupOp, projectOp, sortOp, limitOp
         ));
 
         List<Album> albums = new ArrayList<>();
@@ -221,12 +217,6 @@ public class Album_Repo_MongoDB {
         }
     }
 
-//    public void addReviewToAlbum(String albumId, ReviewLite review) {
-//        Query query = new Query(Criteria.where("id").is(albumId));
-//        Update.PushOperatorBuilder update = new Update().push("lastReviews").slice(-5);
-//        mongoTemplate.updateFirst(query, update, Album.class);
-//    }
-
     @Transactional
     public boolean setLikesToAlbums(AlbumOnlyLikes[] likeList) {
         try {
@@ -280,6 +270,8 @@ public class Album_Repo_MongoDB {
         // Una limitazione importante è che MongoDB non supporta l'aggiornamento di documenti direttamente
         // all'interno di una pipeline di aggregazione. Pertanto, quello che posso fare è calcolare le medie e
         // trovare gli ID necessari in un'unica query, ma poi dovrò eseguire un'operazione di aggiornamento separata.
+        // Nello specifico, aggiornerò i documenti degli album con le medie dei voti calcolate in questa query con
+        // il metodo setAverageRatingForRecentReviews().
 
         try {
             Date twentyFourHoursAgo = new Date(System.currentTimeMillis() - (24 * 60 * 60 * 1000));

@@ -1,7 +1,5 @@
 package it.unipi.lsmd.BeatBuddy.repository.MongoDB;
 
-import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
-import it.unipi.lsmd.BeatBuddy.DTO.AlbumDTO;
 import it.unipi.lsmd.BeatBuddy.DTO.UserDTO;
 import it.unipi.lsmd.BeatBuddy.model.User;
 import org.springframework.data.domain.Pageable;

@@ -39,6 +39,14 @@ public class AdminPage_RESTCtrl {
     @Autowired
     private Song_Repo_Neo4j songRepo_Neo4j;
 
+    /**
+     * Calculates and retrieves daily admin statistics.
+     * This method retrieves daily statistics such as likes on albums, likes on songs,
+     * and the number of daily reviews, and returns them as a JSON string.
+     *
+     * @param session The HttpSession to check if the user is an admin.
+     * @return A JSON string containing the admin statistics and an outcome code (0 for success, non-zero for errors).
+     */
     @PostMapping("/api/admin/calculateAdminStats")
     public @ResponseBody String calculateAdminStats(HttpSession session){
         // chiamata una volta al giorno
@@ -48,7 +56,6 @@ public class AdminPage_RESTCtrl {
 
         try {
             System.out.println(">> START: Getting admin stats...");
-            // ### queste 3 controllate (sul -1 day e sono giuste)
             int dailyLikesOnAlbums = albumRepo_Neo4j.getNumberOfDailyLikesOnAlbums();
             if(dailyLikesOnAlbums == -1)
                 return sendEmptyAdminStats(2);      // Error while getting daily likes on albums
@@ -96,6 +103,13 @@ public class AdminPage_RESTCtrl {
         }
     }
 
+    /**
+     * Updates new likes for albums and songs, and calculates new average ratings for albums with recent reviews.
+     * This method is called once a day and is intended for administrative purposes.
+     *
+     * @param session The HttpSession to check if the user is an admin.
+     * @return A JSON string containing an outcome code (0 for success, non-zero for errors).
+     */
     @PostMapping("/api/admin/updateNewLikes")
     @Transactional
     public @ResponseBody String updateNewLikesAndAvgRatings(HttpSession session){
@@ -121,7 +135,7 @@ public class AdminPage_RESTCtrl {
 
             // aggiorna i nuovi likes per le canzoni
             ArrayList<SongOnlyLikes> newLikesSongs = albumRepo_Neo4j.getNewLikesForSongs();
-            start = System.currentTimeMillis();
+            System.out.println("> New likes found (for songs): " + newLikesSongs.size());
             if(!newLikesSongs.isEmpty()){
                 boolean outcome2 = albumRepo_MongoDB.setLikesToSongs(newLikesSongs.toArray(new SongOnlyLikes[0]));
                 if(!outcome2)
@@ -151,6 +165,13 @@ public class AdminPage_RESTCtrl {
     }
 
 
+    /**
+     * Calculates and generates rankings for albums, songs, and artists.
+     * This method is called once a week and is intended for administrative purposes.
+     *
+     * @param session The HttpSession to check if the user is an admin.
+     * @return A JSON string containing an outcome code (0 for success, non-zero for errors).
+     */
     @PostMapping("/api/admin/calculateRankings")
     public @ResponseBody String calculateRankings(HttpSession session){
         // chiamata una volta a settimana
@@ -176,7 +197,6 @@ public class AdminPage_RESTCtrl {
             System.out.println(">> Found " + rankingAlbumByRating_AllTime.size() + " albums with min reviews");
             if(rankingAlbumByRating_AllTime.isEmpty())
                 return "{\"outcome_code\": 2}"; // No albums found (sorted by rating)
-            //removeUnusedFieldsFromAlbums(rankingAlbumByRating_AllTime);
             Utility.writeToFile(rankingAlbumByRating_AllTime, Constants.fileName_RankingAlbumByRating_AllTime, Constants.folderName_QueryResults);
             System.out.println("> Calcolato con successo 1: " + Constants.fileName_RankingAlbumByRating_AllTime);
 
@@ -188,8 +208,6 @@ public class AdminPage_RESTCtrl {
             System.out.println("> Calcolato con successo 2: " + Constants.fileName_RankingAlbumByLikes_AllTime);
 
             // Song
-            //da controllare una volta aggiornati i like sulle canzoni
-            //ma sembra funzionare
             List<SongDTO> rankingSongByLikes_AllTime = albumRepo_MongoDB.getSongsByLikes_AllTime();
             if(rankingSongByLikes_AllTime.isEmpty())
                 return "{\"outcome_code\": 4}"; // No songs found (sorted by likes)

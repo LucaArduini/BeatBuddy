@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### BeatBuddy ###
-cachedQueryResults/
+data_BeatBuddy/
 
 ### STS ###
 .apt_generated

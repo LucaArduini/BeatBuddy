@@ -23,6 +23,7 @@ public class Album_Neo4j {
     private String artistName;
     private String coverURL;
 
+
     public Album_Neo4j(String albumName, String artists, String coverURL) {
         this.albumName = albumName;
         this.artistName = artists;

@@ -14,13 +14,13 @@ public class ScheduledTasks {
     @Autowired
     private MyDatabaseUpdaterService myDatabaseUpdaterService;
 
-    @Scheduled(cron = "0 0 1 * * ?")  // Every day at 1:00 AM
-    // 0 in the first position:  Specifies the second when the task will run (0 seconds).
-    // 0 in the second position: Specifies the minute when the task will run (0 minutes).
-    // 1 in the third position:  Specifies the hour when the task will run (1 AM).
-    // * in the fourth position: Specifies the day of the month (any day).
-    // * in the fifth position:  Specifies the month (any month).
-    // ? in the sixth position:  Specifies the day of the week (no specific day).
+    @Scheduled(cron = "0 0 3 * * SAT")
+    // 0: Specifies the second when the task will run (0 seconds).
+    // 0: Specifies the minute when the task will run (0 minutes).
+    // 3: Specifies the hour when the task will run (3 AM).
+    // *: Specifies the day of the month (any day).
+    // *: Specifies the month (any month).
+    // SAT: Specifies the day of the week (saturday).
     public void dailyDatabaseUpdate() {
         System.out.println(">> START: Database update started.");
 
@@ -32,6 +32,12 @@ public class ScheduledTasks {
 
 @Service
 class MyDatabaseUpdaterService {
+
+    /**
+     * Updates the database by executing a Python script.
+     * This method launches a Python3 process to run the database update script.
+     * Any output or error from the Python script will be inherited and printed to the console.
+     */
     public void updateDatabase() {
         try {
             String pathToPythonScript = Constants.folderName_DatabaseUpdateScript + File.separator + "update_database.py";

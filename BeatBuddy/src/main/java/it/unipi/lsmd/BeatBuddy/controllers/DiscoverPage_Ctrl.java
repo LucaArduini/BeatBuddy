@@ -62,22 +62,6 @@ public class DiscoverPage_Ctrl {
                 model.addAttribute("suggestedUsersToFollow", suggestedUsersToFollow);
         }
 
-        //////////////////
-        System.out.println("Suggested songs by taste:");
-        for(Song_Neo4j song : suggestedSongs_ByTaste){
-            System.out.println(song.toString());
-        }
-        System.out.println("Suggested songs by follow:");
-        for(Song_Neo4j song : suggestedSongs_ByFollow){
-            System.out.println(song.toString());
-        }
-        System.out.println("Suggested users to follow:");
-        for(User_Neo4j user : suggestedUsersToFollow){
-            System.out.println(user.toString());
-        }
-        /////////////
-
-
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
         if(!suggestedSongs_ByTaste.isEmpty() || !suggestedSongs_ByFollow.isEmpty() || !suggestedUsersToFollow.isEmpty())

@@ -26,6 +26,17 @@ public class WriteReview_RESTCtrl {
     @Autowired
     User_Repo_MongoDB user_Repo_Mongo;
 
+    /**
+     * Handles the writing of a user review for an album.
+     * This method validates the review data and inserts it into the database collections.
+     *
+     * @param session The HttpSession to check if the user is logged in.
+     * @param rating The rating provided by the user (between 1 and 5).
+     * @param text The text of the review.
+     * @param albumID The unique identifier of the album being reviewed.
+     * @param username The username of the user submitting the review.
+     * @return A JSON string containing an outcome code (0 for success, non-zero for errors).
+     */
     @PostMapping("/api/writeReview")
     @Transactional
     public @ResponseBody String writeReview(HttpSession session,
@@ -46,11 +57,12 @@ public class WriteReview_RESTCtrl {
             if(review_RepoNeo4j.existsByAlbumIDAndUsername(albumID, username))
                 return "{\"outcome_code\": 5}";     // User has already written a review for this album
 
-        // insert della review nella collection reviews
+
             Album album = album_RepoMongoDB.getAlbumById(albumID);
             if(album == null)
                 return "{\"outcome_code\": 3}";     // Album doesn't exist
 
+        // insert della review nella collection reviews
             boolean outcomeInsertIntoReview = review_RepoNeo4j.insertReview(rating, text, new ObjectId(album.getId()), username);
             if(!outcomeInsertIntoReview)
                 return "{\"outcome_code\": 6}";     // Error while writing the review into the collection reviews
