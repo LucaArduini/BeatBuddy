@@ -16,7 +16,7 @@ public class SignupPage_Ctrl {
         model.addAttribute("logged", (Utility.isLogged(session)) ? true : false);
 
         if(Utility.isLogged(session))
-            return "errror/alreadyLogged";
+            return "error/alreadyLogged";
         else
             return "signup";
     }
