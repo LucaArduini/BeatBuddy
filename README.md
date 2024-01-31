@@ -8,11 +8,11 @@ Group work carried out by the students: Luca Arduini, Enrico Giovanni Loni, Lore
 </p>
 
 ### Abstract
-Welcome to BeatBuddy, your rhythmic playground! This is where music pulses through the digitalspace, inviting you to discover vibes with friends, share your album crushes, and let the beats ofothers lead you to uncharted sonic adventures. Imagine a place where every review, every rating,and every note played is a stepping stone to your next musical revelation.
+Welcome to BeatBuddy, your rhythmic playground! 🎶 This is where music pulses through the digitalspace, inviting you to discover vibes with friends, share your album crushes, and let the beats ofothers lead you to uncharted sonic adventures. Imagine a place where every review, every rating,and every note played is a stepping stone to your next musical revelation. 🎧
 
-With BeatBuddy, stay effortlessly in tune with the charts of the hottest albums and songs,letting the diverse tastes of your friends guide you to new tunes. Engage in the vibrantconversation of the music-loving community by sharing your thoughts on the latest talked-aboutalbum. And when you crave depth, dive into any album you want, exploring the intricate statsand jotting down the next songs you can’t wait to hear.
+With BeatBuddy, stay effortlessly in tune with the charts of the hottest albums and songs,letting the diverse tastes of your friends guide you to new tunes. Engage in the vibrantconversation of the music-loving community by sharing your thoughts on the latest talked-aboutalbum. And when you crave depth, dive into any album you want, exploring the intricate statsand jotting down the next songs you can’t wait to hear. 🚀
 
-BeatBuddy isn’t just an app; it’s a gateway to a world where music is shared, discovered,and cherished in every click, in every playlist, and in every beat. So, plug in, press play, and let thejourney begin. Happy listening!
+BeatBuddy isn’t just an app; it’s a gateway to a world where music is shared, discovered,and cherished in every click, in every playlist, and in every beat. So, plug in, press play, and let thejourney begin. Happy listening! 🌟
 
 ### Implementation
 At its core, BeatBuddy is a web application thoughtfully crafted using Spring Boot, a robust framework that empowers rapid and agile development with its convention-over-configuration philosophy. Spring Boot's opinionated approach allows for streamlined development processes, enabling our team to focus more on the unique features of BeatBuddy and less on boilerplate code.
