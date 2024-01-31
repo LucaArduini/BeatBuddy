@@ -179,7 +179,7 @@
                         $('.like-song-btn').click(function () {
                             let songContainer = $(this).closest(".song-container");
                             let albumTitle = /*[[${albumDetails.title}]]*/ null;
-                            let artist = /*[[${albumDetails.artists}]]*/ null;
+                            let artistsAsString = /*[[${#strings.arrayJoin(albumDetails.artists, ', ')}]]*/ null;
                             let songTitle = songContainer.find("p").first().text();
                             let thisBtn = $(this);
 
@@ -190,7 +190,7 @@
                                 data: {
                                     username: username,
                                     albumTitle: albumTitle,
-                                    artists: artist[0],
+                                    artists: artistsAsString,
                                     songName: songTitle
                                 },
                                 success: function (response) {
