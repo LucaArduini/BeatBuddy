@@ -1,4 +1,4 @@
-Project for the "**Large-Scale and Multi-Structured Databases**" class at Pisa University.
+Project for the "**Large-Scale and Multi-Structured Databases**" class at Pisa University.<br>
 Group work carried out by the students: Luca Arduini, Enrico Giovanni Loni, Lorenzo Mancinelli.
 
 # BeatBuddy
