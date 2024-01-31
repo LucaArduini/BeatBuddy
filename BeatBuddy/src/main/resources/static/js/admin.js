@@ -81,7 +81,7 @@ $(document).ready(function (){
         $.ajax({
             url: '/api/admin/updateNewLikes',
             method: 'POST',
-            dataType: '/json',
+            dataType: 'json',
             success: function (data) {
                 switch (data.outcome_code) {
                     case 0:

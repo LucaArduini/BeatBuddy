@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -28,9 +29,9 @@ public class AlbumReviews_Ctrl {
 
         boolean albumFound = album_RepoMongoDB.existsById(albumId);
         if(albumFound){
-            List<Review> reviews = review_RepoNeo4j.getReviewsByAlbumID(albumId);
+            List<Review> reviewList = review_RepoNeo4j.getReviewsByAlbumID(albumId);
+            LinkedList<Review> reviews = new LinkedList<>(reviewList);
             boolean reviewsFound = (reviews != null && !reviews.isEmpty());
-
             if (reviewsFound){
 
                 // if the user has already reviewed the album, put his review as first in the list
