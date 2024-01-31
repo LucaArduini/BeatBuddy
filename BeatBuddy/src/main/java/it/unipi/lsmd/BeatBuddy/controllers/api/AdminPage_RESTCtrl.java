@@ -49,8 +49,6 @@ public class AdminPage_RESTCtrl {
      */
     @PostMapping("/api/admin/calculateAdminStats")
     public @ResponseBody String calculateAdminStats(HttpSession session){
-        // chiamata una volta al giorno
-
         if(!Utility.isAdmin(session))
             return "{\"outcome_code\": 1}";     // User is not an admin
 

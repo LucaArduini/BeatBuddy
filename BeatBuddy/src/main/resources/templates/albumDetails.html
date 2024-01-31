@@ -135,27 +135,22 @@
                     } else
                         alert("viewAllReviewBtn not found");
 
-                    let writeReviewBtn = $("#writeReview_btn");document.getElementById("writeReview_btn");
+                    let writeReviewBtn = $("#writeReview_btn");
                     if (logged === false)
-                        ;   // Non fare nulla
+                        ;
                     else if (writeReviewBtn !== null) {
-                        writeReviewBtn.addEventListener("click", function () {
-                            // Vai alla pagina delle recensioni dell'album specificato da albumId
+                        $(writeReviewBtn).click(function (){
                             window.location.href = '/writeReview?albumId=' + albumId;
+
                         });
                     } else
                         alert("writeReviewBtn not found");
 
-                    // Controlla se il nome utente è disponibile
                     if (logged === true && username != null) {
-
-                        // Imposto la funzionalità onClick ai pulsanti "Like" degli album
-                        const likeAlbumBtn = document.getElementById("like_album_btn");
-                        likeAlbumBtn.addEventListener("click", function () {
-                            //alert("like_album_btn clicked");
+                        const likeAlbumBtn = $("#like_album_btn");
+                        $(likeAlbumBtn).click(function () {
                             let albumTitle = /*[[${albumDetails.title}]]*/ null;
                             let artistsAsString = /*[[${#strings.arrayJoin(albumDetails.artists, ', ')}]]*/ null;
-                            console.log(artistsAsString);
 
                             $.ajax({
                                 url: '/api/addLikesAlbum',
@@ -167,11 +162,9 @@
                                     artists: artistsAsString
                                 },
                                 success: function (response) {
-                                    console.log("SONO ENTRATO");
                                     if (response.outcome_code == 0){
-                                        likeAlbumBtn.style.backgroundColor = "green";
-                                        likeAlbumBtn.style.borderColor = "green";
-                                        alert("You correctly liked this album");
+                                        likeAlbumBtn.css("background-color", "green");
+                                        likeAlbumBtn.css("border-color", "green");
                                     }
                                     else if (response.outcome_code == 1)
                                         alert("You have already liked this album");
@@ -179,19 +172,17 @@
                                         alert("Error occurred while adding like to album");
                                 },
                                 error: function (xhr, status, error) {
-                                    console.log(error);
+                                    console.log("ERROR: " + error);
                                 }
                             });
                         });
 
-                        // Imposto la funzionalità onClick ai pulsanti "Like" delle canzoni
                         $('.like-song-btn').click(function () {
                             let songContainer = $(this).closest(".song-container");
                             let albumTitle = /*[[${albumDetails.title}]]*/ null;
                             let artistsAsString = /*[[${#strings.arrayJoin(albumDetails.artists, ', ')}]]*/ null;
                             let songTitle = songContainer.find("p").first().text();
-                            let sonoio = $(this);
-                            console.log("TITOLO: " + albumTitle + "ARTISTI: " + artistsAsString + "TITOLOS: " + songTitle);
+                            let thisBtn = $(this);
 
                             $.ajax({
                                 url: '/api/addLikesSong',
@@ -205,10 +196,8 @@
                                 },
                                 success: function (response) {
                                     if(response.outcome_code == 0){
-                                        //alert("sono qui");
-                                        alert("You correctly liked the song '" + songTitle + "'");
-                                        sonoio.css("background-color", "green");
-                                        sonoio.css("border-color", "green");
+                                        thisBtn.css("background-color", "green");
+                                        thisBtn.css("border-color", "green");
                                     }
                                     else if(response.outcome_code == 1)
                                         alert("You have already liked this song.");

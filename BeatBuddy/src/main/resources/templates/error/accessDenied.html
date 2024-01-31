@@ -34,7 +34,7 @@
     <!-- div per gli admin -->
     <div th:if="${session.role == 'admin'}" class="d-flex flex-column row-gap-3 align-items-center">
         <h1 class="display-2 gap-3"><i class="fa fa-exclamation-triangle me-3"></i>YOU'RE AN ADMIN<i class="fa fa-exclamation-triangle ms-3"></i></h1>
-        <h3>Admins are not allowed this functionality.</h3>
+        <h3>Admins are not allowed to use this functionality.</h3>
         <button onclick="window.location.href='/adminPage'" class="btn btn-primary">Return to admin page</button>
     </div>
     <!-- div per gli user -->

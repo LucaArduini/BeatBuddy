@@ -2,7 +2,6 @@ $(document).ready(function () {
     $('#signup_btn').click(function (e) {
         e.preventDefault();
 
-        // Raccolgo i dati del form
         const name = $('#name_input').val();
         const surname = $('#surname_input').val();
         const username = $('#username_input').val();
@@ -11,26 +10,22 @@ $(document).ready(function () {
         const birthday = $('#birthday_input').val();
         const email = $('#email_input').val();
 
-        // Controllo se tutti i campi sono stati riempiti
         if (!name || !surname || !username || !password ||
             !repeatPassword || !birthday || !email) {
             alert("Please fill in all fields.");
             return;
         }
 
-        // Controllo se le password coincidono
         if (password !== repeatPassword) {
             alert("Passwords do not match. Please re-enter them.");
             return;
         }
 
-        // Controllo se la email è valida
         if (!isValidEmail(email)) {
             alert("Please enter a valid email address.");
             return;
         }
 
-        // Dati da inviare al server
         const formData = {
             name: name,
             surname: surname,
@@ -40,7 +35,6 @@ $(document).ready(function () {
             email: email
         };
 
-        // Procedo con la chiamata AJAX
         $.ajax({
             url: '/api/signup',
             data: formData,
@@ -85,7 +79,6 @@ $(document).ready(function () {
     });
 });
 
-// Funzione per verificare il formato dell'email
 function isValidEmail(email) {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);

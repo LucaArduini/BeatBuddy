@@ -76,7 +76,6 @@ public class Album_Repo_MongoDB {
             if (result.isEmpty())
                 return null;
             else if (result.size() > 1){
-                //throw new IllegalStateException("Multiple albums with same title and artist");
                 System.err.println("Multiple albums found with the same title and artist");
                 return result.get(0);
             }

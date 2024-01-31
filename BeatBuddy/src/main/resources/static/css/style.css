@@ -879,6 +879,17 @@ h1, h2, h3, h4, h5, h6 {
     color: #282828;
 }
 
+#logout_btn {
+    border-radius: 10px;
+}
+
+.admin-buttons {
+    text-align: center;
+    color: #282828;
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 10px;
+}
+
 #most-popular-album {
     padding: 40px;
     border: none;
