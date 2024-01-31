@@ -185,7 +185,6 @@ function displayLikedAlbums(liked){
     })
 }
 function displayLikedSongs(liked){
-    console.log("CIAO AMICI");
     let increment = 0;
     const container = $("#liked_songs_container");
     container.empty();

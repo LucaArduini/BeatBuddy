@@ -46,6 +46,9 @@ public class Neo4jBasicOperations_RESTCtrl {
             @RequestParam("albumTitle") String albumTitle,
             @RequestParam("artists") String artists){
         String result = user_RepoNeo4j.addLikes_A(username, albumTitle, artists);
+        if(result == null){
+            return "{\"outcome_code\": 2}";
+        }
         if(result.equals("CREATED"))
             return "{\"outcome_code\": 0}";
         else if(result.equals("EXISTING"))
@@ -62,6 +65,8 @@ public class Neo4jBasicOperations_RESTCtrl {
             @RequestParam("songName") String songName) {
 
         String result = user_RepoNeo4j.addLikes_S(username, albumTitle, artists, songName);
+        if(result == null)
+            return "{\"outcome_code\": 2}";
         if(result.equals("CREATED"))
             return "{\"outcome_code\": 0}";
         else if(result.equals("EXISTING"))
