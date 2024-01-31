@@ -53,7 +53,6 @@ public class ProfilePage_RESTCtrl {
             return "{\"outcome_code\": 1}"; // User not found
         }
 
-        System.out.println(user_Repo_Neo4j.getFollowedUsersByUsername(username));
         return new Gson().toJson(user_Repo_Neo4j.getFollowedUsersByUsername(username));
     }
 }
