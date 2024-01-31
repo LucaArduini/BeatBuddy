@@ -78,7 +78,7 @@ public class Album_Repo_Neo4j {
                 "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
                 "MATCH (a) <-[l:LIKES_A]- (:User) " +
                 "WITH a, COUNT(l) AS likes " +
-                "RETURN a.coverURL AS coverURL, likes";
+                "RETURN a.albumName AS albumName, a.artistName AS artistsString, likes";
 
         return AlbumOnlyLikes.getAlbumOnlyLikes(cypherQuery, neo4jClient);
     }
@@ -99,30 +99,19 @@ public class Album_Repo_Neo4j {
                              "WHERE date(r.timestamp) >= date() - duration({days: 1}) " +
                              "MATCH (s) <-[l:LIKES_S]- (:User) " +
                              "WITH s, COUNT(l) AS likes " +
-                             "RETURN s.coverUrl as coverUrl, s.songName as songName, likes";
+                             "RETURN s.albumName AS albumName, s.artistName AS artistsString, s.songName as songName, likes";
 
         return SongOnlyLikes.getSongOnlyLikes(cypherQuery, neo4jClient);
     }
 
-    public List<AlbumWithLikes> getAlbumsByLikes_LastWeek(){
-        try {
-            return findAlbumsSortedByLikes_LastWeek();
-        } catch (DataAccessException dae) {
-            if (dae instanceof DataAccessResourceFailureException)
-                throw dae;
-            dae.printStackTrace();
-            return null;
-        }
-    }
-
-    private List<AlbumWithLikes> findAlbumsSortedByLikes_LastWeek() {
+    public List<AlbumWithLikes> getAlbumsByLikes_LastWeek() {
         String cypherQuery = "MATCH (a:Album) <-[r:LIKES_A]- (:User) " +
                 "WHERE date(r.timestamp) >= date() - duration('P7D') " +
                 "WITH a, count(r) as likes " +
                 "RETURN DISTINCT a.albumName AS albumName, a.artistName AS artistName, " +
                 "a.coverURL AS coverURL, likes " +
                 "ORDER BY likes DESC " +
-                "LIMIT 5";
+                "LIMIT 10";
 
         return AlbumWithLikes.getAlbumWithLikes(cypherQuery, neo4jClient);
     }

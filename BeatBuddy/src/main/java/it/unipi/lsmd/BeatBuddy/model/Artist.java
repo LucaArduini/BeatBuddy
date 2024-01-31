@@ -13,7 +13,6 @@ public class Artist {
     @Id
     private String id;
     private String name;
-    @Field("image")
     private String profilePicUrl;
     private AlbumLite[] albums;
 }

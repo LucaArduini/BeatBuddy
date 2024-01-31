@@ -1,4 +1,4 @@
-function scrollToTop() {
+/*function scrollToTop() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
@@ -125,4 +125,4 @@ function searchArtist(event) {
 
   if(searchResultDiv.innerHTML === '')
     searchResultDiv.innerHTML = '<p>Nessun risultato trovato</p>'
-}
+}*/

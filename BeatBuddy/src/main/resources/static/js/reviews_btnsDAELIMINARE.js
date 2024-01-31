@@ -1,4 +1,4 @@
-$(document).ready(function () {
+/*$(document).ready(function () {
     $('#view_all_review_btn').click(function (e) {
         e.preventDefault();
 
@@ -17,4 +17,4 @@ $(document).ready(function () {
             }
         });
     });
-});
+});*/

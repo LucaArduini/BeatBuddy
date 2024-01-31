@@ -21,24 +21,14 @@ public class Song_Repo_Neo4j {
     @Autowired
     private Neo4jClient neo4jClient;
 
-    public List<SongWithLikes> getSongsByLikes_LastWeek(){
-        try {
-            return findSongsSortedByLikes_LastWeek();
-        } catch (DataAccessException dae) {
-            if (dae instanceof DataAccessResourceFailureException)
-                throw dae;
-            dae.printStackTrace();
-            return null;
-        }
-    }
-    private List<SongWithLikes> findSongsSortedByLikes_LastWeek() {
+    public List<SongWithLikes> getSongsByLikes_LastWeek() {
         String cypherQuery = "MATCH (s:Song) <-[r:LIKES_S]- (:User) " +
                 "WHERE date(r.timestamp) >= date() - duration('P7D') " +
                 "WITH s, count(r) as likes " +
                 "RETURN DISTINCT s.songName AS songName, s.albumName AS albumName, " +
                 "s.artistName AS artistName, s.coverUrl AS coverUrl, likes " +
                 "ORDER BY likes DESC " +
-                "LIMIT 5";
+                "LIMIT 10";
 
         return SongWithLikes.getSongWithLikes(cypherQuery, neo4jClient);
     }

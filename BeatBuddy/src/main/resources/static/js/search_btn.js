@@ -1,12 +1,14 @@
 $(document).ready(function () {
-    // Ascoltatore per il click sul bottone "Search"
     $("#search_btn").click(function (e) {
         e.preventDefault();
         search();
         $('#search_results').modal('show');
     });
+    $("#close_btn").click(function (e){
+        e.preventDefault();
+        $(".modal-body").empty();
+    })
 
-    // Ascoltatore per il tasto "Invio" nel campo di input
     $("#search_input").on("keydown", function (e) {
         if (e.keyCode === 13) { // Codice 13 è il tasto "Invio"
             e.preventDefault();
@@ -16,23 +18,21 @@ $(document).ready(function () {
         }
     });
 
-    // Funzione di ricerca
     function search() {
         const searchTerm = $("#search_input").val();
         const category = $("#category_input").val();
 
-        // Codice AJAX qui
         $.ajax({
             url: '/api/search',
             data: { term: searchTerm, category: category },
-            dataType : 'json',  // indico che la risposta deve essere deserializzata come JSON
+            dataType : 'json',
             method: 'GET',
 
             success: function (arrayResults) {
-
-                if(arrayResults.length == 0) {
-                    const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
-                    container.empty(); // Pulisci il contenuto precedente
+                console.log(arrayResults);
+                if(arrayResults==null || arrayResults.length == 0) {
+                    const container = $(".modal-body");
+                    container.empty();
                     container.append($("<p>No results found</p>"));
                 }
                 else if(category == "album") {
@@ -47,23 +47,19 @@ $(document).ready(function () {
                 else if(category == "user") {
                     displayUser(arrayResults);
                 }
-
-                console.log(arrayResults);
-
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                console.error("Error: " + error);
             }
         });
     }
 });
 
 function displayAlbums(albums) {
-    const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
-    container.empty(); // Pulisci il contenuto precedente
+    const container = $(".modal-body");
+    container.empty();
 
     albums.forEach(function(album) {
-        // Crea un div per ogni AlbumDTO
         let albumDiv = $("<div id=\"album_info\" class=\"d-flex mb-1 align-items-center\"></div>");
         albumDiv.append($("<img id=\"album_cover\" class=\"album-cover-sm mt-1 mb-1\">").attr("src", album.coverURL));
         let albumInf = $("<div id=\"album_details\" class=\"album-details-sm d-flex flex-column mt-1\"></div>");
@@ -73,21 +69,18 @@ function displayAlbums(albums) {
         albumInf.append(div1);
         div1.append($("<p style=\"font-size: medium;\" id=\"album_artists\"></p>").text(album.artists.join(", ")));
 
-        // Aggiungi un ascoltatore di eventi click al div dell'album
         albumDiv.click(function() {
             window.location.href = '/albumDetails?albumId=' + album.id;
         });
 
-        // Aggiungi il div al container
         container.append(albumDiv);
     });
 }
 function displaySongs(songs) {
-    const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
-    container.empty(); // Pulisci il contenuto precedente
+    const container = $(".modal-body");
+    container.empty();
 
     songs.forEach(function(song) {
-        // Crea un div per ogni AlbumDTO
         let songDiv = $("<div id=\"song_info\" class=\"d-flex mb-1 align-items-center\"></div>");
         songDiv.append($("<img id=\"song_cover\" class=\"song-cover-sm mt-1 mb-1\">").attr("src", song.coverURL));
         let songInf = $("<div id=\"song_details\" class=\"song-details-sm d-flex flex-column mt-1\"></div>");
@@ -97,31 +90,26 @@ function displaySongs(songs) {
         songInf.append(div1);
         div1.append($("<p style=\"font-size: medium;\" id=\"song_artists\"></p>").text(song.artists.join(", ")));
 
-        // Aggiungi un ascoltatore di eventi click al div dell'album
         songDiv.click(function() {
             window.location.href = '/albumDetails?albumId=' + song.albumId;
         });
 
-        // Aggiungi il div al container
         container.append(songDiv);
     });
 }
 function displayArtists(artists) {
-    const container = $(".modal-body"); // Sostituisci con l'ID del tuo container HTML
-    container.empty(); // Pulisci il contenuto precedente
+    const container = $(".modal-body");
+    container.empty();
 
     artists.forEach(function(artist) {
-        // Crea un div per ogni AlbumDTO
         let artDiv = $("<div id=\"artist_info\" class=\"d-flex mb-1 align-items-center\"></div>");
         artDiv.append($("<img id=\"artist_img\" class=\"artist-img-sm mt-1 mb-1\">").attr("src", artist.profilePicUrl));
         artDiv.append($("<h3 id=\"artist_name\" style=\"font-weight: bold; margin-bottom: 0;\"></h3>").text(artist.name));
 
-        // Aggiungi un ascoltatore di eventi click al div dell'album
         artDiv.click(function() {
             window.location.href = '/artistDetails?artistId=' + artist.id;
         });
 
-        // Aggiungi il div al container
         container.append(artDiv);
     });
 }
@@ -137,12 +125,10 @@ function displayUser(users){
         usInf.append($("<h3 id=\"user_name\" style=\"font-weight: bold; margin-bottom: 0;\"></h3>").text(user.username));
         usInf.append($("<p id=\"user_full_name\"></p>").text(user.name + " " + user.surname));
 
-        // Aggiungi un ascoltatore di eventi click al div dell'album
         usDiv.click(function() {
             window.location.href = '/user?username=' + user.username;
         });
 
-        // Aggiungi il div al container
         container.append(usDiv);
     });
 }

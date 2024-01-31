@@ -17,11 +17,11 @@ public class HomePage_Ctrl {
 
         if (Utility.isLogged(session)) {
             if (Utility.isAdmin(session))
-                return "adminPage";
+                return "redirect:/adminPage";
             else
                 return "homePage";
         }
         else
-            return "redirect:/";
+            return "redirect:/login";
     }
 }

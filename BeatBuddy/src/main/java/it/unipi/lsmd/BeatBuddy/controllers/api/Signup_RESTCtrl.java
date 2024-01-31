@@ -2,8 +2,6 @@ package it.unipi.lsmd.BeatBuddy.controllers.api;
 
 import it.unipi.lsmd.BeatBuddy.repository.User_Repo_MongoDB;
 import it.unipi.lsmd.BeatBuddy.repository.User_Repo_Neo4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Signup_RESTCtrl {
-    private static final Logger logger = LoggerFactory.getLogger(Login_RESTCtrl.class);
 
     @Autowired
     User_Repo_MongoDB user_RepoMongoDB;
@@ -29,8 +26,6 @@ public class Signup_RESTCtrl {
             @RequestParam("password") String password,
             @RequestParam("birthday") String birthday,
             @RequestParam("email") String email) {
-
-        logger.info("Signup attempt from user: " + username);
 
         try {
             int outcomeM = user_RepoMongoDB.insertUser(name, surname, username, password, birthday, email);
@@ -48,7 +43,7 @@ public class Signup_RESTCtrl {
             return "{\"outcome_code\": 0}"; // User registered successfully
 
         } catch (Exception e) {
-            logger.error("Errore durante la registrazione dell'utente", e);
+            e.printStackTrace();
             return "{\"outcome_code\": 5}"; // Errore generico non gestito
         }
     }

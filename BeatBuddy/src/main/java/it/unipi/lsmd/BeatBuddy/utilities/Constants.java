@@ -1,11 +1,15 @@
 package it.unipi.lsmd.BeatBuddy.utilities;
 
+import com.mongodb.ConnectionString;
+
 import java.io.File;
 
 public final class Constants {
-    // Folder names for the folders
-    public static final String folderName_QueryResults = "cachedQueryResults";
-    public static final String folderName_AdminStats = folderName_QueryResults + File.separator + "adminStats";
+    // Folder names
+    public static final String folderName_MainFolder = "data_BeatBuddy";
+    public static final String folderName_QueryResults = folderName_MainFolder + File.separator + "cachedQueryResults";
+    public static final String folderName_AdminStats = folderName_MainFolder + File.separator + "adminStats";
+    public static final String folderName_DatabaseUpdateScript = folderName_MainFolder + File.separator + "databaseUpdateScript";
 
     // File names for the statistics for the administrator
     public static final String fileName_AdminStats = "adminStats.json";

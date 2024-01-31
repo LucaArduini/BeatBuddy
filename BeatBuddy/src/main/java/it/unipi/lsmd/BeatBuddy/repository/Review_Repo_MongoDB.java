@@ -82,8 +82,8 @@ public class Review_Repo_MongoDB {
             Date twentyFourHoursAgo = new Date(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
 
             Aggregation aggregation = Aggregation.newAggregation(
-                    Aggregation.match(Criteria.where("date").gte(twentyFourHoursAgo)), // Filtra le recensioni delle ultime 24 ore
-                    Aggregation.group().count().as("totalReviews") // Conta le recensioni
+                    Aggregation.match(Criteria.where("date").gte(twentyFourHoursAgo)), 
+                    Aggregation.group().count().as("totalReviews")
             );
 
             AggregationResults<Map> results = mongoTemplate.aggregate(aggregation, "reviews", Map.class);

@@ -68,7 +68,6 @@ public class Album_Repo_MongoDB {
             if (result.isEmpty())
                 return null;
             else if (result.size() > 1){
-                //throw new IllegalStateException("Multiple albums with same title and artist");
                 System.err.println("Multiple albums found with the same title and artist");
                 return result.get(0);
             }
@@ -96,7 +95,7 @@ public class Album_Repo_MongoDB {
 
     public List<Album> getAlbumsWithMinReviewsByAvgRating_AllTime() {
         int minReviews = 5;
-        Pageable pageable = Pageable.ofSize(5);
+        Pageable pageable = Pageable.ofSize(10);
 
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.lookup("reviews", "_id", "albumID", "albumReviews"), // Join con la collection reviews
@@ -121,22 +120,15 @@ public class Album_Repo_MongoDB {
     }
 
     public List<Album> getAlbumsByLikes_AllTime(){
-        try {
-            Pageable topFive = PageRequest.of(0, 5);
-            return album_RI_Mongo.findAlbumsSortedByLikes_AllTime(topFive);
-        } catch (DataAccessException dae) {
-            if (dae instanceof DataAccessResourceFailureException)
-                throw dae;
-            dae.printStackTrace();
-            return null;
-        }
+        Pageable topFive = PageRequest.of(0, 10);
+        return album_RI_Mongo.findAlbumsSortedByLikes_AllTime(topFive);
     }
 
     public List<SongDTO> getSongsByLikes_AllTime() {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.unwind("songs"), // Appiattisce l'array di canzoni
                 Aggregation.sort(Sort.by(Sort.Direction.DESC, "songs.likes")), // Ordina le canzoni in base ai likes
-                Aggregation.limit(5), // Limita il risultato alle prime 5 canzoni
+                Aggregation.limit(10), // Limita il risultato alle prime 5 canzoni
                 Aggregation.project() // Proietta i campi necessari nel formato SongDTO
                         .and("songs.name").as("name")
                         .and("title").as("albumTitle")
@@ -233,7 +225,8 @@ public class Album_Repo_MongoDB {
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Album.class);
 
             for (AlbumOnlyLikes like : likeList) {
-                Query query = new Query(Criteria.where("coverURL").is(like.getCoverURL()));
+                Query query = new Query(Criteria.where("title").is(like.getAlbumName())
+                        .andOperator(Criteria.where("artists").is(like.getArtistsArray())));
                 Update update = new Update().set("likes", like.getLikes());
                 bulkOps.updateOne(query, update);
             }
@@ -255,8 +248,11 @@ public class Album_Repo_MongoDB {
             BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, Album.class);
 
             for (SongOnlyLikes like : likeList) {
-                Query query = new Query(Criteria.where("coverURL").is(like.getCoverUrl())
-                                                .and("songs.name").is(like.getSongName()));
+                Query query = new Query(new Criteria().andOperator(
+                        Criteria.where("title").is(like.getAlbumName()),
+                        Criteria.where("artists").is(like.getArtistsArray()),
+                        Criteria.where("songs.name").is(like.getSongName())
+                ));
                 Update update = new Update().set("songs.$.likes", like.getLikes());
                 bulkOps.updateOne(query, update);
             }

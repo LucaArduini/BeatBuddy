@@ -38,15 +38,15 @@ public class User_Repo_Neo4j {
         }
     }
 
-    public boolean addFollow(String user1, String user2) {
+    public String addFollow(String user1, String user2) {
         try {
-            user_RI_Neo4j.addFollow(user1, user2);
-            return true;
+            String created = user_RI_Neo4j.addFollow(user1, user2);
+            return created;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
                 throw dae;
             dae.printStackTrace();
-            return false;
+            return "ERR";
         }
     }
 
@@ -62,9 +62,24 @@ public class User_Repo_Neo4j {
         }
     }
 
-    public boolean addLikes_A(String username, String coverURL) {
+    public String addLikes_A(String username, String title, String artistArray) {
         try {
-            user_RI_Neo4j.addLikes_A(username, coverURL);
+            System.out.println("AO");
+            String created = user_RI_Neo4j.addLikes_A(username, title, artistArray);
+            System.out.println("AO2");
+            return created;
+        } catch (DataAccessException dae) {
+            if (dae instanceof DataAccessResourceFailureException)
+                throw dae;
+            dae.printStackTrace();
+            String err = "ERR";
+            return err;
+        }
+    }
+
+    public boolean removeLikes_A(String username, String title, String artistArray) {
+        try {
+            user_RI_Neo4j.removeLikes_A(username, title, artistArray);
             return true;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
@@ -74,33 +89,21 @@ public class User_Repo_Neo4j {
         }
     }
 
-    public boolean removeLikes_A(String username, String coverURL) {
+    public String addLikes_S(String username, String title, String artistArray, String songName) {
         try {
-            user_RI_Neo4j.removeLikes_A(username, coverURL);
-            return true;
+            String created = user_RI_Neo4j.addLikes_S(username, title, artistArray, songName);
+            return created;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)
                 throw dae;
             dae.printStackTrace();
-            return false;
+            return "ERR";
         }
     }
 
-    public boolean addLikes_S(String username, String title, String coverURL) {
+    public boolean removeLikes_S(String username, String title, String artistArray, String songName) {
         try {
-            user_RI_Neo4j.addLikes_S(username, title, coverURL);
-            return true;
-        } catch (DataAccessException dae) {
-            if (dae instanceof DataAccessResourceFailureException)
-                throw dae;
-            dae.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean removeLikes_S(String username, String title, String coverURL) {
-        try {
-            user_RI_Neo4j.removeLikes_S(username, title, coverURL);
+            user_RI_Neo4j.removeLikes_S(username, title, artistArray, songName);
             return true;
         } catch (DataAccessException dae) {
             if (dae instanceof DataAccessResourceFailureException)

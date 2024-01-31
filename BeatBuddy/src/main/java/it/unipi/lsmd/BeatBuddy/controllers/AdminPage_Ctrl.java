@@ -13,21 +13,26 @@ public class AdminPage_Ctrl {
     @RequestMapping("/adminPage")
     public String adminPage(HttpSession session,
                             Model model){
-        session.setAttribute("username", "luca");
-        session.setAttribute("role", "admin");
-
         if (!Utility.isLogged(session))
             return "error/youMustBeLogged";
         else if(!Utility.isAdmin(session))
             return "error/accessDenied";
 
         try {
+            model.addAttribute("logged", Utility.isLogged(session));
             AdminStats adminStats = Utility.readAdminStats();
             if(adminStats != null){
+                model.addAttribute("adminStatsFound", true);
                 model.addAttribute("dailyLikesOnAlbums", adminStats.getDailyLikesOnAlbums());
                 model.addAttribute("dailyLikesOnSongs", adminStats.getDailyLikesOnSongs());
                 model.addAttribute("dailyReviews", adminStats.getDailyReviews());
+
+                System.out.println("dailyLikesOnAlbums: " + adminStats.getDailyLikesOnAlbums());
+                System.out.println("dailyLikesOnSongs: " + adminStats.getDailyLikesOnSongs());
+                System.out.println("dailyReviews: " + adminStats.getDailyReviews());
             }
+            else
+                model.addAttribute("adminStatsFound", false);
 
             //return "test/BOTTONI_ADMIN";
             return "adminPage";
