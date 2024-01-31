@@ -31,14 +31,9 @@ function loadSearchBar(){
         "<a class=\"nav-link active\" href=\"/homePage\">Home</a>" +
         "</li>" +
         "<li id=\"discover_controller\" class=\"nav-item\" role=\"presentation\">" +
-        //"<a class=\"nav-link scrollto\" href=\"/discoverPage\">Discover</a>" +
         "</li>" +
         "<li id=\"user_controller\" class=\"nav-item\">" +
-        // "<button class=\"btn btn-danger\" id=\"logout_btn\" style=\"border-radius: 10px 10px 10px 10px;\" type=\"button\">Logout</button>" +
         "</li>" +
-        /*"<li class=\"nav-item\">" +
-        "<a href=\"/profilePage\" class=\"btn btn-success d-flex justify-content-evenly w-75\" style=\"border-radius: 10px 10px 10px 10px;\"><img id=\"icon\" class=\"img-fluid\" src=\"img/icons8-male-user-96.png\">Profile page</a>" +
-        "</li>" +*/
         "</ul>" +
         "</nav>" +
         "</div>"
@@ -79,22 +74,7 @@ function loadSearchBar(){
         "  </div>\n" +
         "</div>"
     )
-    //addListener()
 }
-/*function addListener(){
-    const searchEditText = document.getElementById("search_input");
-    const searchFilter = document.getElementById("category_input")
-    // Execute a function when the user presses a key on the keyboard
-    searchEditText.addEventListener("keypress", function(event) {
-        // If the user presses the "Enter" key on the keyboard
-        if (event.key === "Enter") {
-            // Cancel the default action, if needed
-            event.preventDefault();
-            // Trigger the button element with a click
-            document.getElementById("search_btn").click();
-        }
-    });
-}*/
 function setActiveLink() {
     // Get the current URL
     var currentUrl = window.location.href;

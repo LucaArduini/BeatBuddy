@@ -4,12 +4,10 @@ $(document).ready(function () {
 
         $.ajax({
             url: '/api/logout',
-            dataType : 'json',  // indico che la risposta deve essere deserializzata come JSON
+            dataType : 'json',
             method: 'POST',
-
             success: function(outcome) {
                 if(outcome["outcome_code"] == 0) {
-                    //alert("OK BRO, you did it");    //###
                     window.location.href = "/";
                 }
                 else {

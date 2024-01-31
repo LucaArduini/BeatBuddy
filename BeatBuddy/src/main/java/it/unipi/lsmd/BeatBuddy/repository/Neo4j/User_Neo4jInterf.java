@@ -36,6 +36,7 @@ public interface User_Neo4jInterf extends Neo4jRepository<User_Neo4j, String> {
     /*@Query("MATCH (u:User {username: $username}), (a:Album {coverURL: $coverURL}) " +
             "MERGE (u)-[l:LIKES_A {timestamp: datetime()}]->(a)")
     void addLikes_A(String username, String coverURL);*/
+    
     @Query("MATCH (u:User {username: $username}), (a:Album {albumName: $albumName, artistName: $artistName}) " +
             "MERGE (u)-[l:LIKES_A]->(a) " +
             "WITH u, l, a, CASE WHEN l.timestamp IS NULL THEN true ELSE false END AS isNew " +
