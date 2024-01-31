@@ -32,7 +32,6 @@ public class AlbumReviews_Ctrl {
             List<Review> reviewList = review_RepoNeo4j.getReviewsByAlbumID(albumId);
             LinkedList<Review> reviews = new LinkedList<>(reviewList);
             boolean reviewsFound = (reviews != null && !reviews.isEmpty());
-
             if (reviewsFound){
 
                 // if the user has already reviewed the album, put his review as first in the list
