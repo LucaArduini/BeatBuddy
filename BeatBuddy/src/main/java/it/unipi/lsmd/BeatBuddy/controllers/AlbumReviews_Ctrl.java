@@ -32,6 +32,19 @@ public class AlbumReviews_Ctrl {
             boolean reviewsFound = (reviews != null && !reviews.isEmpty());
 
             if (reviewsFound){
+
+                // if the user has already reviewed the album, put his review as first in the list
+                if(Utility.isLogged(session) && !Utility.isAdmin(session)){
+                    String username = (String) session.getAttribute("username");
+                    for (Review review : reviews) {
+                        if(review.getUsername().equals(username)){
+                            reviews.remove(review);
+                            reviews.add(0, review);
+                            break;
+                        }
+                    }
+                }
+
                 for (Review review : reviews) {
                     review.setPrintableDate();
                 }

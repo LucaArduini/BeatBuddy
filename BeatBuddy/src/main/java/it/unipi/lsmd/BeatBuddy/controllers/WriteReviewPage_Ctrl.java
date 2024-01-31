@@ -15,6 +15,15 @@ public class WriteReviewPage_Ctrl {
     @Autowired
     Album_Repo_MongoDB album_RepoMongoDB;
 
+    /**
+     * Displays the page for writing a review for a specific album.
+     * This method checks user authentication and album existence before rendering the write review page.
+     *
+     * @param session The HttpSession to check if the user is logged in.
+     * @param model The Spring MVC model to store attributes for the view.
+     * @param albumId The unique identifier of the album for which the review is being written.
+     * @return The view name to be displayed (writeReview) or error views based on authentication and album existence.
+     */
     @GetMapping("/writeReview")
     public String writeReview(HttpSession session,
                            Model model,

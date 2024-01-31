@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -25,7 +26,42 @@ public class Album {
     @Field("last_reviews")
     private ReviewLite[] lastReviews;
 
+    public Album (ObjectId objId, String title, String[] artists, String coverURL, Song[] songs, int likes, float averageRating, String year, ReviewLite[] lastReviews) {
+        this.id = objId.toString();
+        this.title = title;
+        this.artists = artists;
+        this.coverURL = coverURL;
+        this.songs = songs;
+        this.likes = likes;
+        this.averageRating = averageRating;
+        this.year = year;
+        this.lastReviews = lastReviews;
+    }
 
+    public Album (ObjectId objId, String title, String[] artists, String coverURL, int likes, float averageRating) {
+        this.id = objId.toString();
+        this.title = title;
+        this.artists = artists;
+        this.coverURL = coverURL;
+        this.likes = likes;
+        this.averageRating = averageRating;
+    }
+
+    public static Album mapToAlbum(org.bson.Document doc) {
+        ObjectId id = doc.getObjectId("id");
+        String title = doc.getString("title");
+        String[] artists = doc.getList("artists", String.class).toArray(new String[0]);
+        String coverURL = doc.getString("coverURL");
+        int likes = doc.getInteger("likes");
+        float averageRating = doc.getDouble("averageRating").floatValue();
+
+        // campi di cui non è necessario fare il mapping
+        Song[] songs = new Song[0];
+        String year = ""; // Inizializza year con una stringa vuota
+        ReviewLite[] lastReviews = new ReviewLite[0];
+
+        return new Album(id, title, artists, coverURL, likes, averageRating);
+    }
 
     public void calculateDurations_MinSec() {
         for (Song song : this.songs)

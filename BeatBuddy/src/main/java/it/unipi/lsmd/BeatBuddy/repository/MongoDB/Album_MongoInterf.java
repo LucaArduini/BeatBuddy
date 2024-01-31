@@ -28,5 +28,4 @@ public interface Album_MongoInterf extends MongoRepository<Album, String> {
 
     // NB: Non puoi eseguire un'operazione di aggiornamento direttamente
     // all'interno di un'annotazione @Query
-
 }

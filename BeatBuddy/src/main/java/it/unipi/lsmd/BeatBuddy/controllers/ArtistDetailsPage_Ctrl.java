@@ -26,7 +26,8 @@ public class ArtistDetailsPage_Ctrl {
             artist = artist_RepoMongoDB.getArtistById(artistId);
             if(artist == null)
                 return "error/artistNotFound";
-        }else{
+        }
+        else{
             return "error/artistNotFound";
         }
 

@@ -38,7 +38,7 @@ public class Utility {
         if(username != null)
             return username.toString();
         else
-            return "guest"; //###
+            return "";
     }
 
     public static void writeToFile(Object data, String fileName, String folderName) throws Exception {

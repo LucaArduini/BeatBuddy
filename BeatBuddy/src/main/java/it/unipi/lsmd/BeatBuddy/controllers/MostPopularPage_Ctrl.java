@@ -27,10 +27,15 @@ import it.unipi.lsmd.BeatBuddy.utilities.Constants;
 @Controller
 public class MostPopularPage_Ctrl {
 
-    @Autowired
-    @Qualifier("webApplicationContext")
-    private ResourceLoader resourceLoader;
-
+    /**
+     * Retrieves and displays the most popular items (artists, albums, or songs) based on the specified type.
+     * This method populates the model with the relevant ranking data and returns the corresponding view.
+     *
+     * @param session The HttpSession to check if the user is logged in.
+     * @param model The Spring MVC model to store attributes for the view.
+     * @param type The type of ranking to be displayed (artists, albums, or songs).
+     * @return The view name to be displayed (mostPopularPage) or "error/genericError" in case of errors.
+     */
     @RequestMapping("/mostPopularPage")
     public String mostPopularPage(HttpSession session,
                                   Model model,

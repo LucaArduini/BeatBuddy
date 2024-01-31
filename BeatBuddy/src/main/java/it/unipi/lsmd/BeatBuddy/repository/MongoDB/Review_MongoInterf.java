@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface Review_MongoInterf extends MongoRepository<Review, String> {
     // Ricorda che in Review abbiamo il tipo di dato ObjectId per albumID
-    // quindi ricorda di convertire l'albumID in ObjectId prima di passarlo
+    // quindi ricorda di convertire l'albumID in ObjectId prima di passarlo come parametro
     boolean existsByAlbumIDAndUsername(ObjectId albumObjectID, String username);
     Optional<Review> findByAlbumIDAndUsername(ObjectId albumObjectID, String username);
     Page<Review> findLimitedReviewsByAlbumID(ObjectId albumObjectID, Pageable pageable);

@@ -29,7 +29,6 @@ $(document).ready(function () {
             method: 'GET',
 
             success: function (arrayResults) {
-                console.log(arrayResults);
                 if(arrayResults==null || arrayResults.length == 0) {
                     const container = $(".modal-body");
                     container.empty();

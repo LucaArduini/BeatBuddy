@@ -1,7 +1,5 @@
 package it.unipi.lsmd.BeatBuddy.repository.MongoDB;
 
-import it.unipi.lsmd.BeatBuddy.model.ReviewedAlbum;
-import it.unipi.lsmd.BeatBuddy.DTO.AlbumDTO;
 import it.unipi.lsmd.BeatBuddy.DTO.UserDTO;
 import it.unipi.lsmd.BeatBuddy.model.User;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +17,6 @@ public interface User_MongoInterf extends MongoRepository<User, String> {
     @Query("{ $or: [ { 'email': ?0 }, { 'username': ?1 } ] }")
     Optional<User> findByEmailOrUsername(String email, String username);
 
-    @Query(value = "{ 'username': {$regex: ?0, $options: 'i'} }", fields = "{ 'id': 1, 'username': 1, 'name': 1, 'surname': 1}")
+    @Query(value = "{ $text: { $search: ?0 } }", fields = "{ 'id': 1, 'username': 1, 'name': 1, 'surname': 1}")
     List<UserDTO> findLimitedUsersByUsernameContaining(String term, Pageable pageable);
 }

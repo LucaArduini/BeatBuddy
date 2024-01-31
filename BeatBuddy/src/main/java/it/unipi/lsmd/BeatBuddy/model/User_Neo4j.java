@@ -20,6 +20,7 @@ public class User_Neo4j {
 
     private String username;
 
+
     public User_Neo4j(String username) {
         this.username = username;
     }

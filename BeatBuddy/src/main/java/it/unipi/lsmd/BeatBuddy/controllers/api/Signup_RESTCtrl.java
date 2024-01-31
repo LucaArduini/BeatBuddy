@@ -17,6 +17,18 @@ public class Signup_RESTCtrl {
     @Autowired
     User_Repo_Neo4j user_RepoNeo4j;
 
+    /**
+     * Handles user signup by inserting user information into both MongoDB and Neo4j databases.
+     * This method creates a new user account with the provided details and performs database insertions.
+     *
+     * @param name The user's first name.
+     * @param surname The user's last name.
+     * @param username The chosen username for the new account.
+     * @param password The password chosen by the user.
+     * @param birthday The user's date of birth.
+     * @param email The user's email address.
+     * @return A JSON string containing an outcome code (0 for success, non-zero for errors).
+     */
     @PostMapping("/api/signup")
     @Transactional
     public @ResponseBody String signup(

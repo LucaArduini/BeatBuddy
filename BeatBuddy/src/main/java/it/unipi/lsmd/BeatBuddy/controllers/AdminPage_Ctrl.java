@@ -26,15 +26,10 @@ public class AdminPage_Ctrl {
                 model.addAttribute("dailyLikesOnAlbums", adminStats.getDailyLikesOnAlbums());
                 model.addAttribute("dailyLikesOnSongs", adminStats.getDailyLikesOnSongs());
                 model.addAttribute("dailyReviews", adminStats.getDailyReviews());
-
-                System.out.println("dailyLikesOnAlbums: " + adminStats.getDailyLikesOnAlbums());
-                System.out.println("dailyLikesOnSongs: " + adminStats.getDailyLikesOnSongs());
-                System.out.println("dailyReviews: " + adminStats.getDailyReviews());
             }
             else
                 model.addAttribute("adminStatsFound", false);
 
-            //return "test/BOTTONI_ADMIN";
             return "adminPage";
 
         } catch (Exception e) {
