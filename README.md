@@ -1,5 +1,5 @@
 Project for the "**Large-Scale and Multi-Structured Databases**" class (2023-24) at Pisa University.<br>
-Group work carried out by the students: Luca Arduini, Enrico Giovanni Loni, Lorenzo Mancinelli.
+Group work carried out by the students: [Luca Arduini](https://github.com/LucaArduini), [Enrico Giovanni Loni](https://github.com/genricoloni), [Lorenzo Mancinelli](https://github.com/loremancio).
 
 # BeatBuddy
 
