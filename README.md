@@ -4,7 +4,7 @@ Group work carried out by the students: [Luca Arduini](https://github.com/LucaAr
 # BeatBuddy
 
 <p align="center">
-  <img src="https://github.com/LucaArduini/BeatBuddy/blob/main/BeatBuddy/src/main/resources/static/img/logo.png" alt="BeatBuddy_logo" width="200" />
+  <img src="BeatBuddy/blob/main/BeatBuddy/src/main/resources/static/img/logo.png" alt="BeatBuddy_logo" width="200" />
 </p>
 
 ### Abstract
