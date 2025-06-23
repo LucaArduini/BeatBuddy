@@ -28,5 +28,5 @@ The fusion of these databases with Spring Boot's dynamic backend creates a seaml
 So, beyond the beats and beyond the playlists, BeatBuddy is a testament to the harmony of cutting-edge technology and a passion for music, all orchestrated to provide an unparalleled experience for every user.
 
 <p align="center">
-  <img src="https://github.com/LucaArduini/BeatBuddy/blob/main/BeatBuddy/src/main/resources/static/img/discover-bg.jpg" alt="BeatBuddy_discover" width="600" />
+  <img src="BeatBuddy/src/main/resources/static/img/discover-bg.jpg" alt="BeatBuddy_discover" width="600" />
 </p>
